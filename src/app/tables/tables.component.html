@@ -1,0 +1,69 @@
+<app-navbar></app-navbar>
+
+<div class="mt-5 px-5">
+  <div class="container">
+    <!-- alert -->
+    <div class="alert alert-primary" role="alert">
+      Nuovo piatto da servire
+    </div>
+    <!-- id table-->
+    <h1>Tavolo {{tableId}}</h1>
+
+
+    <!-- order -->
+    <div class="container px-5">
+      <div class="card text-center">
+        <div class="card-header">
+          <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Ordine</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            </li>
+          </ul>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col align-self-center">
+              <div class="input-group mb-3">
+                <input type="text" class="form-control is-valid" placeholder="Piatto" aria-label="Recipient's username"
+                  aria-describedby="button-addon2" disabled>
+                <input type="text" placeholder="10" aria-label="Last name" class="form-control is-valid" disabled>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col align-self-center">
+              <div class="input-group mb-3">
+                <input type="text" class="form-control is-valid" placeholder="Piatto" aria-label="Recipient's username"
+                  aria-describedby="button-addon2" disabled>
+                <input type="text" placeholder="5" aria-label="Last name" class="form-control is-valid" disabled>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col align-self-center">
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Piatto" aria-label="Recipient's username"
+                  aria-describedby="button-addon2">
+                <input type="text" placeholder="5" aria-label="Last name" class="form-control">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" type="button">Conferma</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+</div>
