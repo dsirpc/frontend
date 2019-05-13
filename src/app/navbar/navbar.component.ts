@@ -7,7 +7,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
+  role: string = "chef";
+
   constructor() { }
+
+  onClickRole() {
+    this.role = this.role == "chef" ? "common" : "chef";
+  }
+
+  public get getRole(): string {
+    return this.role;
+  }
 
   ngOnInit() {
   }
