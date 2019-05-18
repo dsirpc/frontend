@@ -2,39 +2,38 @@
 
 <div class="mt-5 px-5">
   <div class="container">
+
     <h1>{{pageTitle}}</h1>
-    <!-- alert -->
-    <div class="alert alert-primary" role="alert">
-      Nuovo piatto da servire
-    </div>
 
-
-    <!-- tables view -->
-    <div class="container">
-      <div class="row">
-        <div class="col-sm">
-          <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
-            <div class="card-body">
-              <h5 class="card-title" style="text-align: center;">Tavolo 1</h5>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm">
-          <div class="card text-white bg-warning mb-3" style="max-width: 18rem;">
-            <div class="card-body">
-              <h5 class="card-title" style="text-align: center;">Tavolo 2</h5>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm">
-          <div class="card text-white bg-danger mb-3" style="max-width: 18rem;">
-            <div class="card-body">
-              <h5 class="card-title" style="text-align: center;">Tavolo 3</h5>
-            </div>
-          </div>
-        </div>
+    <!-- tables view only for waiters -->
+    <div class="container" *ngIf="role === 'waiter'">
+      <!-- alert -->
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
+
+      <!-- list of tables -->
+      <app-dashboard-tables [testTables]=testTables></app-dashboard-tables>
     </div>
 
+    <!-- tables view only for cashier -->
+    <div class="container" *ngIf="role === 'cashier'">
+      <app-dashboard-tables [testTables]=testTables></app-dashboard-tables>
+    </div>
+
+    <!-- only for chefs -->
+    <div class="container" *ngIf="role === 'chef'">
+      <app-dashboard-orders [testOrders]=testOrders></app-dashboard-orders>
+    </div>
+
+    <!-- only for barman -->
+    <div class="container" *ngIf="role === 'barman'">
+      <app-dashboard-orders [testOrders]=testOrders></app-dashboard-orders>
+    </div>
+
+    <!-- closing page-->
   </div>
 </div>

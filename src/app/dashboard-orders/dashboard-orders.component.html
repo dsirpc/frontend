@@ -1,0 +1,22 @@
+<div class="row justify-content-center">
+  <div class="col-6">
+
+    <div class="input-group mb-3" *ngFor="let order of testOrders">
+      <!-- if status done -->
+      <input *ngIf="order.status === 'done'" type="text" class="form-control is-valid" [attr.value]="order.plate"
+        disabled>
+      <input *ngIf="order.status === 'done'" type="text" class="form-control is-valid" [attr.value]="order.table"
+        disabled>
+
+      <!-- if status todo -->
+      <input *ngIf="order.status === 'todo'" type="text" class="form-control" [attr.value]="order.plate"
+        aria-label="Recipient's username" disabled>
+      <input *ngIf="order.status === 'todo'" type="text" [attr.value]="order.table" class="form-control" disabled>
+      <div *ngIf="order.status === 'todo'" class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button">Conferma</button>
+      </div>
+
+    </div>
+
+  </div>
+</div>
