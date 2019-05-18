@@ -8,6 +8,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { TablesComponent } from './tables/tables.component';
 import { DashboardOrdersComponent } from './dashboard-orders/dashboard-orders.component';
 import { DashboardTablesComponent } from './dashboard-tables/dashboard-tables.component';
+import { StatsComponent } from './stats/stats.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { DashboardTablesComponent } from './dashboard-tables/dashboard-tables.co
     NavbarComponent,
     TablesComponent,
     DashboardOrdersComponent,
-    DashboardTablesComponent
+    DashboardTablesComponent,
+    StatsComponent
   ],
   imports: [
     BrowserModule,
