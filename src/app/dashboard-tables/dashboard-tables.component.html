@@ -1,10 +1,10 @@
 <div class="row justify-content-center">
-  <div class="col-4">
+  <div class="col-8">
     <ul class="list-group">
 
       <!-- iterate for each table -->
       <li *ngFor="let table of testTables" class="list-group-item d-flex justify-content-between align-items-center">
-        <a href="tables/{{table.number}}">{{table.number}}</a>
+        <a href="tables/{{table.number}}">Tavolo {{table.number}}</a>
         <span class="badge badge-primary badge-pill">{{table.status}}</span>
       </li>
 
