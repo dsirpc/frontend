@@ -7,7 +7,13 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./tables.component.css']
 })
 export class TablesComponent implements OnInit {
-  private tableId: string;
+  private tableId: string; //id table (get from url)
+
+  private testOrder: {
+    "table": 1,
+    "plates": [1, 3, 5],
+    "howmany": [1, 1, 1]
+  };
 
   constructor(private route: ActivatedRoute) {
   }

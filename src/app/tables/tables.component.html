@@ -2,68 +2,29 @@
 
 <div class="mt-5 px-5">
   <div class="container">
-    <!-- soket.io alert -->
-    <div class="alert alert-primary" role="alert">
-      Nuovo piatto da servire
-    </div>
 
-    <!-- id table-->
-    <h1>Tavolo {{tableId}}</h1>
-
-    <!-- order -->
-    <div class="container px-5">
-      <div class="card text-center">
-        <div class="card-header">
-          <ul class="nav nav-tabs card-header-tabs">
-            <li class="nav-item">
-              <a class="nav-link active" href="#">Ordine</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-            </li>
-          </ul>
-        </div>
-        <div class="card-body">
-          <div class="row">
-            <div class="col align-self-center">
-              <div class="input-group mb-3">
-                <input type="text" class="form-control is-valid" placeholder="Piatto" aria-label="Recipient's username"
-                  aria-describedby="button-addon2" disabled>
-                <input type="text" placeholder="10" aria-label="Last name" class="form-control is-valid" disabled>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col align-self-center">
-              <div class="input-group mb-3">
-                <input type="text" class="form-control is-valid" placeholder="Piatto" aria-label="Recipient's username"
-                  aria-describedby="button-addon2" disabled>
-                <input type="text" placeholder="5" aria-label="Last name" class="form-control is-valid" disabled>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col align-self-center">
-              <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Piatto" aria-label="Recipient's username"
-                  aria-describedby="button-addon2">
-                <input type="text" placeholder="5" aria-label="Last name" class="form-control">
-                <div class="input-group-append">
-                  <button class="btn btn-outline-secondary" type="button">Conferma</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+    <nav>
+      <!-- nav options -->
+      <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
+          aria-controls="nav-home" aria-selected="true">Ordine</a>
+        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
+          aria-controls="nav-profile" aria-selected="false">Nuovo Ordine</a>
       </div>
-
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+      <!-- riepilogo ordine -->
+      <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+        <p>
+          Riepilogo Ordine, se esiste...
+        </p>
+      </div>
+      <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+        <p>
+          Modulo per creare un nuovo ordine...
+        </p>
+      </div>
     </div>
-
 
   </div>
 </div>
