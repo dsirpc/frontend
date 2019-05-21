@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http';
-//import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
+// import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { tap, catchError } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 import { Table } from './Table';
@@ -47,13 +47,13 @@ export class TableService {
   }
 
   post_table(t: Table): Observable<Table> {
-    return this.http.post<Table>(this.us.url + '/table', t).pipe(
+    return this.http.post<Table>(this.us.url + '/table', t, this.create_options()).pipe(
       catchError(this.handleError)
     );
   }
 
   put_table(t: Table): Observable<Table> {
-    return this.http.put<Table>(this.us.url + '/table', t).pipe(
+    return this.http.put<Table>(this.us.url + '/table', t, this.create_options()).pipe(
       catchError(this.handleError)
     );
   }
