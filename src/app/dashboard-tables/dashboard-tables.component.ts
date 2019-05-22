@@ -21,7 +21,7 @@ export class DashboardTablesComponent implements OnInit {
 
   ngOnInit() {
     this.get_tables();
-    this.sio.connect().subscribe( (m) => {
+    this.sio.connect().subscribe( (t) => {
       this.get_tables();
     });
   }
@@ -41,7 +41,7 @@ export class DashboardTablesComponent implements OnInit {
       }
     );
   }
-  
+
   logout() {
     this.us.logout();
     this.router.navigate(['/']);

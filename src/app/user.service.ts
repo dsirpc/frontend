@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { tap, catchError } from 'rxjs/operators';
-const jwtdecode = require('jwt-decode');
 import { Observable, throwError } from 'rxjs';
+const jwtdecode = require('jwt-decode');
 
 // import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 

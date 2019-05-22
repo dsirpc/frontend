@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular
 import { tap, catchError } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 import { Table } from './Table';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -40,7 +41,14 @@ export class TableService {
   }
 
   get_tables(): Observable<Table[]> {
-    return this.http.get<Table[]>(this.us.url + '/table').pipe(
+    return this.http.get<Table[]>(this.us.url + '/table', this.create_options()).pipe(
+      tap( (data) => console.log(JSON.stringify(data))) ,
+      catchError( this.handleError )
+    );
+  }
+
+  get_table(tableId): Observable<Table> {
+    return this.http.get<Table>(this.us.url + '/table', this.create_options({number_id: tableId})).pipe(
       tap( (data) => console.log(JSON.stringify(data))) ,
       catchError( this.handleError )
     );
