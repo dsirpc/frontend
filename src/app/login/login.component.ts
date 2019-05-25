@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
   template: `<button (click)="onClickMe()">Sign in</button>`,
 })*/
 
-export class UserLoginComponent implements OnInit {
+export class LoginComponent implements OnInit {
 
   private errmessage = undefined;
   constructor( private us: UserService, private router: Router  ) { }
