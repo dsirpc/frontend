@@ -14,9 +14,9 @@ export class TablesComponent implements OnInit {
   private table: Table;
 
   private testOrder: {
-    "table": 1,
-    "plates": [1, 3, 5],
-    "howmany": [1, 1, 1]
+    'table': 1,
+    'plates': [1, 3, 5],
+    'howmany': [1, 1, 1]
   };
 
   constructor(private route: ActivatedRoute, private ts: TableService, private router: Router, private us: UserService) {

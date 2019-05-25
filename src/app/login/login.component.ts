@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
 import { Router } from '@angular/router';
+import { MatCheckboxModule } from '@angular/material';
 
 @Component({
   selector: 'app-login',

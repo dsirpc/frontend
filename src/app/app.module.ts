@@ -10,6 +10,7 @@ import { DashboardOrdersComponent } from './dashboard-orders/dashboard-orders.co
 import { DashboardTablesComponent } from './dashboard-tables/dashboard-tables.component';
 import { StatsComponent } from './stats/stats.component';
 import { LoginComponent } from './login/login.component';
+import { MatCheckboxModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -20,11 +21,14 @@ import { LoginComponent } from './login/login.component';
     DashboardOrdersComponent,
     DashboardTablesComponent,
     StatsComponent,
-    LoginComponent
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule
+  ],
+  exports: [
+    MatCheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]
