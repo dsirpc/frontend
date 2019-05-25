@@ -3,8 +3,6 @@ import { Observable } from 'rxjs';
 import { UserService } from './user.service';
 import * as io from 'socket.io-client';
 import { JsonPipe } from '@angular/common';
-import { userInfo } from 'os';
-const io2 = require('socket.io-client');
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +12,7 @@ export class SocketioService {
   private socket;
   constructor(private us: UserService) { }
 
-  connect(): Observable<any> {
+  connect(): void {
     if (this.us.is_casher) {
       this.socket = io('/cashers');
     }
@@ -27,46 +25,60 @@ export class SocketioService {
     if (this.us.is_waiter) {
       this.socket = io('/waiters');
     }
+  }
 
+  onOrderSent(): Observable<any> {
     return new Observable((observer) => {
       this.socket.on('orderSent', (os) => {
         console.log('Socket.io order sent: ' + JSON.stringify(os));
         observer.next(os);
       });
-
-      this.socket.on('orderCompleted', (oc) => {
-        console.log('Socket.io order completed: ' + JSON.stringify(oc));
-        observer.next(oc);
-      });
-
-      this.socket.on('dishCompleted', (dc) => {
-        console.log('Socket.io dish completed: ' + JSON.stringify(dc));
-        observer.next(dc);
-      });
-
-      this.socket.on('tableOccupied', (to) => {
-        console.log('Socket.io table occupied: ' + JSON.stringify(to));
-        observer.next(to);
-      });
-
-      this.socket.on('tableFree', (tf) => {
-        console.log('Socket.io table free: ' + JSON.stringify(tf));
-        observer.next(tf);
-      });
-
-      this.socket.on('tableCreated', (tc) => {
-        console.log('Socket.io table created: ' + JSON.stringify(tc));
-        observer.next(tc);
-      });
-
-      this.socket.on('error', (err) => {
-        console.log('Socket.io error: ' + err );
-        observer.error( err );
-      });
-
-      return { unsubscribe() {
-        this.socket.disconnect();
-      }};
     });
   }
+
+  onOrderStarted(): Observable<any> {
+    return new Observable((observer) => {
+      this.socket.on('orderStarted', (ost) => {
+        console.log('Socket.io order started: ' + JSON.stringify(ost));
+        observer.next(ost);
+      });
+    });
+  }
+
+  onOrderCompleted(): Observable<any> {
+    return new Observable((observer) => {
+      this.socket.on('orderStarted', (ost) => {
+        console.log('Socket.io order completed: ' + JSON.stringify(ost));
+        observer.next(ost);
+      });
+    });
+  }
+
+  onDishCompleted(): Observable<any> {
+    return new Observable((observer) => {
+      this.socket.on('dishCompleted', (ost) => {
+        console.log('Socket.io dish completed: ' + JSON.stringify(ost));
+        observer.next(ost);
+      });
+    });
+  }
+
+  onTableFree(): Observable<any> {
+    return new Observable((observer) => {
+      this.socket.on('orderStarted', (ost) => {
+        console.log('Socket.io table free: ' + JSON.stringify(ost));
+        observer.next(ost);
+      });
+    });
+  }
+
+  onTableOccupied(): Observable<any> {
+    return new Observable((observer) => {
+      this.socket.on('orderStarted', (ost) => {
+        console.log('Socket.io table occupied: ' + JSON.stringify(ost));
+        observer.next(ost);
+      });
+    });
+  }
+
 }

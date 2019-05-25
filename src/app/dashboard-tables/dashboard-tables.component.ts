@@ -21,7 +21,8 @@ export class DashboardTablesComponent implements OnInit {
 
   ngOnInit() {
     this.get_tables();
-    this.sio.connect().subscribe( (t) => {
+    this.sio.connect();
+    this.sio.onTableFree().subscribe( (t) => {
       this.get_tables();
     });
   }
