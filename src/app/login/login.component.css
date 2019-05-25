@@ -1,33 +1,59 @@
 body {
-    background-color: lightblue;
-  }
+  /*background-color: lightblue;*/
+  background-image: url('./berries.jpg');
+  text-align: center;
+}
+
+h1 {
+  color: black;
+  text-align: center;
+}
+.box{
+  /*background-color:rgb(41, 49, 51);*/
+  /*vertical-align:middle; */
+  /*background-color:rgba(0,0,0,0.9);*/
+  background-color:rgb(41, 49, 51,0.9);
+  border:1px solid rgb(41, 49, 51);
+  border-radius: 40px 40px 40px 40px;
+  /*box-shadow: 20px 30px 20px #000000;*/
+  /*alineamento box*/
+  margin: auto;
+  margin-top:8%;  
+  /*dimensione box*/
+  width: 400px;
+  height: 300px;
+  /*contenuto*/
+  padding:20px;
   
-  h1 {
-    color: black;
-    text-align: center;
-  }
-  
-  .contenitore p{
-    color:black;
-    text-align: center;
-    font-size: 1.9em;
-    font-family: arial;
-   line-height:2px;
+  color:whitesmoke;
+  text-align:center;
+  font-size: 1.9em;
+  font-family:Verdana ;  /*font-family: arial; /*font-family:'Roboto';*/
+  line-height:2px;
 }
-
-  p {
-    text-align: center;
-    font-family: verdana;
-    font-size: 20px;
-  }
-
-/*
-body { 
-  font-family: Roboto, Arial, sans-serif;
-  margin: 0;
+.box input[type="User"], input[type="Password"] /* i css si riferiscono a gli input */
+{
+  border: none;
+  border-bottom: 1px solid #fff;
+  background: transparent;
+  outline: none;
+  height: 40px;
+  color: #fff;
+  font-size: 16px;
 }
-
-.basic-container {
-  padding: 30px;
+.box button /*  */
+{
+  background-color: whitesmoke;
+  border: none;
+  border-radius: 12px 12px 12px 12px;
+  outline: none;
+  width: 300px;
+  height: 40px;
+  color:black;
+  font-size: 16px;
 }
-*/
+.checkmark {
+height: 25px;
+width: 25px;
+font-size: 10px;
+}
