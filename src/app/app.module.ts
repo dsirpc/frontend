@@ -9,6 +9,7 @@ import { TablesComponent } from './tables/tables.component';
 import { DashboardOrdersComponent } from './dashboard-orders/dashboard-orders.component';
 import { DashboardTablesComponent } from './dashboard-tables/dashboard-tables.component';
 import { StatsComponent } from './stats/stats.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { StatsComponent } from './stats/stats.component';
     TablesComponent,
     DashboardOrdersComponent,
     DashboardTablesComponent,
-    StatsComponent
+    StatsComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
