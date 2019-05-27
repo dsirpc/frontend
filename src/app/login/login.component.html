@@ -1,32 +1,44 @@
 
-<div class="container" style="width: 400px; margin-top: 20px;" >
+<html>
+  <!--
+  <head>
+   <link href="user-login.component.css" rel="stylesheet" type="text/css">
+  </head>
+  -->
+
+<div class="box">
   <div class="form-signin text-center loginform ">
     <i class="fas fa-envelope loginlogo"></i>
 
+    <!--
     <div>
-        <h1>Login</h1>
+        <p><h1>Login</h1></p>
     </div>
-    
-    <div class="contenitore">
+    -->
+
     <p>
     <label for="inputUser" class="sr-only">User</label><br>
-    <input type="User" #usertxt id="inputUser" class="form-control" placeholder="User" required autofocus>
+    <input type="User" #usertxt id="inputUser" class="form-control" placeholder="user name" required autofocus>
     </p>
     <p>
     <label for="inputPassword" class="sr-only">Password</label><br>
-    <input type="password" #passwdtxt id="inputPassword" class="form-control" placeholder="Password" required>
+    <input type="password" #passwdtxt id="inputPassword" class="form-control" placeholder="password" required>
     </p>
-    </div>
-  
-    <div>
-        <mat-checkbox input type="checkbox" #checkr value="remember-me">Remember me</mat-checkbox>
-    </div>
     
-    <div *ngIf="errmessage" class="alert alert-danger" role="alert">
-      Login error: {{errmessage}}
+    <br><br>
+    <label for="inputPassword" class="sr-only">
+        <span class="checkmark">
+        <input input type="checkbox" #checkr value="remember-me"> <!-- mat-checkbox -->
+         remember me</span>
+    </label>
+    <br><br><br><br><br><br><br><br>
+      
     </div>
-    
-    <button mat-button (click)="login( usertxt.value, passwdtxt.value, checkr.checked );" >Sign in</button>
+     <!-- <button mat-button>Log In</button> -->
+    <button button (click)="login( usertxt.value, passwdtxt.value, checkr.checked );" >Log In</button> 
 
-  </div>
+</div>
+
+<div *ngIf="errmessage" class="alert alert-danger" role="alert">
+  Login error: {{errmessage}}
 </div>
