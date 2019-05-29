@@ -13,25 +13,25 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
   public token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkNhbWVyaWVyZSIsInJvbGUiOiJXQUlURVIiLCJpYXQiOjE1NTg4NjQzODgsImV4cCI6MTU1ODg2Nzk4OH0.dcPnylnekCWSyMHWLKGBOvo9Pl26Gz0CWyXmro7lSZ0';
-  public url = 'http://localhost:8080';
+  public url = 'https://dsirpc-api.herokuapp.com/';
 
-  login( username: string, password: string, remember: boolean ): Observable<any> {
+  login(username: string, password: string, remember: boolean): Observable<any> {
 
-    console.log('Login: ' + username + ' ' + password );
+    console.log('Login: ' + username + ' ' + password);
     const options = {
       headers: new HttpHeaders({
-        authorization: 'Basic ' + btoa( username + ':' + password),
+        authorization: 'Basic ' + btoa(username + ':' + password),
         'cache-control': 'no-cache',
-        'Content-Type':  'application/x-www-form-urlencoded'
+        'Content-Type': 'application/x-www-form-urlencoded'
       })
     };
 
-    return this.http.get( this.url + '/login',  options, ).pipe(
-      tap( (data) => {
+    return this.http.get(this.url + '/login', options).pipe(
+      tap((data) => {
         console.log(JSON.stringify(data));
         this.token = data.token;
-        if ( remember ) {
-          localStorage.setItem('postmessages_token', this.token );
+        if (remember) {
+          localStorage.setItem('postmessages_token', this.token);
         }
       }));
   }
@@ -39,25 +39,25 @@ export class UserService {
   renew(): Observable<any> {
 
     const tk = localStorage.getItem('postmessages_token');
-    if ( !tk || tk.length < 1 ) {
-      return throwError({error: {errormessage: 'No token found in local storage'}});
+    if (!tk || tk.length < 1) {
+      return throwError({ error: { errormessage: 'No token found in local storage' } });
     }
 
     const options = {
       headers: new HttpHeaders({
         Authorization: 'Bearer ' + tk,
         'cache-control': 'no-cache',
-        'Content-Type':  'application/json',
+        'Content-Type': 'application/json',
       })
     };
 
     console.log('Renewing token');
-    return this.http.get( this.url + '/renew',  options, ).pipe(
-      tap( (data) => {
+    return this.http.get(this.url + '/renew', options).pipe(
+      tap((data) => {
         console.log(JSON.stringify(data));
         this.token = data.token;
-        localStorage.setItem('postmessages_token', this.token );
-    }));
+        localStorage.setItem('postmessages_token', this.token);
+      }));
   }
 
   logout() {
@@ -66,17 +66,17 @@ export class UserService {
     localStorage.setItem('postmessages_token', this.token);
   }
 
-  register( user ): Observable<any> {
+  register(user): Observable<any> {
     const options = {
       headers: new HttpHeaders({
         'cache-control': 'no-cache',
-        'Content-Type':  'application/json',
+        'Content-Type': 'application/json',
       })
     };
 
-    return this.http.post( this.url + '/user', user, options ).pipe(
-      tap( (data) => {
-        console.log(JSON.stringify(data) );
+    return this.http.post(this.url + '/user', user, options).pipe(
+      tap((data) => {
+        console.log(JSON.stringify(data));
       })
     );
 
