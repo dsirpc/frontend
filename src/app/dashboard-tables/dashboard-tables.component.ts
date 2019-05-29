@@ -48,6 +48,10 @@ export class DashboardTablesComponent implements OnInit {
     );
   }
 
+  public loadTablePage(numberId: string) {
+    this.router.navigateByUrl('tables/' + numberId);
+  }
+
   logout() {
     this.us.logout();
     this.router.navigate(['/']);

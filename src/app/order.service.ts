@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http';
-// import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
-import { tap, catchError } from 'rxjs/operators';
-import { Observable, throwError } from 'rxjs';
-import { Table } from './Table';
 import { UserService } from './user.service';
+import { Observable, throwError } from 'rxjs';
+import { Order } from './Order';
+import { catchError, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-
-export class TableService {
+export class OrderService {
 
   constructor(private http: HttpClient, private us: UserService) { }
 
@@ -40,26 +38,32 @@ export class TableService {
     };
   }
 
-  get_tables(): Observable<Table[]> {
-    return this.http.get<Table[]>(this.us.url + '/table', this.create_options()).pipe(
+  get_orders(): Observable<Order[]> {
+    return this.http.get<Order[]>(this.us.url + '/order', this.create_options()).pipe(
       catchError( this.handleError )
     );
   }
 
-  get_table(tableNumber): Observable<Table> {
-    return this.http.get<Table>(this.us.url + '/table', this.create_options({number_id: tableNumber})).pipe(
+  get_order(tableNumber: number): Observable<Order[]> {
+    return this.http.get<Order[]>(this.us.url + '/order', this.create_options({table_number: tableNumber})).pipe(
       catchError( this.handleError )
     );
   }
 
-  post_table(t: Table): Observable<Table> {
-    return this.http.post<Table>(this.us.url + '/table', t, this.create_options()).pipe(
+  post_order(o: Order): Observable<Order> {
+    return this.http.post<Order>(this.us.url + '/order', o, this.create_options()).pipe(
       catchError(this.handleError)
     );
   }
 
-  put_table(t: Table): Observable<Table> {
-    return this.http.put<Table>(this.us.url + '/table', t, this.create_options()).pipe(
+  put_order(o: Order): Observable<Order> {
+    return this.http.put<Order>(this.us.url + '/order', o, this.create_options()).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  set_dish_ready(o: Order, dish: string): Observable<Order> {
+    return this.http.put<Order>(this.us.url + '/order/:' + dish, o, this.create_options()).pipe(
       catchError(this.handleError)
     );
   }

@@ -14,16 +14,16 @@ export class SocketioService {
 
   connect(): void {
     if (this.us.is_casher) {
-      this.socket = io('/cashers');
+      this.socket = io(this.us.url + '/cashers');
     }
     if (this.us.is_chef) {
-      this.socket = io('/chefs');
+      this.socket = io(this.us.url + '/chefs');
     }
     if (this.us.is_barman) {
-      this.socket = io('/chefs');
+      this.socket = io(this.us.url + '/chefs');
     }
     if (this.us.is_waiter) {
-      this.socket = io('/waiters');
+      this.socket = io(this.us.url + '/waiters');
     }
   }
 
@@ -65,20 +65,39 @@ export class SocketioService {
 
   onTableFree(): Observable<any> {
     return new Observable((observer) => {
-      this.socket.on('orderStarted', (ost) => {
+      this.socket.on('tableFree', (ost) => {
         console.log('Socket.io table free: ' + JSON.stringify(ost));
         observer.next(ost);
       });
+
+      this.socket.on('error', (err) => {
+        console.log('Socket.io error: ' + err );
+        observer.error( err );
+      });
+
+      // When the consumer unsubscribes, clean up data ready for next subscription.
+      return { unsubscribe() {
+        this.socket.disconnect();
+      } };
     });
   }
 
   onTableOccupied(): Observable<any> {
     return new Observable((observer) => {
-      this.socket.on('orderStarted', (ost) => {
+      this.socket.on('tableOccupied', (ost) => {
         console.log('Socket.io table occupied: ' + JSON.stringify(ost));
         observer.next(ost);
       });
+
+      this.socket.on('error', (err) => {
+        console.log('Socket.io error: ' + err );
+        observer.error( err );
+      });
+
+      // When the consumer unsubscribes, clean up data ready for next subscription.
+      return { unsubscribe() {
+        this.socket.disconnect();
+      }};
     });
   }
-
 }

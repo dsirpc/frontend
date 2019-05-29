@@ -12,17 +12,17 @@ const jwtdecode = require('jwt-decode');
 export class UserService {
 
   constructor(private http: HttpClient) { }
-  public token = '';
+  public token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkNhbWVyaWVyZSIsInJvbGUiOiJXQUlURVIiLCJpYXQiOjE1NTg4NjQzODgsImV4cCI6MTU1ODg2Nzk4OH0.dcPnylnekCWSyMHWLKGBOvo9Pl26Gz0CWyXmro7lSZ0';
   public url = 'http://localhost:8080';
 
-  login( mail: string, password: string, remember: boolean ): Observable<any> {
+  login( username: string, password: string, remember: boolean ): Observable<any> {
 
-    console.log('Login: ' + mail + ' ' + password );
+    console.log('Login: ' + username + ' ' + password );
     const options = {
       headers: new HttpHeaders({
-        authorization: 'Basic ' + btoa( mail + ':' + password),
+        authorization: 'Basic ' + btoa( username + ':' + password),
         'cache-control': 'no-cache',
-        'Content-Type':  'application/x-www-form-urlencoded',
+        'Content-Type':  'application/x-www-form-urlencoded'
       })
     };
 

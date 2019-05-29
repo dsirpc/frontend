@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { SocketioService } from '../socketio.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -33,11 +34,9 @@ export class DashboardComponent implements OnInit {
     }
   ];
 
-  constructor() {
+  constructor(private sio: SocketioService) {
     // this.role = NavbarComponent.getRole();
   }
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }
