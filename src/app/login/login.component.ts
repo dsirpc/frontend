@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
 import { Router } from '@angular/router';
 
@@ -14,10 +14,10 @@ import { Router } from '@angular/router';
   template: `<button (click)="onClickMe()">Sign in</button>`,
 })*/
 
-export class LoginComponent implements OnInit, AfterViewInit {
+export class LoginComponent implements OnInit {
 
   private errmessage = undefined;
-  constructor(private us: UserService, private router: Router, private elementRef: ElementRef) { }
+  constructor(private us: UserService, private router: Router) { }
 
   ngOnInit() {
     this.us.renew().subscribe((d) => {
@@ -26,10 +26,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
     }, (err) => {
       console.log('Renew error: ' + JSON.stringify(err.error.errormessage));
     });
-  }
-
-  ngAfterViewInit() {
-    this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = '#f5f5f5';
   }
 
   login(username: string, password: string, remember: boolean) {
