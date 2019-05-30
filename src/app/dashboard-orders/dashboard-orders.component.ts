@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { OrderService } from '../order.service';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-dashboard-orders',
@@ -10,7 +12,7 @@ export class DashboardOrdersComponent implements OnInit {
   @Input()
   private testOrders;
 
-  constructor() { }
+  constructor(private os: OrderService, private us: UserService) { }
 
   ngOnInit() {
     console.log(this.testOrders);

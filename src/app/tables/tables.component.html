@@ -19,29 +19,56 @@
         <span>
           <b>Tavolo numero: {{tableNumber}}</b>
         </span>
-      </div>
-      <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-        <div *ngIf="post.capabilities.orders.length > 0">
-          <div *ngFor="let order of orders"></div>
-            <span>Ordine Numero {{order?._id}}</span>
-            <table>
-              <tr>
-                <th>Piatto</th>
-                <th>Prezzo</th>
-              </tr>
-            </table>
-            <ul class="list-group">
-              <li *ngFor="let dish of order.dishes" class="list-group-item d-flex justify-content-between align-items-center">
-                <span>{{dish?.name}}</span>
-                <span>{{dish?.price}}</span>
-              </li>
-            </ul>
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+          <div *ngIf="orders.length > 0">
+            <div *ngFor="let order of orders">
+              <span><b>Ordine Numero: {{order._id}}</b></span>
+              <br>
+              <br>
+              <br>
+              <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <span><b>Piatto</b></span>
+                  <span><b>Prezzo</b></span>
+                  <span><b>Quantità</b></span>
+                </li>
+              </ul>
+              <ul class="list-group">
+                <li *ngFor="let dish of order.dishes" class="list-group-item d-flex justify-content-between align-items-center">
+                  <span>{{dish}}</span>
+                  <span>{{getPrice(dish)}}</span>
+                  <span>{{getQuantity(order._id, dish)}}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
       <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-        <p>
-          Modulo per creare un nuovo ordine...
-        </p>
+        <br>
+        <ul #ul id="ul" class="list-group">
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span><b>Piatto</b></span>
+            <span><b>Prezzo</b></span>
+            <span><b>Quantità</b></span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <select [(ngModel)]="selectedOption">
+              <option selected>Piatto</option>
+              <option *ngFor="let dish of dishes">{{dish.name}}</option>
+            </select>
+            <span>{{getPrice(selectedOption)}}</span>
+            <span>
+                <input type="text" #quantity value="0">
+                &nbsp;
+                <button name="qt" class="btn btn-outline-secondary" type="button" id="increase" (click)="increase()">+</button>
+                &nbsp;
+                <button name="qt" class="btn btn-outline-secondary" type="button" id="decrease" (click)="decrease()">-</button>
+            </span>
+          </li>
+          
+        </ul>
+        <button class="btn btn-outline-secondary" type="button" (click)="add_row()"> Aggiungi riga</button>
       </div>
     </div>
 

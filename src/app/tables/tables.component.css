@@ -1,0 +1,23 @@
+select {
+    width: 300px;
+    height: 30px;
+}
+
+input {
+    text-align: center;
+    width: 50px;
+    height: 30px;
+}
+
+button[name="qt"] {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 0px 5px 0px 5px;
+    font-size: 20px;
+}
+
+#addRow {
+    width: 80px;
+    height: 25px;
+}
