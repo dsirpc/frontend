@@ -1,18 +1,18 @@
-<div class="text-center">
+<div class="formlogin">
   <form class="form-signin">
     <!-- <img class="mb-4" src="/docs/4.3/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72"> -->
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail" class="sr-only">Email address</label>
-    <input type="text" #usertxt id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+    <h1 class="h3 mb-3 font-weight-normal">Bentornato!</h1>
+    <label for="inputUsername" class="sr-only">La tua username</label>
+    <input type="text" #usertxt id="inputUsername" class="form-control" placeholder="Username" required autofocus>
     <label for="inputPassword" class="sr-only">Password</label>
     <input type="password" #passwdtxt id="inputPassword" class="form-control" placeholder="Password" required>
     <div class="checkbox mb-3">
       <label>
-        <input #checkr type="checkbox" value="remember-me"> Remember me
+        <input #checkr type="checkbox" value="remember-me"> Ricorda accesso
       </label>
     </div>
     <button (click)="login( usertxt.value, passwdtxt.value, checkr.checked );" class="btn btn-lg btn-primary btn-block"
-      type="submit">Sign in</button>
+      type="submit">Accedi</button>
     <p class="mt-5 mb-3 text-muted">&copy; 2017-2019</p>
   </form>
 </div>
