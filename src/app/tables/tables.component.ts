@@ -45,6 +45,7 @@ export class TablesComponent implements OnInit {
     this.get_food();
     this.get_drinks();
     this.set_empty();
+    console.log(this.orders);
   }
 
   set_empty() {
@@ -81,6 +82,7 @@ export class TablesComponent implements OnInit {
     this.os.get_order(tableNumber).subscribe(
       (o) => {
         this.orders = o;
+        console.log(this.orders);
       },
       (err) => {
         this.us.renew().subscribe(() => {
@@ -129,7 +131,7 @@ export class TablesComponent implements OnInit {
   }
 
   // FUNZIONI DISPLAY ORDINI ESISTENTI
-  public getPrice(dish) {
+  public getDishPrice(dish) {
     for (let i = 0; i < this.dishes.length; i++) {
       if (this.dishes[i].name === dish) {
         return this.dishes[i].price;
@@ -137,11 +139,28 @@ export class TablesComponent implements OnInit {
     }
   }
 
-  public getQuantity(order, dish) {
+  public getDishQuantity(order, dish) {
     for (let i = 0; i < this.orders.length; i++) {
       if (this.orders[i]._id == order) {
         const index = this.orders[i].dishes.indexOf(dish);
         return this.orders[i].dishes_qt[index];
+      }
+    }
+  }
+
+  public getDrinkPrice(drink) {
+    for (let i = 0; i < this.drinks.length; i++) {
+      if (this.drinks[i].name === drink) {
+        return this.drinks[i].price;
+      }
+    }
+  }
+
+  public getDrinkQuantity(order, drink) {
+    for (let i = 0; i < this.orders.length; i++) {
+      if (this.orders[i]._id == order) {
+        const index = this.orders[i].drinks.indexOf(drink);
+        return this.orders[i].drinks_qt[index];
       }
     }
   }
@@ -291,6 +310,11 @@ export class TablesComponent implements OnInit {
     this.ots.drinks = drink;
     this.ots.drinks_qt = drinkQt;
 
-    this.os.post_order(this.ots);
+    this.os.post_order(this.ots).subscribe((o) => {
+      this.set_empty();
+      this.ts.put_table(this.table).subscribe((t) => {
+        this.router.navigate(['/dashboard']);
+      });
+    });
   }
 }
