@@ -62,8 +62,8 @@ export class OrderService {
     );
   }
 
-  set_dish_ready(o: Order, dish: string): Observable<Order> {
-    return this.http.put<Order>(this.us.url + '/order/:' + dish, o, this.create_options()).pipe(
+  set_dish_ready(o: Order): Observable<Order> {
+    return this.http.put<Order>(this.us.url + '/order', o, this.create_options()).pipe(
       catchError(this.handleError)
     );
   }

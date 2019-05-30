@@ -38,8 +38,14 @@ export class DishService {
     };
   }
 
-  get_dishes(): Observable<Dish[]> {
-    return this.http.get<Dish[]>(this.us.url + '/dish', this.create_options()).pipe(
+  get_food(): Observable<Dish[]> {
+    return this.http.get<Dish[]>(this.us.url + '/dish', this.create_options({type: 'food'})).pipe(
+      catchError( this.handleError )
+    );
+  }
+
+  get_drinks(): Observable<Dish[]> {
+    return this.http.get<Dish[]>(this.us.url + '/dish', this.create_options({type: 'drink'})).pipe(
       catchError( this.handleError )
     );
   }

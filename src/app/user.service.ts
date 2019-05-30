@@ -12,7 +12,7 @@ const jwtdecode = require('jwt-decode');
 export class UserService {
 
   constructor(private http: HttpClient) { }
-  public token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkNhbWVyaWVyZSIsInJvbGUiOiJXQUlURVIiLCJpYXQiOjE1NTg4NjQzODgsImV4cCI6MTU1ODg2Nzk4OH0.dcPnylnekCWSyMHWLKGBOvo9Pl26Gz0CWyXmro7lSZ0';
+  public token = '';
   public url = 'https://dsirpc-api.herokuapp.com';
 
   login(username: string, password: string, remember: boolean): Observable<any> {
@@ -31,14 +31,14 @@ export class UserService {
         console.log(JSON.stringify(data));
         this.token = data.token;
         if (remember) {
-          localStorage.setItem('postmessages_token', this.token);
+          localStorage.setItem('token', this.token);
         }
       }));
   }
 
   renew(): Observable<any> {
 
-    const tk = localStorage.getItem('postmessages_token');
+    const tk = localStorage.getItem('token');
     if (!tk || tk.length < 1) {
       return throwError({ error: { errormessage: 'No token found in local storage' } });
     }
@@ -56,14 +56,14 @@ export class UserService {
       tap((data) => {
         console.log(JSON.stringify(data));
         this.token = data.token;
-        localStorage.setItem('postmessages_token', this.token);
+        localStorage.setItem('token', this.token);
       }));
   }
 
   logout() {
     console.log('Logging out');
     this.token = '';
-    localStorage.setItem('postmessages_token', this.token);
+    localStorage.setItem('token', this.token);
   }
 
   register(user): Observable<any> {

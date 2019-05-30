@@ -21,31 +21,43 @@ import { FormsModule } from '@angular/forms';
   ]
 })
 export class TablesComponent implements OnInit {
-  @ViewChild('quantity') qt: ElementRef;
-  @ViewChild('ul') ul: ElementRef;
 
   private tableNumber: number; // id table (get from url)
   private table: Table;
   private orders: Order[] = [];
   private dishes: Dish[] = [];
-  private selectedOption: string;
+  private dishesRows = [0];
+  private drinks: Dish[] = [];
+  private drinksRows = [0];
+  private ots: Order;
 
   constructor(private route: ActivatedRoute,
               private ts: TableService,
               private router: Router,
               private us: UserService,
               private os: OrderService,
-              private ds: DishService,
-              private er: ElementRef,
-              private viewContainerRef: ViewContainerRef,
-              private componentFactoryResolver: ComponentFactoryResolver) {}
+              private ds: DishService) {}
 
   ngOnInit() {
     this.tableNumber = parseInt(this.route.snapshot.paramMap.get('id'), 10);
     this.get_table(this.tableNumber);
     this.get_orders(this.tableNumber);
-    this.get_dishes();
-    this.selectedOption = 'Piatto';
+    this.get_food();
+    this.get_drinks();
+    this.set_empty();
+  }
+
+  set_empty() {
+    this.ots = {_id: '0',
+                table_number: this.tableNumber,
+                dishes: [], drinks: [],
+                dishes_qt: [],
+                drinks_qt: [],
+                dishes_ready: 0,
+                chef: '',
+                waiter: '',
+                barman: '',
+                status: 0};
   }
 
   public get_table(tableNumber: number) {
@@ -82,14 +94,14 @@ export class TablesComponent implements OnInit {
     );
   }
 
-  public get_dishes() {
-    this.ds.get_dishes().subscribe(
+  public get_food() {
+    this.ds.get_food().subscribe(
       (d) => {
         this.dishes.push(...d);
       },
       (err) => {
         this.us.renew().subscribe(() => {
-          this.get_dishes();
+          this.get_food();
         },
         (err2) => {
           this.us.logout();
@@ -99,9 +111,27 @@ export class TablesComponent implements OnInit {
     );
   }
 
-  public getPrice(value) {
+  public get_drinks() {
+    this.ds.get_drinks().subscribe(
+      (d) => {
+        this.drinks.push(...d);
+      },
+      (err) => {
+        this.us.renew().subscribe(() => {
+          this.get_drinks();
+        },
+        (err2) => {
+          this.us.logout();
+          this.router.navigate(['/']);
+        });
+      }
+    );
+  }
+
+  // FUNZIONI DISPLAY ORDINI ESISTENTI
+  public getPrice(dish) {
     for (let i = 0; i < this.dishes.length; i++) {
-      if (this.dishes[i].name === value) {
+      if (this.dishes[i].name === dish) {
         return this.dishes[i].price;
       }
     }
@@ -110,31 +140,157 @@ export class TablesComponent implements OnInit {
   public getQuantity(order, dish) {
     for (let i = 0; i < this.orders.length; i++) {
       if (this.orders[i]._id == order) {
-        let index = this.orders[i].dishes.indexOf(dish);
+        const index = this.orders[i].dishes.indexOf(dish);
         return this.orders[i].dishes_qt[index];
       }
     }
   }
 
-  public increase() {
-    let qt = parseInt(this.qt.nativeElement.value, 10);
+  // FUNZIONI NUOVO ORDINE CIBI
+  public increase_food_qt(row) {
+    let qt = parseInt((document.getElementById('quantity-food-' + row) as HTMLInputElement).value, 10);
     qt++;
-    this.qt.nativeElement.value = qt;
+    (document.getElementById('quantity-food-' + row) as HTMLInputElement).value = '' + qt;
   }
 
-  public decrease() {
-    let qt = parseInt(this.qt.nativeElement.value, 10);
+  public decrease_food_qt(row) {
+    let qt = parseInt((document.getElementById('quantity-food-' + row) as HTMLInputElement).value, 10);
     if (qt > 0) {
       qt--;
-      this.qt.nativeElement.value = qt;
+      (document.getElementById('quantity-food-' + row) as HTMLInputElement).value = '' + qt;
     }
   }
 
-  public add_row() {
-    let s = '<li class="list-group-item d-flex justify-content-between align-items-center"><select [(ngModel)]="selectedOption"><option selected>Piatto</option><option *ngFor="let dish of dishes">dish.name</option></select><span>{{getPrice(selectedOption)}}</span><span><input type="text" #quantity value="0">&nbsp;<button name="qt" class="btn btn-outline-secondary" type="button" id="increase" (click)="increase()">+</button>&nbsp;<button name="qt" class="btn btn-outline-secondary" type="button" id="decrease" (click)="decrease()">-</button></span></li>';
-    // document.getElementById("ul").innerHTML += s;
-    let element = document.getElementById('ul').cloneNode(true);
-    console.log(element);
-    document.getElementById('ul').appendChild(element);
+  public change_food_qt(row, value) {
+    if (value < 0) {
+      (document.getElementById('quantity-food-' + row) as HTMLInputElement).value = '' + 0;
+    } else {
+      (document.getElementById('quantity-food-' + row) as HTMLInputElement).value = '' + value;
+    }
+  }
+
+  public add_food_row() {
+    const row = (this.dishesRows[this.dishesRows.length - 1]) + 1;
+    this.dishesRows.push(row);
+  }
+
+  public delete_food_row() {
+    if (this.dishesRows.length > 1) {
+      this.dishesRows.pop();
+    }
+  }
+
+  public set_food(row, dish) {
+    (document.getElementById('selection-food-' + row) as HTMLSelectElement).value = dish;
+    if (dish === 'Piatto') {
+      (document.getElementById('price-food-' + row) as HTMLSpanElement).textContent = '' + 0;
+    } else {
+      for (let i = 0; i < this.dishes.length; i++) {
+        if (this.dishes[i].name === dish) {
+          (document.getElementById('price-food-' + row) as HTMLSpanElement).textContent = '' + this.dishes[i].price;
+        }
+      }
+    }
+  }
+
+  // FUNZIONI NUOVI ORDINI BIBITE
+  public increase_drink_qt(row) {
+    let qt = parseInt((document.getElementById('quantity-drink-' + row) as HTMLInputElement).value, 10);
+    qt++;
+    (document.getElementById('quantity-drink-' + row) as HTMLInputElement).value = '' + qt;
+  }
+
+  public decrease_drink_qt(row) {
+    let qt = parseInt((document.getElementById('quantity-drink-' + row) as HTMLInputElement).value, 10);
+    if (qt > 0) {
+      qt--;
+      (document.getElementById('quantity-drink-' + row) as HTMLInputElement).value = '' + qt;
+    }
+  }
+
+  public change_drink_qt(row, value) {
+    if (value < 0) {
+      (document.getElementById('quantity-drink-' + row) as HTMLInputElement).value = '' + 0;
+    } else {
+      (document.getElementById('quantity-drink-' + row) as HTMLInputElement).value = '' + value;
+    }
+  }
+
+  public add_drink_row() {
+    const row = (this.drinksRows[this.drinksRows.length - 1]) + 1;
+    this.drinksRows.push(row);
+  }
+
+  public delete_drink_row() {
+    if (this.drinksRows.length > 1) {
+      this.drinksRows.pop();
+    }
+  }
+
+  public set_drink(row, drink) {
+    (document.getElementById('selection-drink-' + row) as HTMLSelectElement).value = drink;
+    if (drink === 'Bibita') {
+      (document.getElementById('price-drink-' + row) as HTMLSpanElement).textContent = '' + 0;
+    } else {
+      for (let i = 0; i < this.dishes.length; i++) {
+        if (this.drinks[i].name === drink) {
+          (document.getElementById('price-drink-' + row) as HTMLSpanElement).textContent = '' + this.drinks[i].price;
+        }
+      }
+    }
+  }
+
+  public send_order() {
+    const foodEl = document.getElementsByName('food');
+    const foodQtEl = document.getElementsByName('quantity-food');
+    const food = [];
+    const foodQt = [];
+    foodEl.forEach(d => {
+      if ((d as HTMLSelectElement).value !== 'Piatto') {
+        food.push((d as HTMLSelectElement).value);
+      }
+    });
+    foodQtEl.forEach(q => {
+      const qt = parseInt((q as HTMLInputElement).value, 10);
+      if (qt > 0) {
+        foodQt.push(qt);
+      }
+    });
+
+    if (food.length === 0 || foodQt.length === 0 || food.length !== foodQt.length) {
+      console.log(food.length);
+      console.log(foodQt.length);
+      window.alert('Mancano le quantità o i piatti');
+      return;
+    }
+
+    const drinkEl = document.getElementsByName('drink');
+    const drinkQtEl = document.getElementsByName('quantity-drink');
+    const drink = [];
+    const drinkQt = [];
+
+    drinkEl.forEach(d => {
+      if ((d as HTMLSelectElement).value !== 'Bibita') {
+        drink.push((d as HTMLSelectElement).value);
+      }
+    });
+    drinkQtEl.forEach(q => {
+      const qt = parseInt((q as HTMLInputElement).value, 10);
+      if (qt > 0) {
+        drinkQt.push(qt);
+      }
+    });
+
+    if (drink.length !== drinkQt.length) {
+      window.alert('Specificare quantità o nomi bibite');
+      return;
+    }
+
+    this.ots.dishes = food;
+    this.ots.dishes_qt = foodQt;
+    this.ots.drinks = drink;
+    this.ots.drinks_qt = drinkQt;
+
+    this.os.post_order(this.ots);
   }
 }
