@@ -38,5 +38,5 @@ export class DashboardComponent implements OnInit {
     // this.role = NavbarComponent.getRole();
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 }

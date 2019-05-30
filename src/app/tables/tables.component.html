@@ -2,55 +2,69 @@
 
 <div class="mt-5 px-5">
   <div class="container">
-
+    <h1>Tavolo <span class="badge badge-secondary">{{tableNumber}}</span></h1>
     <nav>
-      <!-- nav options -->
+      <!-- nav-tabs options -->
       <div class="nav nav-tabs" id="nav-tab" role="tablist">
-        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
-          aria-controls="nav-home" aria-selected="true">Ordine</a>
-        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
-          aria-controls="nav-profile" aria-selected="false">Nuovo Ordine</a>
+        <a class="nav-item nav-link active" id="order-details-tab" data-toggle="tab" href="#order-details" role="tab"
+          aria-controls="order-details" aria-selected="true">Ordine</a>
+        <a class="nav-item nav-link" id="new-order-tab" data-toggle="tab" href="#new-order" role="tab"
+          aria-controls="new-order" aria-selected="false">Nuovo Ordine</a>
       </div>
     </nav>
+    <!-- tabs content -->
     <div class="tab-content" id="nav-tabContent">
-      <!-- riepilogo ordine -->
-      <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-        <br>
-        <span>
-          <b>Tavolo numero: {{tableNumber}}</b>
-        </span>
-        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-          <div *ngIf="orders.length > 0">
-            <div *ngFor="let order of orders">
-              <br>
-              <br>
-              <span><b>Ordine Numero: {{order._id}}</b></span>
-              <br>
-              <br>
-              <ul class="list-group">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  <span><b>Piatto</b></span>
-                  <span><b>Prezzo</b></span>
-                  <span><b>Quantità</b></span>
-                </li>
-              </ul>
-              <ul class="list-group">
-                <li *ngFor="let dish of order.dishes" class="list-group-item d-flex justify-content-between align-items-center">
-                  <span>{{dish}}</span>
-                  <span>{{getDishPrice(dish)}}</span>
-                  <span>{{getDishQuantity(order._id, dish)}}</span>
-                </li>
-                <li *ngFor="let drink of order.drinks" class="list-group-item d-flex justify-content-between align-items-center">
-                    <span>{{drink}}</span>
-                    <span>{{getDrinkPrice(drink)}}</span>
-                    <span>{{getDrinkQuantity(order._id, drink)}}</span>
-                  </li>
-              </ul>
+      <!-- order details -->
+      <div class="tab-pane fade show active" id="order-details" role="tabpanel" aria-labelledby="order-details-tab">
+        &nbsp;
+        <div *ngIf="orders.length > 0">
+          <div *ngFor="let order of orders">
+            <div class="card">
+              <div class="card-header">
+                Ordine: <b>{{order._id}}</b>
+              </div>
+              <div class="card-body">
+                <!-- <h5 class="card-title">Special title treatment</h5> -->
+
+                <!--- order table with info -->
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">Piatto</th>
+                      <th scope="col">Quantit&agrave;</th>
+                      <th scope="col">Prezzo</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- dish -->
+                    <tr *ngFor="let dish of order.dishes">
+                      <td>{{dish}}</td>
+                      <td>{{getDishPrice(dish)}}</td>
+                      <td>{{getDishQuantity(order._id, dish)}}</td>
+                    </tr>
+                    <!-- drink -->
+                    <tr *ngFor="let drink of order.drinks">
+                      <td>{{drink}}</td>
+                      <td>{{getDrinkPrice(drink)}}</td>
+                      <td>{{getDrinkQuantity(order._id, drink)}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <!-- price -->
+                <button type="button" class="btn btn-info">
+                  Totale <span class="badge badge-light">&euro; 130,00 </span>
+                </button>
+                &nbsp;
+                <!--buttons -->
+                <button type="button" class="btn btn-primary">Paga</button>
+              </div>
             </div>
+            &nbsp;
           </div>
         </div>
       </div>
-      <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+      <!-- new order -->
+      <div class="tab-pane fade" id="new-order" role="tabpanel" aria-labelledby="new-order-tab">
         <br>
         <ul id="ul" class="list-group">
           <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -66,11 +80,14 @@
               </select>
               <span [attr.id]="'price-food-'+row" textContet="0">0</span>
               <span>
-                  <input type="text" [attr.id]="'quantity-food-'+row" name="quantity-food" value="0" (change)="change_food_qt(row, $event.target.value)">
-                  &nbsp;
-                  <button class="btn btn-outline-secondary" type="button" id="increase_food" (click)="increase_food_qt(row)">+</button>
-                  &nbsp;
-                  <button class="btn btn-outline-secondary" type="button" id="decrease_food" (click)="decrease_food_qt(row)">-</button>
+                <input type="text" [attr.id]="'quantity-food-'+row" name="quantity-food" value="0"
+                  (change)="change_food_qt(row, $event.target.value)">
+                &nbsp;
+                <button class="btn btn-outline-secondary" type="button" id="increase_food"
+                  (click)="increase_food_qt(row)">+</button>
+                &nbsp;
+                <button class="btn btn-outline-secondary" type="button" id="decrease_food"
+                  (click)="decrease_food_qt(row)">-</button>
               </span>
             </li>
           </div>
@@ -94,11 +111,14 @@
               </select>
               <span [attr.id]="'price-drink-'+row" textContet="0">0</span>
               <span>
-                  <input type="text" [attr.id]="'quantity-drink-'+row" name="quantity-drink" value="0" (change)="change_drink_qt(row, $event.target.value)">
-                  &nbsp;
-                  <button name="qt" class="btn btn-outline-secondary" type="button" id="increase_drink" (click)="increase_drink_qt(row)">+</button>
-                  &nbsp;
-                  <button name="qt" class="btn btn-outline-secondary" type="button" id="decrease_drink" (click)="decrease_drink_qt(row)">-</button>
+                <input type="text" [attr.id]="'quantity-drink-'+row" name="quantity-drink" value="0"
+                  (change)="change_drink_qt(row, $event.target.value)">
+                &nbsp;
+                <button name="qt" class="btn btn-outline-secondary" type="button" id="increase_drink"
+                  (click)="increase_drink_qt(row)">+</button>
+                &nbsp;
+                <button name="qt" class="btn btn-outline-secondary" type="button" id="decrease_drink"
+                  (click)="decrease_drink_qt(row)">-</button>
               </span>
             </li>
           </div>
