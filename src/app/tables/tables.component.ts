@@ -58,7 +58,8 @@ export class TablesComponent implements OnInit {
                 chef: '',
                 waiter: '',
                 barman: '',
-                status: 0};
+                status: 0,
+                timestamp: new Date()};
   }
 
   public get_table(tableNumber: number) {
@@ -309,12 +310,18 @@ export class TablesComponent implements OnInit {
     this.ots.dishes_qt = foodQt;
     this.ots.drinks = drink;
     this.ots.drinks_qt = drinkQt;
-
+    this.ots.timestamp = new Date();
     this.os.post_order(this.ots).subscribe((o) => {
       this.set_empty();
-      this.ts.put_table(this.table).subscribe((t) => {
-        this.router.navigate(['/dashboard']);
-      });
+    }, (error) => {
+      console.log('Error occurred while creating order: ' + error);
+    });
+
+    this.ts.put_table(this.table).subscribe((t) => {
+      this.router.navigate(['/dashboard']);
+    }, (error) => {
+      console.log('Error occurred while setting table status: ' + error);
+
     });
   }
 }

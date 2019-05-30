@@ -10,4 +10,5 @@ export interface Order {
     waiter: string;
     barman: string;
     status: number;
+    timestamp: Date;
 }
