@@ -52,8 +52,6 @@ export class TablesComponent implements OnInit {
     this.ots = {_id: '0',
                 table_number: this.tableNumber,
                 dishes: [], drinks: [],
-                dishes_qt: [],
-                drinks_qt: [],
                 dishes_ready: 0,
                 chef: '',
                 waiter: '',
@@ -133,35 +131,45 @@ export class TablesComponent implements OnInit {
 
   // FUNZIONI DISPLAY ORDINI ESISTENTI
   public getDishPrice(dish) {
-    for (let i = 0; i < this.dishes.length; i++) {
-      if (this.dishes[i].name === dish) {
-        return this.dishes[i].price;
+    for (const d of this.dishes) {
+      if (d.name === dish) {
+        return d.price;
       }
     }
   }
 
   public getDishQuantity(order, dish) {
-    for (let i = 0; i < this.orders.length; i++) {
-      if (this.orders[i]._id == order) {
-        const index = this.orders[i].dishes.indexOf(dish);
-        return this.orders[i].dishes_qt[index];
+    for (const o of this.orders) {
+      if (o._id == order) {
+        let qt = 0;
+        for (const d of o.dishes) {
+          if (d === dish) {
+            qt++;
+          }
+        }
+        return qt;
       }
     }
   }
 
   public getDrinkPrice(drink) {
-    for (let i = 0; i < this.drinks.length; i++) {
-      if (this.drinks[i].name === drink) {
-        return this.drinks[i].price;
+    for (const d of this.drinks) {
+      if (d.name === drink) {
+        return d.price;
       }
     }
   }
 
   public getDrinkQuantity(order, drink) {
-    for (let i = 0; i < this.orders.length; i++) {
-      if (this.orders[i]._id == order) {
-        const index = this.orders[i].drinks.indexOf(drink);
-        return this.orders[i].drinks_qt[index];
+    for (const o of this.orders) {
+      if (o._id == order) {
+        let qt = 0;
+        for (const d of o.drinks) {
+          if (d === drink) {
+            qt++;
+          }
+        }
+        return qt;
       }
     }
   }
@@ -205,9 +213,9 @@ export class TablesComponent implements OnInit {
     if (dish === 'Piatto') {
       (document.getElementById('price-food-' + row) as HTMLSpanElement).textContent = '' + 0;
     } else {
-      for (let i = 0; i < this.dishes.length; i++) {
-        if (this.dishes[i].name === dish) {
-          (document.getElementById('price-food-' + row) as HTMLSpanElement).textContent = '' + this.dishes[i].price;
+      for (const d of this.dishes) {
+        if (d.name === dish) {
+          (document.getElementById('price-food-' + row) as HTMLSpanElement).textContent = '' + d.price;
         }
       }
     }
@@ -264,22 +272,17 @@ export class TablesComponent implements OnInit {
     const foodEl = document.getElementsByName('food');
     const foodQtEl = document.getElementsByName('quantity-food');
     const food = [];
-    const foodQt = [];
-    foodEl.forEach(d => {
-      if ((d as HTMLSelectElement).value !== 'Piatto') {
-        food.push((d as HTMLSelectElement).value);
-      }
-    });
-    foodQtEl.forEach(q => {
-      const qt = parseInt((q as HTMLInputElement).value, 10);
-      if (qt > 0) {
-        foodQt.push(qt);
-      }
-    });
 
-    if (food.length === 0 || foodQt.length === 0 || food.length !== foodQt.length) {
-      console.log(food.length);
-      console.log(foodQt.length);
+    for (let i = 0; i < foodEl.length; i++) {
+      if ((foodEl[i] as HTMLSelectElement).value !== 'Piatto') {
+        const qt = parseInt((foodQtEl[i] as HTMLInputElement).value, 10);
+        for (let j = 0; j < qt ; j++) {
+          food.push((foodEl[i] as HTMLSelectElement).value);
+        }
+      }
+    }
+
+    if (foodEl.length === 0 || foodQtEl.length === 0 || foodEl.length !== foodQtEl.length) {
       window.alert('Mancano le quantità o i piatti');
       return;
     }
@@ -287,41 +290,37 @@ export class TablesComponent implements OnInit {
     const drinkEl = document.getElementsByName('drink');
     const drinkQtEl = document.getElementsByName('quantity-drink');
     const drink = [];
-    const drinkQt = [];
 
-    drinkEl.forEach(d => {
-      if ((d as HTMLSelectElement).value !== 'Bibita') {
-        drink.push((d as HTMLSelectElement).value);
+    for (let i = 0; i < drinkEl.length; i++) {
+      if ((drinkEl[i] as HTMLSelectElement).value !== 'Bibita') {
+        const qt = parseInt((drinkQtEl[i] as HTMLInputElement).value, 10);
+        for (let j = 0; j < qt ; j++) {
+          drink.push((drinkEl[i] as HTMLSelectElement).value);
+        }
       }
-    });
-    drinkQtEl.forEach(q => {
-      const qt = parseInt((q as HTMLInputElement).value, 10);
-      if (qt > 0) {
-        drinkQt.push(qt);
-      }
-    });
+    }
 
-    if (drink.length !== drinkQt.length) {
+    if (drinkEl.length !== drinkQtEl.length) {
       window.alert('Specificare quantità o nomi bibite');
       return;
     }
 
     this.ots.dishes = food;
-    this.ots.dishes_qt = foodQt;
     this.ots.drinks = drink;
-    this.ots.drinks_qt = drinkQt;
     this.ots.timestamp = new Date();
+
     this.os.post_order(this.ots).subscribe((o) => {
       this.set_empty();
     }, (error) => {
       console.log('Error occurred while creating order: ' + error);
     });
 
-    this.ts.put_table(this.table).subscribe((t) => {
-      this.router.navigate(['/dashboard']);
-    }, (error) => {
-      console.log('Error occurred while setting table status: ' + error);
-
-    });
+    if (this.table.status) {
+      this.ts.put_table(this.table).subscribe((t) => {
+        this.router.navigate(['/dashboard']);
+      }, (error) => {
+        console.log('Error occurred while setting table status: ' + error);
+      });
+    }
   }
 }
