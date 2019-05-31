@@ -3,4 +3,5 @@ export interface Dish {
     price: number;
     ingredients: string[];
     type: string;
+    estimated_time: number;
 }
