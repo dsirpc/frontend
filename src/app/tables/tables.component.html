@@ -17,11 +17,11 @@
       <!-- order details -->
       <div class="tab-pane fade show active" id="order-details" role="tabpanel" aria-labelledby="order-details-tab">
         &nbsp;
-        <div *ngIf="orders.length > 0">
-          <div *ngFor="let order of orders">
+        <div *ngIf="uniqueDishOrders.length > 0">
+          <div *ngFor="let order of uniqueDishOrders">
             <div class="card">
               <div class="card-header">
-                Ordine: <b>{{order._id}}</b>
+                Ordine: <b>{{order.id}}</b>
               </div>
               <div class="card-body">
                 <!-- <h5 class="card-title">Special title treatment</h5> -->
@@ -40,23 +40,33 @@
                     <tr *ngFor="let dish of order.dishes">
                       <td>{{dish}}</td>
                       <td>{{getDishPrice(dish)}}</td>
-                      <td>{{getDishQuantity(order._id, dish)}}</td>
+                      <td>{{getDishQuantity(order.id, dish)}}</td>
                     </tr>
                     <!-- drink -->
                     <tr *ngFor="let drink of order.drinks">
                       <td>{{drink}}</td>
                       <td>{{getDrinkPrice(drink)}}</td>
-                      <td>{{getDrinkQuantity(order._id, drink)}}</td>
+                      <td>{{getDrinkQuantity(order.id, drink)}}</td>
                     </tr>
                   </tbody>
                 </table>
                 <!-- price -->
-                <button type="button" class="btn btn-info">
-                  Totale <span class="badge badge-light">&euro; 130,00 </span>
-                </button>
-                &nbsp;
-                <!--buttons -->
-                <button type="button" class="btn btn-primary">Paga</button>
+                <div *ngIf="role === 'CASHER'">
+                  <button type="button" class="btn btn-info">
+                    Totale <span class="badge badge-light">{{get_bill(order.id)}}&euro;</span>
+                  </button>
+                  &nbsp;
+                  <!--buttons -->
+                  <button type="button" class="btn btn-primary">Paga</button>
+                  &nbsp;
+                  <span>Piatti completati: {{order.n_dishes_completed}}/{{order.n_total_dishes}}</span>
+                  &nbsp;
+                  <button *ngIf="order.status === 'Inviato'" type="button" class="btn btn-danger">{{order.status}}</button>
+                  &nbsp;
+                  <button *ngIf="order.status === 'In preparazione'" type="button" class="btn btn-warning">{{order.status}}</button>
+                  &nbsp;
+                  <button *ngIf="order.status === 'Completato'" type="button" class="btn btn-basic">{{order.status}}</button>
+                </div>
               </div>
             </div>
             &nbsp;

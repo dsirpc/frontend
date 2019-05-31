@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { tap, catchError } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
+import { Router } from '@angular/router';
 const jwtdecode = require('jwt-decode');
 
 // import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
@@ -11,7 +12,7 @@ const jwtdecode = require('jwt-decode');
 })
 export class UserService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
   public token = '';
   public url = 'https://dsirpc-api.herokuapp.com';
 
@@ -64,6 +65,7 @@ export class UserService {
     console.log('Logging out');
     this.token = '';
     localStorage.setItem('token', this.token);
+    this.router.navigateByUrl('/login');
   }
 
   register(user): Observable<any> {
@@ -88,6 +90,10 @@ export class UserService {
 
   get_username() {
     return jwtdecode(this.token).username;
+  }
+
+  get_role() {
+    return jwtdecode(this.token).role;
   }
 
   is_casher(): boolean {

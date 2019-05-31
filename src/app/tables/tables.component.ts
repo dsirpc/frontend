@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, NgModule, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, NgModule, ViewContainerRef, ComponentFactoryResolver, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TableService } from '../table.service';
 import { Table } from '../Table';
@@ -8,6 +8,7 @@ import { OrderService } from '../order.service';
 import { Dish } from '../Dish';
 import { DishService } from '../dish.service';
 import { FormsModule } from '@angular/forms';
+import { SocketioService } from '../socketio.service';
 
 @Component({
   selector: 'app-tables',
@@ -26,17 +27,20 @@ export class TablesComponent implements OnInit {
   private table: Table;
   private orders: Order[] = [];
   private dishes: Dish[] = [];
-  private dishesRows = [0];
   private drinks: Dish[] = [];
+  private uniqueDishOrders = [];
+  private dishesRows = [0];
   private drinksRows = [0];
   private ots: Order;
+  private role: string;
 
   constructor(private route: ActivatedRoute,
               private ts: TableService,
               private router: Router,
               private us: UserService,
               private os: OrderService,
-              private ds: DishService) {}
+              private ds: DishService,
+              private sio: SocketioService) {}
 
   ngOnInit() {
     this.tableNumber = parseInt(this.route.snapshot.paramMap.get('id'), 10);
@@ -45,7 +49,22 @@ export class TablesComponent implements OnInit {
     this.get_food();
     this.get_drinks();
     this.set_empty();
-    console.log(this.orders);
+    this.role = this.us.get_role();
+    console.log(this.role);
+    if (this.role === 'CASHER') {
+      this.sio.onOrderSent().subscribe((o) => {
+        this.update_status(o);
+      });
+      this.sio.onOrderStarted().subscribe((o) => {
+        this.update_status(o);
+      });
+      this.sio.onDishCompleted().subscribe((o) => {
+        this.update_status(o);
+      });
+      this.sio.onOrderCompleted().subscribe((o) => {
+        this.update_status(o);
+      });
+    }
   }
 
   set_empty() {
@@ -71,7 +90,6 @@ export class TablesComponent implements OnInit {
         },
         (err2) => {
           this.us.logout();
-          this.router.navigate(['/']);
         });
       }
     );
@@ -81,7 +99,7 @@ export class TablesComponent implements OnInit {
     this.os.get_order(tableNumber).subscribe(
       (o) => {
         this.orders = o;
-        console.log(this.orders);
+        this.delete_dish_duplicate();
       },
       (err) => {
         this.us.renew().subscribe(() => {
@@ -89,7 +107,6 @@ export class TablesComponent implements OnInit {
         },
         (err2) => {
           this.us.logout();
-          this.router.navigate(['/']);
         });
       }
     );
@@ -106,7 +123,6 @@ export class TablesComponent implements OnInit {
         },
         (err2) => {
           this.us.logout();
-          this.router.navigate(['/']);
         });
       }
     );
@@ -123,10 +139,55 @@ export class TablesComponent implements OnInit {
         },
         (err2) => {
           this.us.logout();
-          this.router.navigate(['/']);
         });
       }
     );
+  }
+
+  public delete_dish_duplicate() {
+    for (const o of this.orders) {
+      const order = {id: o._id, dishes: [], dishes_qt: [], drinks: [], drink_qt: [], status: 'Inviato', n_dishes_completed: o.dishes_ready, n_total_dishes: 0};
+      for (const d of o.dishes) {
+        order.n_total_dishes += 1;
+        const fqt = 1;
+        if (!order.dishes.includes(d)) {
+          order.dishes.push(d);
+          order.dishes_qt.push(fqt);
+        } else {
+          const i = order.dishes.indexOf(d);
+          order.dishes_qt[i] += 1;
+        }
+      }
+
+      for (const d of o.drinks) {
+        const dqt = 1;
+        if (!order.drinks.includes(d)) {
+          order.drinks.push(d);
+          order.drink_qt.push(dqt);
+        } else {
+          const i = order.drinks.indexOf(d);
+          order.drink_qt[i] += 1;
+        }
+      }
+
+      this.uniqueDishOrders.push(order);
+      console.log(this.uniqueDishOrders);
+    }
+  }
+
+  public update_status(order) {
+    for (const o of this.uniqueDishOrders) {
+      if (o.id == order._id) {
+        if (o.n_dishes_completed < o.n_dishes_completed) {
+          o.n_dishes_completed += 1;
+          if (o.n_dishes_completed === o.n_total_dishes) {
+            o.status = 'Completato';
+          } else {
+            o.status = 'In preparazione';
+          }
+        }
+      }
+    }
   }
 
   // FUNZIONI DISPLAY ORDINI ESISTENTI
@@ -139,15 +200,9 @@ export class TablesComponent implements OnInit {
   }
 
   public getDishQuantity(order, dish) {
-    for (const o of this.orders) {
-      if (o._id == order) {
-        let qt = 0;
-        for (const d of o.dishes) {
-          if (d === dish) {
-            qt++;
-          }
-        }
-        return qt;
+    for (const o of this.uniqueDishOrders) {
+      if (o.id == order) {
+        return o.dishes_qt[o.dishes.indexOf(dish)];
       }
     }
   }
@@ -161,15 +216,9 @@ export class TablesComponent implements OnInit {
   }
 
   public getDrinkQuantity(order, drink) {
-    for (const o of this.orders) {
-      if (o._id == order) {
-        let qt = 0;
-        for (const d of o.drinks) {
-          if (d === drink) {
-            qt++;
-          }
-        }
-        return qt;
+    for (const o of this.uniqueDishOrders) {
+      if (o.id == order) {
+        return o.drink_qt[o.drinks.indexOf(drink)];
       }
     }
   }
@@ -321,6 +370,22 @@ export class TablesComponent implements OnInit {
       }, (error) => {
         console.log('Error occurred while setting table status: ' + error);
       });
+    }
+  }
+
+  public get_bill(order) {
+    let total = 0;
+
+    for (const o of this.orders) {
+      if (o._id == order) {
+        for (const dish of o.dishes) {
+          total += this.getDishPrice(dish);
+        }
+        for (const drink of o.drinks) {
+          total += this.getDrinkPrice(drink);
+        }
+        return total;
+      }
     }
   }
 }

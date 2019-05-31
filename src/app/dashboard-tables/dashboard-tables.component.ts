@@ -12,7 +12,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./dashboard-tables.component.css']
 })
 export class DashboardTablesComponent implements OnInit {
-  @Input()
+  @Input() private role: string;
+
   private tables: Table[];
 
   constructor(private ts: TableService, private sio: SocketioService, private us: UserService, private router: Router) {
@@ -22,14 +23,18 @@ export class DashboardTablesComponent implements OnInit {
   ngOnInit() {
     this.get_tables();
     this.sio.connect();
-    this.sio.onTableFree().subscribe((t) => {
-      console.log('Tavolo libero');
-      this.get_tables();
-    });
-    this.sio.onTableOccupied().subscribe((t) => {
-      console.log('Tavolo occupato');
-      this.get_tables();
-    });
+    if (this.role === 'waiter') {
+      this.sio.onTableFree().subscribe((t) => {
+        console.log('Tavolo libero');
+        this.get_tables();
+      });
+    }
+    if (this.role === 'waiter') {
+      this.sio.onTableOccupied().subscribe((t) => {
+        console.log('Tavolo occupato');
+        this.get_tables();
+      });
+    }
   }
 
   public get_tables() {
@@ -42,7 +47,7 @@ export class DashboardTablesComponent implements OnInit {
           this.get_tables();
         },
         (err2) => {
-          this.logout();
+          this.us.logout();
         });
       }
     );
@@ -50,11 +55,6 @@ export class DashboardTablesComponent implements OnInit {
 
   public loadTablePage(numberId: string) {
     this.router.navigateByUrl('tables/' + numberId);
-  }
-
-  logout() {
-    this.us.logout();
-    this.router.navigate(['/']);
   }
 
 }

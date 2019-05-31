@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,7 +10,7 @@ export class NavbarComponent implements OnInit {
 
   role: string = 'waiter';
 
-  constructor() { }
+  constructor(private us: UserService) { }
 
   onClickRole() {
     this.role = this.role === 'chef' ? 'common' : 'chef';
@@ -20,6 +21,10 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  public logout() {
+    this.us.logout();
   }
 
 }
