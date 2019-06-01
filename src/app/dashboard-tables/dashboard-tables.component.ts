@@ -25,13 +25,11 @@ export class DashboardTablesComponent implements OnInit {
     this.sio.connect();
     if (this.role === 'waiter') {
       this.sio.onTableFree().subscribe((t) => {
-        console.log('Tavolo libero');
         this.get_tables();
       });
     }
     if (this.role === 'waiter') {
       this.sio.onTableOccupied().subscribe((t) => {
-        console.log('Tavolo occupato');
         this.get_tables();
       });
     }

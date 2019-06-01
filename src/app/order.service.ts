@@ -50,6 +50,12 @@ export class OrderService {
     );
   }
 
+  get_orders_status(s: number): Observable<Order[]> {
+    return this.http.get<Order[]>(this.us.url + '/order', this.create_options({status: s})).pipe(
+      catchError( this.handleError )
+    );
+  }
+
   post_order(o: Order): Observable<Order> {
     return this.http.post<Order>(this.us.url + '/order', o, this.create_options()).pipe(
       catchError(this.handleError)

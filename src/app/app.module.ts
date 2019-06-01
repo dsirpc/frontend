@@ -12,6 +12,7 @@ import { StatsComponent } from './stats/stats.component';
 import { LoginComponent } from './login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { NewOrderAlertComponent } from './new-order-alert/new-order-alert.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { FormsModule } from '@angular/forms';
     DashboardTablesComponent,
     StatsComponent,
     LoginComponent,
+    NewOrderAlertComponent,
   ],
   imports: [
     BrowserModule,
