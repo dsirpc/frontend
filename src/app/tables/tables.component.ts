@@ -50,7 +50,6 @@ export class TablesComponent implements OnInit {
     this.get_drinks();
     this.set_empty();
     this.role = this.us.get_role();
-    console.log(this.role);
     if (this.role === 'CASHER') {
       this.sio.onOrderSent().subscribe((o) => {
         this.update_status(o);
@@ -76,6 +75,7 @@ export class TablesComponent implements OnInit {
                 waiter: '',
                 barman: '',
                 status: 0,
+                payed: false,
                 timestamp: new Date()};
   }
 
@@ -96,7 +96,7 @@ export class TablesComponent implements OnInit {
   }
 
   public get_orders(tableNumber: number) {
-    this.os.get_order(tableNumber).subscribe(
+    this.os.get_order(tableNumber, false).subscribe(
       (o) => {
         this.orders = o;
         this.delete_dish_duplicate();
@@ -146,7 +146,7 @@ export class TablesComponent implements OnInit {
 
   public delete_dish_duplicate() {
     for (const o of this.orders) {
-      const order = {id: o._id, dishes: [], dishes_qt: [], drinks: [], drink_qt: [], status: 'Inviato', n_dishes_completed: o.dishes_ready, n_total_dishes: 0};
+      const order = {id: o._id, dishes: [], dishes_qt: [], drinks: [], drink_qt: [], status: o.status, n_dishes_completed: o.dishes_ready, n_total_dishes: 0};
       for (const d of o.dishes) {
         order.n_total_dishes += 1;
         const fqt = 1;
@@ -181,9 +181,9 @@ export class TablesComponent implements OnInit {
         if (o.n_dishes_completed < o.n_dishes_completed) {
           o.n_dishes_completed += 1;
           if (o.n_dishes_completed === o.n_total_dishes) {
-            o.status = 'Completato';
+            o.status = 2;
           } else {
-            o.status = 'In preparazione';
+            o.status = 1;
           }
         }
       }
@@ -365,12 +365,11 @@ export class TablesComponent implements OnInit {
     });
 
     if (this.table.status) {
-      this.ts.put_table(this.table).subscribe((t) => {
-        this.router.navigate(['/dashboard']);
-      }, (error) => {
+      this.ts.put_table(this.table).subscribe((t) => {}, (error) => {
         console.log('Error occurred while setting table status: ' + error);
       });
     }
+    this.router.navigate(['/dashboard']);
   }
 
   public get_bill(order) {
@@ -385,6 +384,20 @@ export class TablesComponent implements OnInit {
           total += this.getDrinkPrice(drink);
         }
         return total;
+      }
+    }
+  }
+
+  public pay(order) {
+    for (const o of this.orders) {
+      if (o._id == order.id) {
+        this.os.put_order(o).subscribe((or) => {
+          this.ts.put_table(this.table).subscribe((t) => {
+            this.get_orders(this.tableNumber);
+            this.router.navigateByUrl('/dashboard');
+          });
+        });
+        return;
       }
     }
   }

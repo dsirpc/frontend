@@ -44,8 +44,8 @@ export class OrderService {
     );
   }
 
-  get_order(tableNumber: number): Observable<Order[]> {
-    return this.http.get<Order[]>(this.us.url + '/order', this.create_options({table_number: tableNumber})).pipe(
+  get_order(tableNumber: number, p: boolean): Observable<Order[]> {
+    return this.http.get<Order[]>(this.us.url + '/order', this.create_options({table_number: tableNumber, payed: p})).pipe(
       catchError( this.handleError )
     );
   }

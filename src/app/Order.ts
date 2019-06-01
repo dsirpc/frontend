@@ -8,5 +8,6 @@ export interface Order {
     waiter: string;
     barman: string;
     status: number;
+    payed: boolean;
     timestamp: Date;
 }
