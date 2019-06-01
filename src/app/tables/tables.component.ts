@@ -52,16 +52,20 @@ export class TablesComponent implements OnInit {
     this.role = this.us.get_role();
     if (this.role === 'CASHER') {
       this.sio.onOrderSent().subscribe((o) => {
-        this.update_status(o);
+        this.get_orders(this.tableNumber);
+        this.router.navigateByUrl('tables/' + this.tableNumber);
       });
       this.sio.onOrderStarted().subscribe((o) => {
-        this.update_status(o);
+        this.get_orders(this.tableNumber);
+        this.router.navigateByUrl('tables/' + this.tableNumber);
       });
       this.sio.onDishCompleted().subscribe((o) => {
-        this.update_status(o);
+        this.get_orders(this.tableNumber);
+        this.router.navigateByUrl('tables/' + this.tableNumber);
       });
       this.sio.onOrderCompleted().subscribe((o) => {
-        this.update_status(o);
+        this.get_orders(this.tableNumber);
+        this.router.navigateByUrl('tables/' + this.tableNumber);
       });
     }
   }
@@ -82,7 +86,7 @@ export class TablesComponent implements OnInit {
   public get_table(tableNumber: number) {
     this.ts.get_table(tableNumber).subscribe(
       (t) => {
-        this.table = t;
+        this.table = t[0];
       },
       (err) => {
         this.us.renew().subscribe(() => {
@@ -171,22 +175,6 @@ export class TablesComponent implements OnInit {
       }
 
       this.uniqueDishOrders.push(order);
-      console.log(this.uniqueDishOrders);
-    }
-  }
-
-  public update_status(order) {
-    for (const o of this.uniqueDishOrders) {
-      if (o.id == order._id) {
-        if (o.n_dishes_completed < o.n_dishes_completed) {
-          o.n_dishes_completed += 1;
-          if (o.n_dishes_completed === o.n_total_dishes) {
-            o.status = 2;
-          } else {
-            o.status = 1;
-          }
-        }
-      }
     }
   }
 
@@ -389,16 +377,19 @@ export class TablesComponent implements OnInit {
   }
 
   public pay(order) {
+    let allPayed = true;
     for (const o of this.orders) {
       if (o._id == order.id) {
-        this.os.put_order(o).subscribe((or) => {
-          this.ts.put_table(this.table).subscribe((t) => {
-            this.get_orders(this.tableNumber);
-            this.router.navigateByUrl('/dashboard');
-          });
-        });
-        return;
+        this.os.put_order(o).subscribe((or) => {});
+      } else {
+        if (!o.payed) {
+          allPayed = false;
+        }
       }
     }
+    if (allPayed) {
+      this.ts.put_table(this.table).subscribe((t) => {});
+    }
+    this.router.navigateByUrl('/dashboard');
   }
 }
