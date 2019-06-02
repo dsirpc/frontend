@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { UserService } from './user.service';
 import { Observable, throwError } from 'rxjs';
-import { Order } from './Order';
+import { Order } from '../Order';
 import { catchError, tap } from 'rxjs/operators';
 
 @Injectable({
@@ -44,18 +44,6 @@ export class OrderService {
     );
   }
 
-  get_order(tableNumber: number, p: boolean): Observable<Order[]> {
-    return this.http.get<Order[]>(this.us.url + '/order', this.create_options({table_number: tableNumber, payed: p})).pipe(
-      catchError( this.handleError )
-    );
-  }
-
-  get_orders_status(s: number): Observable<Order[]> {
-    return this.http.get<Order[]>(this.us.url + '/order', this.create_options({status: s})).pipe(
-      catchError( this.handleError )
-    );
-  }
-
   post_order(o: Order): Observable<Order> {
     return this.http.post<Order>(this.us.url + '/order', o, this.create_options()).pipe(
       catchError(this.handleError)
@@ -63,12 +51,6 @@ export class OrderService {
   }
 
   put_order(o: Order): Observable<Order> {
-    return this.http.put<Order>(this.us.url + '/order', o, this.create_options()).pipe(
-      catchError(this.handleError)
-    );
-  }
-
-  set_dish_ready(o: Order): Observable<Order> {
     return this.http.put<Order>(this.us.url + '/order', o, this.create_options()).pipe(
       catchError(this.handleError)
     );

@@ -1,9 +1,9 @@
 export interface Order {
     _id: string;
     table_number: number;
-    dishes: string[];
+    food: string[];
     drinks: string[];
-    dishes_ready: number;
+    food_ready: number;
     chef: string;
     waiter: string;
     barman: string;

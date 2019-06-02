@@ -13,8 +13,8 @@
           <div class="card">
             <h5 class="card-header">Tavoli</h5>
             <div class="card-body">
-              <h5 class="card-title">5/10</h5>
-              <p class="card-text">tavoli disponibili</p>
+              <h5 class="card-title">{{numberOccupiedTables}}/{{numberTables}}</h5>
+              <p class="card-text">tavoli occupati</p>
             </div>
           </div>
           &nbsp;
@@ -24,10 +24,10 @@
         <div class="col-sm">
           <!-- number busy tables -->
           <div class="card">
-            <h5 class="card-header">Tavoli</h5>
+            <h5 class="card-header">Ordini inviati</h5>
             <div class="card-body">
-              <h5 class="card-title">5/10</h5>
-              <p class="card-text">tavoli disponibili</p>
+              <h5 class="card-title">{{ordersSent}}</h5>
+              <p class="card-text">ordini inviati</p>
             </div>
           </div>
           &nbsp;
@@ -37,10 +37,10 @@
         <div class="col-sm">
           <!-- number busy tables -->
           <div class="card">
-            <h5 class="card-header">Tavoli</h5>
+            <h5 class="card-header">Ordini in preparazione</h5>
             <div class="card-body">
-              <h5 class="card-title">5/10</h5>
-              <p class="card-text">tavoli disponibili</p>
+              <h5 class="card-title">{{ordersInProgess}}</h5>
+              <p class="card-text">ordini in preparazione</p>
             </div>
           </div>
           &nbsp;

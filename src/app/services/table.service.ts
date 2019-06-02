@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular
 // import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { tap, catchError } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
-import { Table } from './Table';
+import { Table } from '../Table';
 import { UserService } from './user.service';
 
 @Injectable({
@@ -42,12 +42,6 @@ export class TableService {
 
   get_tables(): Observable<Table[]> {
     return this.http.get<Table[]>(this.us.url + '/table', this.create_options()).pipe(
-      catchError( this.handleError )
-    );
-  }
-
-  get_table(tableNumber): Observable<Table> {
-    return this.http.get<Table>(this.us.url + '/table', this.create_options({number_id: tableNumber})).pipe(
       catchError( this.handleError )
     );
   }

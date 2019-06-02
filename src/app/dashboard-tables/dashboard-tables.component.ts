@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Table } from '../Table';
-import { TableService } from '../table.service';
-import { SocketioService } from '../socketio.service';
-import { UserService } from '../user.service';
+import { TableService } from '../services/table.service';
+import { SocketioService } from '../services/socketio.service';
+import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
 
 

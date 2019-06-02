@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { OrderService } from '../order.service';
-import { UserService } from '../user.service';
-import { SocketioService } from '../socketio.service';
+import { OrderService } from '../services/order.service';
+import { UserService } from '../services/user.service';
+import { SocketioService } from '../services/socketio.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -21,14 +21,15 @@ export class NewOrderAlertComponent implements OnInit {
     this.get_orders_ready();
     this.sio.connect();
     this.sio.onOrderCompleted().subscribe((o) => {
-      this.get_orders_ready();
+      // this.get_orders_ready();
+      this.ngOnInit();
     });
   }
 
   public get_orders_ready() {
-    this.os.get_orders_status(2).subscribe((orders) => {
+    this.os.get_orders().subscribe((orders) => {
       for (const o of orders) {
-        if (o.waiter === this.username) {
+        if (o.status === 2 && o.waiter === this.username) {
           this.ordersReady.push(o);
         }
       }

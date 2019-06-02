@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { UserService } from './user.service';
 import { throwError, Observable } from 'rxjs';
-import { Dish } from './Dish';
+import { Dish } from '../Dish';
 import { catchError } from 'rxjs/operators';
 
 @Injectable({
@@ -38,14 +38,8 @@ export class DishService {
     };
   }
 
-  get_food(): Observable<Dish[]> {
-    return this.http.get<Dish[]>(this.us.url + '/dish', this.create_options({type: 'food'})).pipe(
-      catchError( this.handleError )
-    );
-  }
-
-  get_drinks(): Observable<Dish[]> {
-    return this.http.get<Dish[]>(this.us.url + '/dish', this.create_options({type: 'drink'})).pipe(
+  get_dishes(): Observable<Dish[]> {
+    return this.http.get<Dish[]>(this.us.url + '/dish', this.create_options()).pipe(
       catchError( this.handleError )
     );
   }

@@ -1,14 +1,14 @@
 import { Component, OnInit, ElementRef, ViewChild, NgModule, ViewContainerRef, ComponentFactoryResolver, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TableService } from '../table.service';
+import { TableService } from '../services/table.service';
 import { Table } from '../Table';
 import { Order } from '../Order';
-import { UserService } from '../user.service';
-import { OrderService } from '../order.service';
+import { UserService } from '../services/user.service';
+import { OrderService } from '../services/order.service';
 import { Dish } from '../Dish';
-import { DishService } from '../dish.service';
+import { DishService } from '../services/dish.service';
 import { FormsModule } from '@angular/forms';
-import { SocketioService } from '../socketio.service';
+import { SocketioService } from '../services/socketio.service';
 
 @Component({
   selector: 'app-tables',
@@ -26,10 +26,10 @@ export class TablesComponent implements OnInit {
   private tableNumber: number; // id table (get from url)
   private table: Table;
   private orders: Order[] = [];
-  private dishes: Dish[] = [];
+  private food: Dish[] = [];
   private drinks: Dish[] = [];
   private uniqueDishOrders = [];
-  private dishesRows = [0];
+  private foodRows = [0];
   private drinksRows = [0];
   private ots: Order;
   private role: string;
@@ -44,27 +44,27 @@ export class TablesComponent implements OnInit {
 
   ngOnInit() {
     this.tableNumber = parseInt(this.route.snapshot.paramMap.get('id'), 10);
-    this.get_table(this.tableNumber);
-    this.get_orders(this.tableNumber);
-    this.get_food();
+    this.get_table();
+    this.get_orders();
+    this.get_dishes();
     this.get_drinks();
     this.set_empty();
     this.role = this.us.get_role();
     if (this.role === 'CASHER') {
       this.sio.onOrderSent().subscribe((o) => {
-        this.get_orders(this.tableNumber);
+        this.get_orders();
         this.router.navigateByUrl('tables/' + this.tableNumber);
       });
       this.sio.onOrderStarted().subscribe((o) => {
-        this.get_orders(this.tableNumber);
+        this.get_orders();
         this.router.navigateByUrl('tables/' + this.tableNumber);
       });
       this.sio.onDishCompleted().subscribe((o) => {
-        this.get_orders(this.tableNumber);
+        this.get_orders();
         this.router.navigateByUrl('tables/' + this.tableNumber);
       });
       this.sio.onOrderCompleted().subscribe((o) => {
-        this.get_orders(this.tableNumber);
+        this.get_orders();
         this.router.navigateByUrl('tables/' + this.tableNumber);
       });
     }
@@ -73,8 +73,9 @@ export class TablesComponent implements OnInit {
   set_empty() {
     this.ots = {_id: '0',
                 table_number: this.tableNumber,
-                dishes: [], drinks: [],
-                dishes_ready: 0,
+                food: [],
+                drinks: [],
+                food_ready: 0,
                 chef: '',
                 waiter: '',
                 barman: '',
@@ -83,14 +84,18 @@ export class TablesComponent implements OnInit {
                 timestamp: new Date()};
   }
 
-  public get_table(tableNumber: number) {
-    this.ts.get_table(tableNumber).subscribe(
-      (t) => {
-        this.table = t[0];
+  public get_table() {
+    this.ts.get_tables().subscribe(
+      (tables) => {
+        for (const t of tables) {
+          if (t.number_id === this.tableNumber) {
+            this.table = t;
+          }
+        }
       },
       (err) => {
         this.us.renew().subscribe(() => {
-          this.get_table(tableNumber);
+          this.get_table();
         },
         (err2) => {
           this.us.logout();
@@ -99,15 +104,19 @@ export class TablesComponent implements OnInit {
     );
   }
 
-  public get_orders(tableNumber: number) {
-    this.os.get_order(tableNumber, false).subscribe(
-      (o) => {
-        this.orders = o;
+  public get_orders() {
+    this.os.get_orders().subscribe(
+      (orders) => {
+        for (const o of orders) {
+          if (o.table_number === this.tableNumber && !o.payed) {
+            this.orders.push(o);
+          }
+        }
         this.delete_dish_duplicate();
       },
       (err) => {
         this.us.renew().subscribe(() => {
-          this.get_orders(tableNumber);
+          this.get_orders();
         },
         (err2) => {
           this.us.logout();
@@ -116,14 +125,18 @@ export class TablesComponent implements OnInit {
     );
   }
 
-  public get_food() {
-    this.ds.get_food().subscribe(
-      (d) => {
-        this.dishes.push(...d);
+  public get_dishes() {
+    this.ds.get_dishes().subscribe(
+      (food) => {
+        for (const d of food) {
+          if (d.type === 'food') {
+            this.food.push(d);
+          }
+        }
       },
       (err) => {
         this.us.renew().subscribe(() => {
-          this.get_food();
+          this.get_dishes();
         },
         (err2) => {
           this.us.logout();
@@ -133,9 +146,13 @@ export class TablesComponent implements OnInit {
   }
 
   public get_drinks() {
-    this.ds.get_drinks().subscribe(
-      (d) => {
-        this.drinks.push(...d);
+    this.ds.get_dishes().subscribe(
+      (drinks) => {
+        for (const d of drinks) {
+          if (d.type === 'drink') {
+            this.drinks.push(d);
+          }
+        }
       },
       (err) => {
         this.us.renew().subscribe(() => {
@@ -150,16 +167,17 @@ export class TablesComponent implements OnInit {
 
   public delete_dish_duplicate() {
     for (const o of this.orders) {
-      const order = {id: o._id, dishes: [], dishes_qt: [], drinks: [], drink_qt: [], status: o.status, n_dishes_completed: o.dishes_ready, n_total_dishes: 0};
-      for (const d of o.dishes) {
-        order.n_total_dishes += 1;
+      console.log(o);
+      const order = {id: o._id, food: [], food_qt: [], drinks: [], drink_qt: [], status: o.status, n_food_completed: o.food_ready, n_total_food: 0};
+      for (const d of o.food) {
+        order.n_total_food += 1;
         const fqt = 1;
-        if (!order.dishes.includes(d)) {
-          order.dishes.push(d);
-          order.dishes_qt.push(fqt);
+        if (!order.food.includes(d)) {
+          order.food.push(d);
+          order.food_qt.push(fqt);
         } else {
-          const i = order.dishes.indexOf(d);
-          order.dishes_qt[i] += 1;
+          const i = order.food.indexOf(d);
+          order.food_qt[i] += 1;
         }
       }
 
@@ -179,18 +197,18 @@ export class TablesComponent implements OnInit {
   }
 
   // FUNZIONI DISPLAY ORDINI ESISTENTI
-  public getDishPrice(dish) {
-    for (const d of this.dishes) {
-      if (d.name === dish) {
+  public getDishPrice(food) {
+    for (const d of this.food) {
+      if (d.name === food) {
         return d.price;
       }
     }
   }
 
-  public getDishQuantity(order, dish) {
+  public getDishQuantity(order, food) {
     for (const o of this.uniqueDishOrders) {
       if (o.id == order) {
-        return o.dishes_qt[o.dishes.indexOf(dish)];
+        return o.food_qt[o.food.indexOf(food)];
       }
     }
   }
@@ -235,13 +253,13 @@ export class TablesComponent implements OnInit {
   }
 
   public add_food_row() {
-    const row = (this.dishesRows[this.dishesRows.length - 1]) + 1;
-    this.dishesRows.push(row);
+    const row = (this.foodRows[this.foodRows.length - 1]) + 1;
+    this.foodRows.push(row);
   }
 
   public delete_food_row() {
-    if (this.dishesRows.length > 1) {
-      this.dishesRows.pop();
+    if (this.foodRows.length > 1) {
+      this.foodRows.pop();
     }
   }
 
@@ -250,7 +268,7 @@ export class TablesComponent implements OnInit {
     if (dish === 'Piatto') {
       (document.getElementById('price-food-' + row) as HTMLSpanElement).textContent = '' + 0;
     } else {
-      for (const d of this.dishes) {
+      for (const d of this.food) {
         if (d.name === dish) {
           (document.getElementById('price-food-' + row) as HTMLSpanElement).textContent = '' + d.price;
         }
@@ -297,7 +315,7 @@ export class TablesComponent implements OnInit {
     if (drink === 'Bibita') {
       (document.getElementById('price-drink-' + row) as HTMLSpanElement).textContent = '' + 0;
     } else {
-      for (let i = 0; i < this.dishes.length; i++) {
+      for (let i = 0; i < this.food.length; i++) {
         if (this.drinks[i].name === drink) {
           (document.getElementById('price-drink-' + row) as HTMLSpanElement).textContent = '' + this.drinks[i].price;
         }
@@ -342,7 +360,7 @@ export class TablesComponent implements OnInit {
       return;
     }
 
-    this.ots.dishes = food;
+    this.ots.food = food;
     this.ots.drinks = drink;
     this.ots.timestamp = new Date();
 
@@ -365,7 +383,7 @@ export class TablesComponent implements OnInit {
 
     for (const o of this.orders) {
       if (o._id == order) {
-        for (const dish of o.dishes) {
+        for (const dish of o.food) {
           total += this.getDishPrice(dish);
         }
         for (const drink of o.drinks) {

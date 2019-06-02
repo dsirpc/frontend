@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
-import { SocketioService } from '../socketio.service';
-import { UserService } from '../user.service';
+import { SocketioService } from '../services/socketio.service';
+import { UserService } from '../services/user.service';
 import { userInfo } from 'os';
 
 @Component({

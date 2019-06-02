@@ -41,10 +41,10 @@
                     </thead>
                     <tbody>
                       <!-- dish -->
-                      <tr *ngFor="let dish of order.dishes">
-                        <td>{{dish}}</td>
-                        <td>{{getDishPrice(dish)}}</td>
-                        <td>{{getDishQuantity(order.id, dish)}}</td>
+                      <tr *ngFor="let food of order.food">
+                        <td>{{food}}</td>
+                        <td>{{getDishPrice(food)}}</td>
+                        <td>{{getDishQuantity(order.id, food)}}</td>
                       </tr>
                       <!-- drink -->
                       <tr *ngFor="let drink of order.drinks">
@@ -88,11 +88,11 @@
               <span><b>Prezzo</b></span>
               <span><b>Quantità</b></span>
             </li>
-            <div *ngFor="let row of dishesRows">
+            <div *ngFor="let row of foodRows">
               <li class="list-group-item d-flex justify-content-between align-items-center">
                 <select [attr.id]="'selection-food-'+row" name="food" (change)="set_food(row, $event.target.value)">
                   <option selected>Piatto</option>
-                  <option *ngFor="let dish of dishes" [value]="dish.name">{{dish.name}}</option>
+                  <option *ngFor="let f of food" [value]="f.name">{{f.name}}</option>
                 </select>
                 <span [attr.id]="'price-food-'+row" textContet="0">0</span>
                 <span>

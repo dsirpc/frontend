@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { OrderService } from '../order.service';
-import { UserService } from '../user.service';
+import { OrderService } from '../services/order.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-dashboard-orders',
