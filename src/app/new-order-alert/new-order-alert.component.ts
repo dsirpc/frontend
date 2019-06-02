@@ -21,8 +21,7 @@ export class NewOrderAlertComponent implements OnInit {
     this.get_orders_ready();
     this.sio.connect();
     this.sio.onOrderCompleted().subscribe((o) => {
-      // this.get_orders_ready();
-      this.ngOnInit();
+      this.get_orders_ready();
     });
   }
 
