@@ -14,7 +14,6 @@ import { Router } from '@angular/router';
 export class DashboardOrdersComponent implements OnInit {
 
   @Input()
-  private testOrders;
   private orders: Order[] = [];
   private dishes: Dish[] = [];
 
@@ -32,7 +31,6 @@ export class DashboardOrdersComponent implements OnInit {
         for (const order of orders) {
           if (order.status === 0) {
             this.orders.push(order);
-            this.sortOrder(order);
           }
         }
       },
@@ -59,18 +57,6 @@ export class DashboardOrdersComponent implements OnInit {
         });
       }
     );
-  }
-
-  public sortOrder(order) {
-    for (let i = 0; i < order.food.length - 1; i++ ) {
-      for (let j = 0; j < order.food.length; j++ ) {
-        if (order.dishes[i].estimated_time > order.dishes[j].estimated_time ) {
-          const temp = order.dishes[j];
-          order.dishes[j] = order.dishes[i];
-          order.dishes[i] = temp;
-        }
-      }
-    }
   }
 
   public loadOrderPage(orderId: string) {

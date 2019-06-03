@@ -1,11 +1,11 @@
 <div class="row justify-content-center">
   <div class="col-8">
+    <div>
+      <button id="btnStart" (click)="startOrder(order)" class="btn btn-lg btn-primary btn-block" type="submit">Prendi in Consegna</button>
+    </div>
 
-    <div *ngFor="let food of orders.food">
-      <button class="btn btn-outline-secondary" type="button" (click)="FoodReady(order)">Fatto</button> 
-        <label>
-          <input id="ckFood" type="checkbox" (change)="FoodReady(order)">
-       </label>
+    <div *ngFor="let food of order.food; let i = index">
+        {{food}}<input name="ckFood" type="checkbox" (change)="FoodReady(order, i)">
     </div>
 
   </div>
