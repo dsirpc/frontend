@@ -366,16 +366,19 @@ export class TablesComponent implements OnInit {
 
     this.os.post_order(this.ots).subscribe((o) => {
       this.set_empty();
+      if (this.table.status) {
+        this.ts.put_table(this.table).subscribe((t) => {
+          this.table = t;
+          this.router.navigate(['/dashboard']);
+        }, (error) => {
+          console.log('Error occurred while setting table status: ' + error);
+        });
+      } else {
+        this.router.navigate(['/dashboard']);
+      }
     }, (error) => {
       console.log('Error occurred while creating order: ' + error);
     });
-
-    if (this.table.status) {
-      this.ts.put_table(this.table).subscribe((t) => {}, (error) => {
-        console.log('Error occurred while setting table status: ' + error);
-      });
-    }
-    this.router.navigate(['/dashboard']);
   }
 
   public get_bill(order) {

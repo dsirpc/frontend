@@ -14,7 +14,8 @@ export class UserService {
 
   constructor(private http: HttpClient, private router: Router) { }
   public token = '';
-  public url = 'https://dsirpc-api.herokuapp.com';
+  // public url = 'https://dsirpc-api.herokuapp.com';
+  public url = 'http://localhost:8080';
 
   login(username: string, password: string, remember: boolean): Observable<any> {
 
@@ -22,8 +23,8 @@ export class UserService {
     const options = {
       headers: new HttpHeaders({
         authorization: 'Basic ' + btoa(username + ':' + password),
-        'cache-control': 'no-cache',
-        'Content-Type': 'application/x-www-form-urlencoded'
+        // 'cache-control': 'no-cache',
+        // 'Content-Type': 'application/x-www-form-urlencoded'
       })
     };
 

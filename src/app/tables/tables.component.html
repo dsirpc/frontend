@@ -63,7 +63,7 @@
                     <!--buttons -->
                     <button type="button" class="btn btn-primary" (click)="pay(order)">Paga</button>
                     &nbsp;
-                    <span>Piatti completati: {{order.n_dishes_completed}}/{{order.n_total_dishes}}</span>
+                    <span>Piatti completati: {{order.n_food_completed}}/{{order.n_total_food}}</span>
                     &nbsp;
                     <button *ngIf="order.status === 0" type="button" class="btn btn-danger">Ordine non ancora iniziato</button>
                     &nbsp;

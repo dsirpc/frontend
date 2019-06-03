@@ -33,6 +33,16 @@ export class SocketioService {
         console.log('Socket.io order sent: ' + JSON.stringify(os));
         observer.next(os);
       });
+
+      this.socket.on('error', (err) => {
+        console.log('Socket.io error: ' + err );
+        observer.error( err );
+      });
+
+      // When the consumer unsubscribes, clean up data ready for next subscription.
+      return { unsubscribe() {
+        this.socket.disconnect();
+      }};
     });
   }
 
@@ -42,15 +52,35 @@ export class SocketioService {
         console.log('Socket.io order started: ' + JSON.stringify(ost));
         observer.next(ost);
       });
+
+      this.socket.on('error', (err) => {
+        console.log('Socket.io error: ' + err );
+        observer.error( err );
+      });
+
+      // When the consumer unsubscribes, clean up data ready for next subscription.
+      return { unsubscribe() {
+        this.socket.disconnect();
+      }};
     });
   }
 
   onOrderCompleted(): Observable<any> {
     return new Observable((observer) => {
-      this.socket.on('orderStarted', (ost) => {
+      this.socket.on('orderCompleted', (ost) => {
         console.log('Socket.io order completed: ' + JSON.stringify(ost));
         observer.next(ost);
       });
+
+      this.socket.on('error', (err) => {
+        console.log('Socket.io error: ' + err );
+        observer.error( err );
+      });
+
+      // When the consumer unsubscribes, clean up data ready for next subscription.
+      return { unsubscribe() {
+        this.socket.disconnect();
+      }};
     });
   }
 
@@ -60,6 +90,16 @@ export class SocketioService {
         console.log('Socket.io dish completed: ' + JSON.stringify(ost));
         observer.next(ost);
       });
+
+      this.socket.on('error', (err) => {
+        console.log('Socket.io error: ' + err );
+        observer.error( err );
+      });
+
+      // When the consumer unsubscribes, clean up data ready for next subscription.
+      return { unsubscribe() {
+        this.socket.disconnect();
+      }};
     });
   }
 

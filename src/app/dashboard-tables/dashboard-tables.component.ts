@@ -23,16 +23,12 @@ export class DashboardTablesComponent implements OnInit {
   ngOnInit() {
     this.get_tables();
     this.sio.connect();
-    if (this.role === 'waiter') {
-      this.sio.onTableFree().subscribe((t) => {
-        this.get_tables();
-      });
-    }
-    if (this.role === 'waiter') {
-      this.sio.onTableOccupied().subscribe((t) => {
-        this.get_tables();
-      });
-    }
+    this.sio.onTableFree().subscribe((t) => {
+      this.get_tables();
+    });
+    this.sio.onTableOccupied().subscribe((t) => {
+      this.get_tables();
+    });
   }
 
   public get_tables() {
