@@ -87,7 +87,6 @@ export class OrderComponent implements OnInit {
   }
 
   FoodReady(order, i) {
-    console.log(i);
     this.os.put_order(order).subscribe((o) => {
       (document.getElementsByName('ckFood')[i] as HTMLInputElement).disabled = true;
       this.checkOrderCompleted(order);
