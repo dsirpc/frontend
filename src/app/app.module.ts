@@ -13,6 +13,7 @@ import { LoginComponent } from './login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { NewOrderAlertComponent } from './new-order-alert/new-order-alert.component';
+import { OrderComponent } from './order/order.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { NewOrderAlertComponent } from './new-order-alert/new-order-alert.compon
     StatsComponent,
     LoginComponent,
     NewOrderAlertComponent,
+    OrderComponent,
   ],
   imports: [
     BrowserModule,
