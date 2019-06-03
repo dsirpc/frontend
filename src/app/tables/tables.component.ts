@@ -40,7 +40,11 @@ export class TablesComponent implements OnInit {
               private us: UserService,
               private os: OrderService,
               private ds: DishService,
-              private sio: SocketioService) {}
+              private sio: SocketioService) {
+                if (this.us.get_token() === '') {
+                  this.router.navigateByUrl('/login');
+                }
+              }
 
   ngOnInit() {
     this.tableNumber = parseInt(this.route.snapshot.paramMap.get('id'), 10);
