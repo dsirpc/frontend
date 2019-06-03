@@ -20,12 +20,12 @@
 
     <!-- only for chefs -->
     <div class="container" *ngIf="role === 'CHEF'">
-      <app-dashboard-orders [testOrders]=testOrders></app-dashboard-orders>
+      <app-dashboard-orders></app-dashboard-orders>
     </div>
 
     <!-- only for barman -->
     <div class="container" *ngIf="role === 'BARMAN'">
-      <app-dashboard-orders [testOrders]=testOrders></app-dashboard-orders>
+      <app-dashboard-orders></app-dashboard-orders>
     </div>
 
     <!-- closing page-->
