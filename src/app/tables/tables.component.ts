@@ -335,15 +335,17 @@ export class TablesComponent implements OnInit {
     for (let i = 0; i < foodEl.length; i++) {
       if ((foodEl[i] as HTMLSelectElement).value !== 'Piatto') {
         const qt = parseInt((foodQtEl[i] as HTMLInputElement).value, 10);
+        if (qt === 0) {
+          window.alert('Mancano le quantità o i piatti');
+          return;
+        }
         for (let j = 0; j < qt ; j++) {
           food.push((foodEl[i] as HTMLSelectElement).value);
         }
+      } else {
+        window.alert('Mancano le quantità o i piatti');
+        return;
       }
-    }
-
-    if (foodEl.length === 0 || foodQtEl.length === 0 || foodEl.length !== foodQtEl.length) {
-      window.alert('Mancano le quantità o i piatti');
-      return;
     }
 
     const drinkEl = document.getElementsByName('drink');
@@ -353,15 +355,14 @@ export class TablesComponent implements OnInit {
     for (let i = 0; i < drinkEl.length; i++) {
       if ((drinkEl[i] as HTMLSelectElement).value !== 'Bibita') {
         const qt = parseInt((drinkQtEl[i] as HTMLInputElement).value, 10);
+        if (qt === 0) {
+          window.alert('Specificare quantità o nomi bibite');
+          return;
+        }
         for (let j = 0; j < qt ; j++) {
           drink.push((drinkEl[i] as HTMLSelectElement).value);
         }
       }
-    }
-
-    if (drinkEl.length !== drinkQtEl.length) {
-      window.alert('Specificare quantità o nomi bibite');
-      return;
     }
 
     this.ots.food = food;

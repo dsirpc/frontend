@@ -27,11 +27,11 @@ export class OrderComponent implements OnInit {
 
   ngOnInit() {
     this.orderId = this.route.snapshot.paramMap.get('id');
-    this.get_orders();
+    this.get_order();
     this.get_dishes();
   }
 
-  get_orders() {
+  get_order() {
     this.os.get_orders().subscribe(
       (orders) => {
         for (const order of orders) {
@@ -43,7 +43,7 @@ export class OrderComponent implements OnInit {
       },
       (err) => {
         this.us.renew().subscribe(() => {
-          this.get_orders();
+          this.get_order();
         },
         (err2) => {
           this.us.logout();
@@ -69,16 +69,25 @@ export class OrderComponent implements OnInit {
   public sortOrderFood(order) {
     for (let i = 0; i < order.food.length - 1; i++ ) {
       for (let j = 0; j < order.food.length; j++ ) {
-        if (order.dishes[i].estimated_time > order.dishes[j].estimated_time ) {
-          const temp = order.dishes[j];
-          order.dishes[j] = order.dishes[i];
-          order.dishes[i] = temp;
+        if (this.getEstimatedTime(order.food[i]) > this.getEstimatedTime(order.food[j])) {
+          const temp = order.food[j];
+          order.food[j] = order.food[i];
+          order.food[i] = temp;
         }
       }
     }
   }
 
+  public getEstimatedTime(food) {
+    for (const dish of this.dishes) {
+      if (dish.name === food) {
+        return dish.estimated_time;
+      }
+    }
+  }
+
   FoodReady(order, i) {
+    console.log(i);
     this.os.put_order(order).subscribe((o) => {
       (document.getElementsByName('ckFood')[i] as HTMLInputElement).disabled = true;
       this.checkOrderCompleted(order);

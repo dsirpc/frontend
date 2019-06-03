@@ -49,13 +49,14 @@ export class DashboardOrdersComponent implements OnInit {
         (err2) => {
           this.us.logout();
         });
-      }
-    );
+    });
   }
 
   get_dishes() {
     this.ds.get_dishes().subscribe(
-      (dishes) => { this.dishes = dishes; },
+      (dishes) => {
+        this.dishes = dishes;
+      },
       (err) => {
         this.us.renew().subscribe(() => {
           this.get_dishes();
@@ -82,6 +83,4 @@ export class DashboardOrdersComponent implements OnInit {
     }
     return time;
   }
-
-
 }
