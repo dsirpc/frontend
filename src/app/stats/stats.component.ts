@@ -3,6 +3,7 @@ import { TableService } from '../services/table.service';
 import { OrderService } from '../services/order.service';
 import { UserService } from '../services/user.service';
 import { SocketioService } from '../services/socketio.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-stats',
@@ -16,7 +17,11 @@ export class StatsComponent implements OnInit {
   private numberOccupiedTables = 0;
   private ordersSent = 0;
   private ordersInProgess = 0;
-  constructor(private ts: TableService, private os: OrderService, private us: UserService, private sio: SocketioService) { }
+  constructor(private ts: TableService, private os: OrderService, private us: UserService, private sio: SocketioService, private router: Router) {
+    if (this.us.get_token() === '') {
+      this.router.navigateByUrl('/login');
+    }
+  }
 
   ngOnInit() {
     this.get_number_tables();

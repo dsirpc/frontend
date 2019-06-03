@@ -14,8 +14,8 @@ export class UserService {
 
   constructor(private http: HttpClient, private router: Router) { }
   public token = '';
-  // public url = 'https://dsirpc-api.herokuapp.com';
-  public url = 'http://localhost:8080';
+  public url = 'https://dsirpc-api.herokuapp.com';
+  // public url = 'http://localhost:8080';
 
   login(username: string, password: string, remember: boolean): Observable<any> {
 
