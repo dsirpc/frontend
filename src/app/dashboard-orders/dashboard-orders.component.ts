@@ -15,7 +15,8 @@ import { SocketioService } from '../services/socketio.service';
 export class DashboardOrdersComponent implements OnInit {
 
   @Input()
-  private orders: Order[] = [];
+  private foodOrders: Order[] = [];
+  private drinkOrders: Order[] = [];
   private dishes: Dish[] = [];
   private drinks: Dish[] = [];
   private role = ''; // change between waiter/chef/cashier/barman
@@ -30,9 +31,16 @@ export class DashboardOrdersComponent implements OnInit {
     this.sio.onOrderSent().subscribe((o) => {
       this.get_orders();
     });
-    this.sio.onOrderStarted().subscribe((o) => {
-      this.get_orders();
-    });
+    if (this.role === 'CHEF') {
+      this.sio.onOrderFoodStarted().subscribe((o) => {
+        this.get_orders();
+      });
+    }
+    if (this.role === 'BARMAN') {
+      this.sio.onOrderDrinkStarted().subscribe((o) => {
+        this.get_orders();
+      });
+    }
   }
 
 
@@ -40,8 +48,11 @@ export class DashboardOrdersComponent implements OnInit {
     this.os.get_orders().subscribe(
       (orders) => {
         for (const order of orders) {
-          if (order.status === 0) {
-            this.orders.push(order);
+          if (order.food_status === 0) {
+            this.foodOrders.push(order);
+          }
+          if (order.drink_status === 0) {
+            this.drinkOrders.push(order);
           }
         }
       },

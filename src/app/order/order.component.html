@@ -25,7 +25,7 @@
             <li *ngFor="let f of order.food; let i = index" class="list-group-item d-flex justify-content-between align-items-center">
               <span>{{f}}</span>
               <span>{{getEstimatedTime(f)}}'</span>
-              <input name="ckFood" type="checkbox" (change)="FoodReady(order, i)">
+              <input name="ckFood" type="checkbox" (change)="foodReady(order, i)">
             </li>
           </ul>
           <br>
@@ -43,7 +43,7 @@
             </li>
             <li *ngFor="let d of order.drink; let i = index" class="list-group-item d-flex justify-content-between align-items-center">
             <span>{{d}}</span>
-            <input name="ckDrink" type="checkbox" (change)="DrinkReady(order, i)">
+            <input name="ckDrink" type="checkbox">
             </li>
           </ul>
           <br>

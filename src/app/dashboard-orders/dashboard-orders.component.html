@@ -3,7 +3,7 @@
     <!-- only for chefs -->
     <div class="container" *ngIf="role === 'CHEF'">
       <ul class="list-group">
-       <li *ngFor="let order of orders" (click)="loadOrderPage(order._id)" class="list-group-item d-flex justify-content-between align-items-center">
+       <li *ngFor="let order of foodOrders" (click)="loadOrderPage(order._id)" class="list-group-item d-flex justify-content-between align-items-center">
          <span>Tavolo {{order.table_number}}</span>
          <span>{{order.food.length}} Piatti</span>
          <span>Tempo stimato {{executeOrderTime(order)}}'</span>
@@ -13,7 +13,7 @@
     <!-- only for barman -->
     <div class="container" *ngIf="role === 'BARMAN'">
       <ul class="list-group">
-        <li *ngFor="let order of orders" (click)="loadOrderPage(order._id)" class="list-group-item d-flex justify-content-between align-items-center">
+        <li *ngFor="let order of drinkOrders" (click)="loadOrderPage(order._id)" class="list-group-item d-flex justify-content-between align-items-center">
           <span>Tavolo {{order.table_number}}</span>
           <span>{{order.drinks.length}} Bibite</span>
         </li>

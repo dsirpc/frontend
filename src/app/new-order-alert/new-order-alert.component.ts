@@ -11,7 +11,8 @@ import { Router } from '@angular/router';
 })
 export class NewOrderAlertComponent implements OnInit {
 
-  private ordersReady = [];
+  private foodOrdersReady = [];
+  private drinkOrdersReady = [];
   private username: string;
 
   constructor(private os: OrderService, private us: UserService, private sio: SocketioService, private router: Router) { }
@@ -20,7 +21,7 @@ export class NewOrderAlertComponent implements OnInit {
     this.username = this.us.get_username();
     this.get_orders_ready();
     this.sio.connect();
-    this.sio.onOrderCompleted().subscribe((o) => {
+    this.sio.onOrderFoodCompleted().subscribe((o) => {
       this.get_orders_ready();
     });
   }
@@ -28,20 +29,38 @@ export class NewOrderAlertComponent implements OnInit {
   public get_orders_ready() {
     this.os.get_orders().subscribe((orders) => {
       for (const o of orders) {
-        if (o.status === 2 && o.waiter === this.username) {
-          this.ordersReady.push(o);
+        if (o.waiter === this.username) {
+          if (o.food_status === 2) {
+            this.foodOrdersReady.push(o);
+          }
+          if (o.drink_status) {
+            this.drinkOrdersReady.push(o);
+          }
         }
       }
       this.router.navigateByUrl('/dashboard');
     });
   }
 
-  public order_delivered(order) {
-    for (const o of this.ordersReady) {
+  public food_order_delivered(order) {
+    for (const o of this.foodOrdersReady) {
       if (order._id === o._id) {
-        const i = this.ordersReady.indexOf(o);
-        this.ordersReady.splice(i, 1);
-        this.os.put_order(order).subscribe((or) => {
+        const i = this.foodOrdersReady.indexOf(o);
+        this.foodOrdersReady.splice(i, 1);
+        this.os.order_delivered(order, 'food').subscribe((or) => {
+          this.get_orders_ready();
+        });
+      }
+    }
+    this.router.navigateByUrl('/dashboard');
+  }
+
+  public drink_order_delivered(order) {
+    for (const o of this.foodOrdersReady) {
+      if (order._id === o._id) {
+        const i = this.drinkOrdersReady.indexOf(o);
+        this.drinkOrdersReady.splice(i, 1);
+        this.os.order_delivered(order, 'drink').subscribe((or) => {
           this.get_orders_ready();
         });
       }

@@ -1,7 +1,15 @@
-<div *ngFor="let order of ordersReady">
+<div *ngFor="let order of foodOrdersReady">
   <div class="alert alert-warning alert-dismissible fade show" role="alert">
-    <strong>Hey {{username}}!</strong> Ordine pronto per il tavolo {{order.table_number}}.
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="order_delivered(order)">
+    <strong>Hey {{username}}!</strong> Ordine cucina pronto per il tavolo {{order.table_number}}.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="food_order_delivered(order)">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+</div>
+<div *ngFor="let drink of drinkOrdersReady">
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>Hey {{username}}!</strong> Ordine bar pronto per il tavolo {{order.table_number}}.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="drink_order_delivered(order)">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>

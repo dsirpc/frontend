@@ -37,11 +37,11 @@ export class StatsComponent implements OnInit {
     this.sio.onOrderSent().subscribe((o) => {
       this.ordersSent++;
     });
-    this.sio.onOrderStarted().subscribe((o) => {
+    this.sio.onOrderFoodStarted().subscribe((o) => {
       this.ordersSent--;
       this.ordersInProgess++;
     });
-    this.sio.onOrderCompleted().subscribe((o) => {
+    this.sio.onOrderFoodCompleted().subscribe((o) => {
       this.ordersInProgess--;
     });
   }
@@ -65,10 +65,10 @@ export class StatsComponent implements OnInit {
   public get_orders() {
     this.os.get_orders().subscribe((orders) => {
       for (const order of orders) {
-        if (order.status === 0) {
+        if (order.food_status === 0) {
           this.ordersSent++;
         } else {
-          if (order.status === 1) {
+          if (order.food_status === 1) {
             this.ordersInProgess++;
           }
         }

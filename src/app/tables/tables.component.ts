@@ -59,7 +59,7 @@ export class TablesComponent implements OnInit {
         this.get_orders();
         this.router.navigateByUrl('tables/' + this.tableNumber);
       });
-      this.sio.onOrderStarted().subscribe((o) => {
+      this.sio.onOrderFoodStarted().subscribe((o) => {
         this.get_orders();
         this.router.navigateByUrl('tables/' + this.tableNumber);
       });
@@ -67,7 +67,7 @@ export class TablesComponent implements OnInit {
         this.get_orders();
         this.router.navigateByUrl('tables/' + this.tableNumber);
       });
-      this.sio.onOrderCompleted().subscribe((o) => {
+      this.sio.onOrderFoodCompleted().subscribe((o) => {
         this.get_orders();
         this.router.navigateByUrl('tables/' + this.tableNumber);
       });
@@ -83,7 +83,8 @@ export class TablesComponent implements OnInit {
                 chef: '',
                 waiter: '',
                 barman: '',
-                status: 0,
+                food_status: 0,
+                drink_status: 0,
                 payed: false,
                 timestamp: new Date()};
   }
@@ -172,7 +173,7 @@ export class TablesComponent implements OnInit {
   public delete_dish_duplicate() {
     for (const o of this.orders) {
       console.log(o);
-      const order = {id: o._id, food: [], food_qt: [], drinks: [], drink_qt: [], status: o.status, n_food_completed: o.food_ready, n_total_food: 0};
+      const order = {id: o._id, food: [], food_qt: [], drinks: [], drink_qt: [], status: o.food_status, n_food_completed: o.food_ready, n_total_food: 0};
       for (const d of o.food) {
         order.n_total_food += 1;
         const fqt = 1;

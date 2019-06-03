@@ -46,9 +46,9 @@ export class SocketioService {
     });
   }
 
-  onOrderStarted(): Observable<any> {
+  onOrderFoodStarted(): Observable<any> {
     return new Observable((observer) => {
-      this.socket.on('orderStarted', (ost) => {
+      this.socket.on('orderFoodStarted', (ost) => {
         console.log('Socket.io order started: ' + JSON.stringify(ost));
         observer.next(ost);
       });
@@ -65,10 +65,48 @@ export class SocketioService {
     });
   }
 
-  onOrderCompleted(): Observable<any> {
+  onOrderDrinkStarted(): Observable<any> {
     return new Observable((observer) => {
-      this.socket.on('orderCompleted', (ost) => {
-        console.log('Socket.io order completed: ' + JSON.stringify(ost));
+      this.socket.on('orderDrinkStarted', (ost) => {
+        console.log('Socket.io order started: ' + JSON.stringify(ost));
+        observer.next(ost);
+      });
+
+      this.socket.on('error', (err) => {
+        console.log('Socket.io error: ' + err );
+        observer.error( err );
+      });
+
+      // When the consumer unsubscribes, clean up data ready for next subscription.
+      return { unsubscribe() {
+        this.socket.disconnect();
+      }};
+    });
+  }
+
+  onOrderFoodCompleted(): Observable<any> {
+    return new Observable((observer) => {
+      this.socket.on('orderFoodCompleted', (ost) => {
+        console.log('Socket.io order food completed: ' + JSON.stringify(ost));
+        observer.next(ost);
+      });
+
+      this.socket.on('error', (err) => {
+        console.log('Socket.io error: ' + err );
+        observer.error( err );
+      });
+
+      // When the consumer unsubscribes, clean up data ready for next subscription.
+      return { unsubscribe() {
+        this.socket.disconnect();
+      }};
+    });
+  }
+
+  onOrderDrinkCompleted(): Observable<any> {
+    return new Observable((observer) => {
+      this.socket.on('orderDrinkCompleted', (ost) => {
+        console.log('Socket.io order drink completed: ' + JSON.stringify(ost));
         observer.next(ost);
       });
 

@@ -7,7 +7,8 @@ export interface Order {
     chef: string;
     waiter: string;
     barman: string;
-    status: number;
+    food_status: number;
+    drink_status: number;
     payed: boolean;
     timestamp: Date;
 }

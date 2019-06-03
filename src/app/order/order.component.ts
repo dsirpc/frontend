@@ -91,16 +91,9 @@ export class OrderComponent implements OnInit {
     }
   }
 
-  FoodReady(order, i) {
+  foodReady(order, i) {
     this.os.put_order(order).subscribe((o) => {
       (document.getElementsByName('ckFood')[i] as HTMLInputElement).disabled = true;
-      this.checkOrderCompleted(order);
-    });
-  }
-
-  DrinkReady(order, i) {
-    this.os.put_order(order).subscribe((o) => {
-      (document.getElementsByName('ckDrink')[i] as HTMLInputElement).disabled = true;
       this.checkOrderCompleted(order);
     });
   }

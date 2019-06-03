@@ -65,11 +65,11 @@
                     &nbsp;
                     <span>Piatti completati: {{order.n_food_completed}}/{{order.n_total_food}}</span>
                     &nbsp;
-                    <button *ngIf="order.status === 0" type="button" class="btn btn-danger">Ordine non ancora iniziato</button>
+                    <button *ngIf="order.food_status === 0" type="button" class="btn btn-danger">Ordine non ancora iniziato</button>
                     &nbsp;
-                    <button *ngIf="order.status === 1" type="button" class="btn btn-warning">Ordine in preparazione</button>
+                    <button *ngIf="order.food_status === 1" type="button" class="btn btn-warning">Ordine in preparazione</button>
                     &nbsp;
-                    <button *ngIf="order.status === 2" type="button" class="btn btn-success">Ordine completato</button>
+                    <button *ngIf="order.food_status === 2" type="button" class="btn btn-success">Ordine completato</button>
                   </div>
                 </div>
               </div>
