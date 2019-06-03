@@ -17,10 +17,13 @@ export class DashboardOrdersComponent implements OnInit {
   @Input()
   private orders: Order[] = [];
   private dishes: Dish[] = [];
+  private drinks: Dish[] = [];
+  private role = ''; // change between waiter/chef/cashier/barman
 
   constructor(private os: OrderService, private us: UserService, private ds: DishService, private router: Router, private sio: SocketioService) { }
 
   ngOnInit() {
+    this.role = this.us.get_role();
     this.get_orders();
     this.get_dishes();
     this.sio.connect();

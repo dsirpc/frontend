@@ -1,11 +1,23 @@
 <div class="row justify-content-center">
   <div class="col-8">
-    <ul class="list-group">
-      <li *ngFor="let order of orders" (click)="loadOrderPage(order._id)" class="list-group-item d-flex justify-content-between align-items-center">
-        <span>Tavolo {{order.table_number}}</span>
-        <span>{{order.food.length}} Piatti</span>
-        <span>Tempo stimato {{executeOrderTime(order)}}'</span>
-      </li>
-    </ul>
+    <!-- only for chefs -->
+    <div class="container" *ngIf="role === 'CHEF'">
+      <ul class="list-group">
+       <li *ngFor="let order of orders" (click)="loadOrderPage(order._id)" class="list-group-item d-flex justify-content-between align-items-center">
+         <span>Tavolo {{order.table_number}}</span>
+         <span>{{order.food.length}} Piatti</span>
+         <span>Tempo stimato {{executeOrderTime(order)}}'</span>
+       </li>
+      </ul>
+    </div>
+    <!-- only for barman -->
+    <div class="container" *ngIf="role === 'BARMAN'">
+      <ul class="list-group">
+        <li *ngFor="let order of orders" (click)="loadOrderPage(order._id)" class="list-group-item d-flex justify-content-between align-items-center">
+          <span>Tavolo {{order.table_number}}</span>
+          <span>{{order.drinks.length}} Bibite</span>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>

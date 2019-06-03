@@ -16,8 +16,10 @@ export class OrderComponent implements OnInit {
   @Input()
   private order: Order;
   private dishes: Dish[] = [];
+  private drinks: Dish[] = [];
   private orderId: string;
   private count = 0;
+  private role = ''; // change between waiter/chef/cashier/barman
 
   constructor(private os: OrderService, private us: UserService, private ds: DishService, private router: Router, private route: ActivatedRoute) {
     if (this.us.get_token() === '') {
@@ -26,6 +28,7 @@ export class OrderComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.role = this.us.get_role();
     this.orderId = this.route.snapshot.paramMap.get('id');
     this.get_order();
     this.get_dishes();
@@ -37,7 +40,9 @@ export class OrderComponent implements OnInit {
         for (const order of orders) {
           if (order._id === this.orderId) {
             this.order = order;
-            this.sortOrderFood(order);
+            if (this.role === 'CHEF') {
+              this.sortOrderFood(order);
+            }
           }
         }
       },
@@ -89,6 +94,13 @@ export class OrderComponent implements OnInit {
   FoodReady(order, i) {
     this.os.put_order(order).subscribe((o) => {
       (document.getElementsByName('ckFood')[i] as HTMLInputElement).disabled = true;
+      this.checkOrderCompleted(order);
+    });
+  }
+
+  DrinkReady(order, i) {
+    this.os.put_order(order).subscribe((o) => {
+      (document.getElementsByName('ckDrink')[i] as HTMLInputElement).disabled = true;
       this.checkOrderCompleted(order);
     });
   }

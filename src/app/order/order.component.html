@@ -14,22 +14,43 @@
     <div class="tab-content" id="nav-tabContent">
       <div class="tab-pane fade show active" id="order-details" role="tabpanel" aria-labelledby="order-details-tab">
         &nbsp;
-        <ul class="list-group">
+        <!-- only for chefs -->
+        <div class="container" *ngIf="role === 'CHEF'">
+          <ul class="list-group">
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <span><b>Piatto</b></span>
                 <span><b>Tempo di preparazione</b></span>
                 <span><b>Pronto</b></span>
             </li>
-          <li *ngFor="let f of order.food; let i = index" class="list-group-item d-flex justify-content-between align-items-center">
+            <li *ngFor="let f of order.food; let i = index" class="list-group-item d-flex justify-content-between align-items-center">
               <span>{{f}}</span>
               <span>{{getEstimatedTime(f)}}'</span>
               <input name="ckFood" type="checkbox" (change)="FoodReady(order, i)">
-          </li>
-        </ul>
-        <br>
-        <br>
-        <div>
+            </li>
+          </ul>
+          <br>
+          <br>
+          <div>
+             <button id="btnStart" (click)="startOrder(order)" class="btn btn-lg btn-primary" type="submit">Prendi in Consegna</button>
+          </div>
+        </div>
+        <!-- only for barman -->
+        <div class="container" *ngIf="role === 'BARMAN'">
+          <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <span><b>Bibita</b></span>
+              <span><b>Pronto</b></span>
+            </li>
+            <li *ngFor="let d of order.drink; let i = index" class="list-group-item d-flex justify-content-between align-items-center">
+            <span>{{d}}</span>
+            <input name="ckDrink" type="checkbox" (change)="DrinkReady(order, i)">
+            </li>
+          </ul>
+          <br>
+          <br>
+          <div>
             <button id="btnStart" (click)="startOrder(order)" class="btn btn-lg btn-primary" type="submit">Prendi in Consegna</button>
+          </div>
         </div>
       </div>
     </div>
