@@ -5,6 +5,7 @@ import { Order } from '../Order';
 import { DishService } from '../services/dish.service';
 import { Dish } from '../Dish';
 import { Router } from '@angular/router';
+import { SocketioService } from '../services/socketio.service';
 
 @Component({
   selector: 'app-dashboard-orders',
@@ -17,11 +18,18 @@ export class DashboardOrdersComponent implements OnInit {
   private orders: Order[] = [];
   private dishes: Dish[] = [];
 
-  constructor(private os: OrderService, private us: UserService, private ds: DishService, private router: Router) { }
+  constructor(private os: OrderService, private us: UserService, private ds: DishService, private router: Router, private sio: SocketioService) { }
 
   ngOnInit() {
     this.get_orders();
     this.get_dishes();
+    this.sio.connect();
+    this.sio.onOrderSent().subscribe((o) => {
+      this.get_orders();
+    });
+    this.sio.onOrderStarted().subscribe((o) => {
+      this.get_orders();
+    });
   }
 
 
