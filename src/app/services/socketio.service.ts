@@ -71,9 +71,9 @@ export class SocketioService {
 
   onOrderDrinkStarted(): Observable<any> {
     return new Observable((observer) => {
-      this.socket.on('orderDrinkStarted', (ost) => {
-        console.log('Socket.io order started: ' + JSON.stringify(ost));
-        observer.next(ost);
+      this.socket.on('orderDrinkStarted', (ods) => {
+        console.log('Socket.io order started: ' + JSON.stringify(ods));
+        observer.next(ods);
       });
 
       this.socket.on('error', (err) => {
@@ -90,9 +90,9 @@ export class SocketioService {
 
   onOrderFoodCompleted(): Observable<any> {
     return new Observable((observer) => {
-      this.socket.on('orderFoodCompleted', (ost) => {
-        console.log('Socket.io order food completed: ' + JSON.stringify(ost));
-        observer.next(ost);
+      this.socket.on('orderFoodCompleted', (ofc) => {
+        console.log('Socket.io order food completed: ' + JSON.stringify(ofc));
+        observer.next(ofc);
       });
 
       this.socket.on('error', (err) => {
@@ -109,9 +109,9 @@ export class SocketioService {
 
   onOrderDrinkCompleted(): Observable<any> {
     return new Observable((observer) => {
-      this.socket.on('orderDrinkCompleted', (ost) => {
-        console.log('Socket.io order drink completed: ' + JSON.stringify(ost));
-        observer.next(ost);
+      this.socket.on('orderDrinkCompleted', (odc) => {
+        console.log('Socket.io order drink completed: ' + JSON.stringify(odc));
+        observer.next(odc);
       });
 
       this.socket.on('error', (err) => {
@@ -128,9 +128,9 @@ export class SocketioService {
 
   onDishCompleted(): Observable<any> {
     return new Observable((observer) => {
-      this.socket.on('dishCompleted', (ost) => {
-        console.log('Socket.io dish completed: ' + JSON.stringify(ost));
-        observer.next(ost);
+      this.socket.on('dishCompleted', (ds) => {
+        console.log('Socket.io dish completed: ' + JSON.stringify(ds));
+        observer.next(ds);
       });
 
       this.socket.on('error', (err) => {
@@ -147,9 +147,9 @@ export class SocketioService {
 
   onTableFree(): Observable<any> {
     return new Observable((observer) => {
-      this.socket.on('tableFree', (ost) => {
-        console.log('Socket.io table free: ' + JSON.stringify(ost));
-        observer.next(ost);
+      this.socket.on('tableFree', (tf) => {
+        console.log('Socket.io table free: ' + JSON.stringify(tf));
+        observer.next(tf);
       });
 
       this.socket.on('error', (err) => {
@@ -166,9 +166,9 @@ export class SocketioService {
 
   onTableOccupied(): Observable<any> {
     return new Observable((observer) => {
-      this.socket.on('tableOccupied', (ost) => {
-        console.log('Socket.io table occupied: ' + JSON.stringify(ost));
-        observer.next(ost);
+      this.socket.on('tableOccupied', (to) => {
+        console.log('Socket.io table occupied: ' + JSON.stringify(to));
+        observer.next(to);
       });
 
       this.socket.on('error', (err) => {

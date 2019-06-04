@@ -70,6 +70,7 @@ export class TablesComponent implements OnInit {
       });
       this.sio.onOrderFoodCompleted().subscribe((o) => {
         this.get_orders();
+        (document.getElementById('payBtn') as HTMLButtonElement).disabled = false;
         this.router.navigateByUrl('tables/' + this.tableNumber);
       });
     }

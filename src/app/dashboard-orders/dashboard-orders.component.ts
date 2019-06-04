@@ -14,9 +14,10 @@ import { SocketioService } from '../services/socketio.service';
 })
 export class DashboardOrdersComponent implements OnInit {
 
-  @Input()
   foodOrders: Order[] = [];
   drinkOrders: Order[] = [];
+  suspendedFoodOrders: Order[] = [];
+  suspendedDrinkOrders: Order[] = [];
   dishes: Dish[] = [];
   drinks: Dish[] = [];
   role = ''; // change between waiter/chef/cashier/barman
@@ -44,7 +45,7 @@ export class DashboardOrdersComponent implements OnInit {
   }
 
 
-  get_orders() {
+  public get_orders() {
     this.os.get_orders().subscribe(
       (orders) => {
         for (const order of orders) {
@@ -53,6 +54,12 @@ export class DashboardOrdersComponent implements OnInit {
           }
           if (order.drink_status === 0 && order.drinks.length > 0) {
             this.drinkOrders.push(order);
+          }
+          if (order.food_status === 1 && order.chef === this.us.get_username()) {
+            this.suspendedFoodOrders.push(order);
+          }
+          if (order.drink_status === 1 && order.barman === this.us.get_username()) {
+            this.suspendedDrinkOrders.push(order);
           }
         }
       },
@@ -66,7 +73,7 @@ export class DashboardOrdersComponent implements OnInit {
       });
   }
 
-  get_dishes() {
+  public get_dishes() {
     this.ds.get_dishes().subscribe(
       (dishes) => {
         this.dishes = dishes;

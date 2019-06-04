@@ -61,7 +61,7 @@
                     </button>
                     &nbsp;
                     <!--buttons -->
-                    <button type="button" class="btn btn-primary" (click)="pay(order)">Paga</button>
+                    <button id="payBtn" type="button" class="btn btn-primary" (click)="pay(order)" disabled>Paga</button>
                     &nbsp;
                     <span>Piatti completati: {{order.n_food_completed}}/{{order.n_total_food}}</span>
                     &nbsp;
