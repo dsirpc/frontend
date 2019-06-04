@@ -51,7 +51,6 @@ export class NewOrderAlertComponent implements OnInit {
         this.foodOrdersReady.splice(i, 1);
         this.os.order_delivered(order, 'food').subscribe((or) => {
           this.get_orders_ready();
-          console.log(this.foodOrdersReady);
         });
       }
     }

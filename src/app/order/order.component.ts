@@ -111,7 +111,6 @@ export class OrderComponent implements OnInit {
 
   // spunta i cibi preparati e controlla se l'ordine è estinto
   foodReady(order, i) {
-    console.log(order);
     this.os.put_order(order).subscribe((o) => {
       (document.getElementsByName('ckFood')[i] as HTMLInputElement).disabled = true;
       this.checkOrderCompleted(order);
@@ -130,7 +129,7 @@ export class OrderComponent implements OnInit {
   }
 
   // BARMAN
-  endOrder(order){
+  endOrder(order) {
     this.os.put_order(order).subscribe((o) => {});
     this.router.navigateByUrl('/dashboard');
   }

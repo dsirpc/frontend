@@ -10,19 +10,23 @@ import { JsonPipe } from '@angular/common';
 export class SocketioService {
 
   private socket;
+  // private casherSocket;
+  // private waiterSocket;
+  // private chefSocket;
+  // private barmanSocket;
   constructor(private us: UserService) { }
 
   connect(): void {
-    if (this.us.is_casher) {
+    if (this.us.is_casher()) {
       this.socket = io(this.us.url + '/cashers');
     }
-    if (this.us.is_chef) {
+    if (this.us.is_chef()) {
       this.socket = io(this.us.url + '/chefs');
     }
-    if (this.us.is_barman) {
+    if (this.us.is_barman()) {
       this.socket = io(this.us.url + '/chefs');
     }
-    if (this.us.is_waiter) {
+    if (this.us.is_waiter()) {
       this.socket = io(this.us.url + '/waiters');
     }
   }

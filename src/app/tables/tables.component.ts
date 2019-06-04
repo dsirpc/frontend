@@ -55,6 +55,7 @@ export class TablesComponent implements OnInit {
     this.set_empty();
     this.role = this.us.get_role();
     if (this.role === 'CASHER') {
+      this.sio.connect();
       this.sio.onOrderSent().subscribe((o) => {
         this.get_orders();
         this.router.navigateByUrl('tables/' + this.tableNumber);
