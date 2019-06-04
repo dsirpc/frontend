@@ -16,4 +16,4 @@ deploy:
     github_token: $GITHUB_TOKEN # Set in travis-ci.org dashboard
     on:
         branch: master # Build only from master
-    local_dir: dist # Only copy the dist conents
+    local_dir: dist/frontend/ # Only copy the dist conents
