@@ -11,9 +11,9 @@ import { Router } from '@angular/router';
 })
 export class NewOrderAlertComponent implements OnInit {
 
-  private foodOrdersReady = [];
-  private drinkOrdersReady = [];
-  private username: string;
+  foodOrdersReady = [];
+  drinkOrdersReady = [];
+  username: string;
 
   constructor(private os: OrderService, private us: UserService, private sio: SocketioService, private router: Router) { }
 

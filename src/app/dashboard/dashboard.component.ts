@@ -12,8 +12,8 @@ import { Router } from '@angular/router';
 })
 export class DashboardComponent implements OnInit {
 
-  private pageTitle = 'Dashboard';
-  private role = ''; // change between waiter/chef/cashier/barman
+  pageTitle = 'Dashboard';
+  role = ''; // change between waiter/chef/cashier/barman
 
   constructor(private sio: SocketioService, private us: UserService, private router: Router) {
     if (this.us.get_token() === '') {

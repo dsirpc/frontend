@@ -12,9 +12,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./dashboard-tables.component.css']
 })
 export class DashboardTablesComponent implements OnInit {
-  @Input() private role: string;
+  @Input() role: string;
 
-  private tables: Table[];
+  tables: Table[];
 
   constructor(private ts: TableService, private sio: SocketioService, private us: UserService, private router: Router) {
     console.log('DashboardTablesComponent');
@@ -40,9 +40,9 @@ export class DashboardTablesComponent implements OnInit {
         this.us.renew().subscribe(() => {
           this.get_tables();
         },
-        (err2) => {
-          this.us.logout();
-        });
+          (err2) => {
+            this.us.logout();
+          });
       }
     );
   }

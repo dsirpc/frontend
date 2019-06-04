@@ -18,33 +18,33 @@ import { SocketioService } from '../services/socketio.service';
 
 @NgModule({
   imports: [
-      FormsModule
+    FormsModule
   ]
 })
 export class TablesComponent implements OnInit {
 
-  private tableNumber: number; // id table (get from url)
-  private table: Table;
-  private orders: Order[] = [];
-  private food: Dish[] = [];
-  private drinks: Dish[] = [];
-  private uniqueDishOrders = [];
-  private foodRows = [0];
-  private drinksRows = [0];
-  private ots: Order;
-  private role: string;
+  tableNumber: number; // id table (get from url)
+  table: Table;
+  orders: Order[] = [];
+  food: Dish[] = [];
+  drinks: Dish[] = [];
+  uniqueDishOrders = [];
+  foodRows = [0];
+  drinksRows = [0];
+  ots: Order;
+  role: string;
 
   constructor(private route: ActivatedRoute,
-              private ts: TableService,
-              private router: Router,
-              private us: UserService,
-              private os: OrderService,
-              private ds: DishService,
-              private sio: SocketioService) {
-                if (this.us.get_token() === '') {
-                  this.router.navigateByUrl('/login');
-                }
-              }
+    private ts: TableService,
+    private router: Router,
+    private us: UserService,
+    private os: OrderService,
+    private ds: DishService,
+    private sio: SocketioService) {
+    if (this.us.get_token() === '') {
+      this.router.navigateByUrl('/login');
+    }
+  }
 
   ngOnInit() {
     this.tableNumber = parseInt(this.route.snapshot.paramMap.get('id'), 10);
@@ -76,18 +76,20 @@ export class TablesComponent implements OnInit {
   }
 
   set_empty() {
-    this.ots = {_id: '0',
-                table_number: this.tableNumber,
-                food: [],
-                drinks: [],
-                food_ready: 0,
-                chef: '',
-                waiter: '',
-                barman: '',
-                food_status: 0,
-                drink_status: 0,
-                payed: false,
-                timestamp: new Date()};
+    this.ots = {
+      _id: '0',
+      table_number: this.tableNumber,
+      food: [],
+      drinks: [],
+      food_ready: 0,
+      chef: '',
+      waiter: '',
+      barman: '',
+      food_status: 0,
+      drink_status: 0,
+      payed: false,
+      timestamp: new Date()
+    };
   }
 
   public get_table() {
@@ -103,9 +105,9 @@ export class TablesComponent implements OnInit {
         this.us.renew().subscribe(() => {
           this.get_table();
         },
-        (err2) => {
-          this.us.logout();
-        });
+          (err2) => {
+            this.us.logout();
+          });
       }
     );
   }
@@ -124,9 +126,9 @@ export class TablesComponent implements OnInit {
         this.us.renew().subscribe(() => {
           this.get_orders();
         },
-        (err2) => {
-          this.us.logout();
-        });
+          (err2) => {
+            this.us.logout();
+          });
       }
     );
   }
@@ -144,9 +146,9 @@ export class TablesComponent implements OnInit {
         this.us.renew().subscribe(() => {
           this.get_dishes();
         },
-        (err2) => {
-          this.us.logout();
-        });
+          (err2) => {
+            this.us.logout();
+          });
       }
     );
   }
@@ -164,9 +166,9 @@ export class TablesComponent implements OnInit {
         this.us.renew().subscribe(() => {
           this.get_drinks();
         },
-        (err2) => {
-          this.us.logout();
-        });
+          (err2) => {
+            this.us.logout();
+          });
       }
     );
   }
@@ -174,7 +176,7 @@ export class TablesComponent implements OnInit {
   public delete_dish_duplicate() {
     for (const o of this.orders) {
 
-      const order = {id: o._id, food: [], food_qt: [], drinks: [], drink_qt: [], status: o.food_status, n_food_completed: o.food_ready, n_total_food: 0};
+      const order = { id: o._id, food: [], food_qt: [], drinks: [], drink_qt: [], status: o.food_status, n_food_completed: o.food_ready, n_total_food: 0 };
       for (const d of o.food) {
         order.n_total_food += 1;
         const fqt = 1;
@@ -341,7 +343,7 @@ export class TablesComponent implements OnInit {
           window.alert('Mancano le quantità o i piatti');
           return;
         }
-        for (let j = 0; j < qt ; j++) {
+        for (let j = 0; j < qt; j++) {
           food.push((foodEl[i] as HTMLSelectElement).value);
         }
       } else {
@@ -361,7 +363,7 @@ export class TablesComponent implements OnInit {
           window.alert('Specificare quantità o nomi bibite');
           return;
         }
-        for (let j = 0; j < qt ; j++) {
+        for (let j = 0; j < qt; j++) {
           drink.push((drinkEl[i] as HTMLSelectElement).value);
         }
       }
@@ -409,7 +411,7 @@ export class TablesComponent implements OnInit {
     for (const o of this.orders) {
       if (o._id == order.id) {
         console.log(o);
-        this.os.put_order(o).subscribe((or) => {});
+        this.os.put_order(o).subscribe((or) => { });
       } else {
         if (!o.payed) {
           allPayed = false;
@@ -417,7 +419,7 @@ export class TablesComponent implements OnInit {
       }
     }
     if (allPayed) {
-      this.ts.put_table(this.table).subscribe((t) => {});
+      this.ts.put_table(this.table).subscribe((t) => { });
     }
     this.router.navigateByUrl('/dashboard');
   }

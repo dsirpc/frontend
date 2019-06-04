@@ -14,12 +14,12 @@ import { Order } from '../Order';
 export class OrderComponent implements OnInit {
 
   @Input()
-  private order: Order;
-  private dishes: Dish[] = [];
-  private drinks: Dish[] = [];
-  private orderId: string;
-  private count = 0;
-  private role = ''; // change between waiter/chef/cashier/barman
+  order: Order;
+  dishes: Dish[] = [];
+  drinks: Dish[] = [];
+  orderId: string;
+  count = 0;
+  role = ''; // change between waiter/chef/cashier/barman
 
   constructor(private os: OrderService, private us: UserService, private ds: DishService, private router: Router, private route: ActivatedRoute) {
     if (this.us.get_token() === '') {
@@ -51,9 +51,9 @@ export class OrderComponent implements OnInit {
         this.us.renew().subscribe(() => {
           this.get_order();
         },
-        (err2) => {
-          this.us.logout();
-        });
+          (err2) => {
+            this.us.logout();
+          });
       }
     );
   }
@@ -65,16 +65,16 @@ export class OrderComponent implements OnInit {
         this.us.renew().subscribe(() => {
           this.get_dishes();
         },
-        (err2) => {
-          this.us.logout();
-        });
+          (err2) => {
+            this.us.logout();
+          });
       }
     );
   }
 
   public sortOrderFood(order) {
-    for (let i = 0; i < order.food.length - 1; i++ ) {
-      for (let j = 0; j < order.food.length; j++ ) {
+    for (let i = 0; i < order.food.length - 1; i++) {
+      for (let j = 0; j < order.food.length; j++) {
         if (this.getEstimatedTime(order.food[i]) < this.getEstimatedTime(order.food[j])) {
           const temp = order.food[j];
           order.food[j] = order.food[i];
@@ -120,7 +120,7 @@ export class OrderComponent implements OnInit {
   // CUOCHI scopri se l'ordine è stato completato
   checkOrderCompleted(order) {
     this.count++;
-    if ( this.count === this.order.food.length) {
+    if (this.count === this.order.food.length) {
       this.os.put_order(order).subscribe((o) => {
         this.order.food_status = 2;
         this.router.navigateByUrl('/dashboard');
@@ -130,14 +130,14 @@ export class OrderComponent implements OnInit {
 
   // BARMAN
   endOrder(order) {
-    this.os.put_order(order).subscribe((o) => {});
+    this.os.put_order(order).subscribe((o) => { });
     this.router.navigateByUrl('/dashboard');
   }
 
   disableCheck(order) {
     // CUOCHI
     if (this.role === 'CHEF') {
-      for (let i = 0; i < order.food.length; i++ ) {
+      for (let i = 0; i < order.food.length; i++) {
         (document.getElementsByName('ckFood')[i] as HTMLInputElement).disabled = true;
       }
     }
@@ -145,7 +145,7 @@ export class OrderComponent implements OnInit {
 
   ableCheck(order) {
     // CUOCHI
-    for (let i = 0; i < order.food.length; i++ ) {
+    for (let i = 0; i < order.food.length; i++) {
       (document.getElementsByName('ckFood')[i] as HTMLInputElement).disabled = false;
     }
   }

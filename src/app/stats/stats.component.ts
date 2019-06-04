@@ -12,11 +12,11 @@ import { Router } from '@angular/router';
 })
 export class StatsComponent implements OnInit {
 
-  private pageTitle: string = "Statistiche";
-  private numberTables = 0;
-  private numberOccupiedTables = 0;
-  private ordersSent = 0;
-  private ordersInProgess = 0;
+  pageTitle: string = "Statistiche";
+  numberTables = 0;
+  numberOccupiedTables = 0;
+  ordersSent = 0;
+  ordersInProgess = 0;
   constructor(private ts: TableService, private os: OrderService, private us: UserService, private sio: SocketioService, private router: Router) {
     if (this.us.get_token() === '') {
       this.router.navigateByUrl('/login');

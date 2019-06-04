@@ -15,11 +15,11 @@ import { SocketioService } from '../services/socketio.service';
 export class DashboardOrdersComponent implements OnInit {
 
   @Input()
-  private foodOrders: Order[] = [];
-  private drinkOrders: Order[] = [];
-  private dishes: Dish[] = [];
-  private drinks: Dish[] = [];
-  private role = ''; // change between waiter/chef/cashier/barman
+  foodOrders: Order[] = [];
+  drinkOrders: Order[] = [];
+  dishes: Dish[] = [];
+  drinks: Dish[] = [];
+  role = ''; // change between waiter/chef/cashier/barman
 
   constructor(private os: OrderService, private us: UserService, private ds: DishService, private router: Router, private sio: SocketioService) { }
 
@@ -60,10 +60,10 @@ export class DashboardOrdersComponent implements OnInit {
         this.us.renew().subscribe(() => {
           this.get_orders();
         },
-        (err2) => {
-          this.us.logout();
-        });
-    });
+          (err2) => {
+            this.us.logout();
+          });
+      });
   }
 
   get_dishes() {
@@ -75,9 +75,9 @@ export class DashboardOrdersComponent implements OnInit {
         this.us.renew().subscribe(() => {
           this.get_dishes();
         },
-        (err2) => {
-          this.us.logout();
-        });
+          (err2) => {
+            this.us.logout();
+          });
       }
     );
   }
@@ -98,3 +98,4 @@ export class DashboardOrdersComponent implements OnInit {
     return time;
   }
 }
+
