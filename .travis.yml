@@ -9,6 +9,7 @@ branches:
 
 script:
     - npm run build # Generates the dist folder with built angular app
+    - cp dist/frontend/index.html dist/frontend/404.html
 
 deploy:
     provider: pages
