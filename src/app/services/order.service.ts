@@ -51,13 +51,19 @@ export class OrderService {
   }
 
   order_delivered(o: Order, t: string): Observable<Order> {
-    return this.http.post<Order>(this.us.url + '/order', o, this.create_options({type: t})).pipe(
+    return this.http.put<Order>(this.us.url + '/order', o, this.create_options({type: t})).pipe(
       catchError(this.handleError)
     );
   }
 
   put_order(o: Order): Observable<Order> {
     return this.http.put<Order>(this.us.url + '/order', o, this.create_options()).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  delete_order(id: string): Observable<Order> {
+    return this.http.delete<Order>(this.us.url + '/order/:order_id', this.create_options({order_id: id})).pipe(
       catchError(this.handleError)
     );
   }

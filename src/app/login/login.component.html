@@ -8,7 +8,7 @@
     <input type="password" #passwdtxt id="inputPassword" class="form-control" placeholder="Password" required>
     <div class="checkbox mb-3">
       <label>
-        <input #checkr type="checkbox" value="remember-me"> Ricorda accesso
+        <input #checkr type="checkbox" value="remember-me" checked> Ricorda accesso
       </label>
     </div>
     <button (click)="login( usertxt.value, passwdtxt.value, checkr.checked )" class="btn btn-lg btn-primary btn-block"

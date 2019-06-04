@@ -37,6 +37,7 @@ export class LoginComponent implements OnInit {
     }, (err) => {
       console.log('Login error: ' + JSON.stringify(err.error.errormessage));
       this.errmessage = err.error.errormessage;
+      window.alert('Credenziali errate');
     });
   }
 }

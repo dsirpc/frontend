@@ -24,7 +24,7 @@ export class OrderComponent implements OnInit {
   constructor(private os: OrderService, private us: UserService, private ds: DishService, private router: Router, private route: ActivatedRoute) {
     if (this.us.get_token() === '') {
       this.router.navigateByUrl('/login');
-      }
+    }
   }
 
   ngOnInit() {
@@ -75,7 +75,7 @@ export class OrderComponent implements OnInit {
   public sortOrderFood(order) {
     for (let i = 0; i < order.food.length - 1; i++ ) {
       for (let j = 0; j < order.food.length; j++ ) {
-        if (this.getEstimatedTime(order.food[i]) > this.getEstimatedTime(order.food[j])) {
+        if (this.getEstimatedTime(order.food[i]) < this.getEstimatedTime(order.food[j])) {
           const temp = order.food[j];
           order.food[j] = order.food[i];
           order.food[i] = temp;
@@ -93,14 +93,25 @@ export class OrderComponent implements OnInit {
   }
 
   startOrder(order) {
-    this.ableCheck(order);
-    this.os.put_order(order).subscribe((o) => {});
-    (document.getElementById('btnStart') as HTMLButtonElement).disabled = true;
-    (document.getElementById('btnEnd') as HTMLButtonElement).disabled = false;
+    this.os.put_order(order).subscribe((o) => {
+
+      if (this.role === 'CHEF') {
+        this.order.food_status = 1;
+        this.ableCheck(order);
+        (document.getElementById('btnStartChef') as HTMLButtonElement).disabled = true;
+      }
+
+      if (this.role === 'BARMAN') {
+        this.order.drink_status = 1;
+        (document.getElementById('btnStartBarman') as HTMLButtonElement).disabled = true;
+        (document.getElementById('btnEnd') as HTMLButtonElement).disabled = false;
+      }
+    });
   }
 
   // spunta i cibi preparati e controlla se l'ordine è estinto
   foodReady(order, i) {
+    console.log(order);
     this.os.put_order(order).subscribe((o) => {
       (document.getElementsByName('ckFood')[i] as HTMLInputElement).disabled = true;
       this.checkOrderCompleted(order);
@@ -112,7 +123,8 @@ export class OrderComponent implements OnInit {
     this.count++;
     if ( this.count === this.order.food.length) {
       this.os.put_order(order).subscribe((o) => {
-      this.router.navigateByUrl('/dashboard');
+        this.order.food_status = 2;
+        this.router.navigateByUrl('/dashboard');
       });
     }
   }
@@ -125,16 +137,16 @@ export class OrderComponent implements OnInit {
 
   disableCheck(order) {
     // CUOCHI
-    for (let i = 0; i < order.food.length - 1; i++ ) {
-      (document.getElementsByName('ckFood')[i] as HTMLInputElement).disabled = true;
+    if (this.role === 'CHEF') {
+      for (let i = 0; i < order.food.length; i++ ) {
+        (document.getElementsByName('ckFood')[i] as HTMLInputElement).disabled = true;
+      }
     }
-    // BARMAN
-    (document.getElementById('btnEnd') as HTMLButtonElement).disabled = true;
   }
 
   ableCheck(order) {
     // CUOCHI
-    for (let i = 0; i < order.food.length - 1; i++ ) {
+    for (let i = 0; i < order.food.length; i++ ) {
       (document.getElementsByName('ckFood')[i] as HTMLInputElement).disabled = false;
     }
   }

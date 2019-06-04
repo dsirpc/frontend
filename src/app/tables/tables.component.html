@@ -70,6 +70,8 @@
                     <button *ngIf="order.food_status === 1" type="button" class="btn btn-warning">Ordine in preparazione</button>
                     &nbsp;
                     <button *ngIf="order.food_status === 2" type="button" class="btn btn-success">Ordine completato</button>
+                    &nbsp;
+                    <!--<button type="button" class="btn btn-danger" (click)="delete_order(order.id)">Cancella ordine</button>-->
                   </div>
                 </div>
               </div>

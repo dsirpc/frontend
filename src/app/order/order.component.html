@@ -25,13 +25,13 @@
             <li *ngFor="let f of order.food; let i = index" class="list-group-item d-flex justify-content-between align-items-center">
               <span>{{f}}</span>
               <span>{{getEstimatedTime(f)}}'</span>
-              <input name="ckFood" type="checkbox" (change)="foodReady(order, i)">
+              <input name="ckFood" type="checkbox" (change)="foodReady(order, i)" disabled>
             </li>
           </ul>
           <br>
           <br>
           <div>
-             <button id="btnStart" (click)="startOrder(order)" class="btn btn-lg btn-primary" type="submit">Prendi in Consegna</button>
+             <button id="btnStartChef" (click)="startOrder(order)" class="btn btn-lg btn-primary" type="submit">Prendi in Consegna</button>
           </div>
         </div>
         <!-- only for barman -->
@@ -41,18 +41,19 @@
               <span><b>Bibita</b></span>
               <span><b>Pronto</b></span>
             </li>
-            <li *ngFor="let d of order.drink; let i = index" class="list-group-item d-flex justify-content-between align-items-center">
+            <li *ngFor="let d of order.drinks; let i = index" class="list-group-item d-flex justify-content-between align-items-center">
             <span>{{d}}</span>
-            <input name="ckDrink" type="checkbox">
             </li>
           </ul>
           <br>
           <br>
           <div>
-            <button id="btnStart" (click)="startOrder(order)" class="btn btn-lg btn-primary" type="submit">Prendi in Consegna</button>
+            <button id="btnStartBarman" (click)="startOrder(order)" class="btn btn-lg btn-primary" type="submit">Prendi in Consegna</button>
           </div>
+          <br>
+          <br>
           <div>
-            <button id="btnEnd" (click)="endOrder(order)" class="btn btn-lg btn-primary" type="submit">OrdineCompletato</button>
+            <button id="btnEnd" (click)="endOrder(order)" class="btn btn-lg btn-primary" type="submit" disabled>Ordine Completato</button>
           </div>
         </div>
       </div>

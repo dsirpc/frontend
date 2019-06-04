@@ -172,7 +172,7 @@ export class TablesComponent implements OnInit {
 
   public delete_dish_duplicate() {
     for (const o of this.orders) {
-      console.log(o);
+
       const order = {id: o._id, food: [], food_qt: [], drinks: [], drink_qt: [], status: o.food_status, n_food_completed: o.food_ready, n_total_food: 0};
       for (const d of o.food) {
         order.n_total_food += 1;
@@ -407,6 +407,7 @@ export class TablesComponent implements OnInit {
     let allPayed = true;
     for (const o of this.orders) {
       if (o._id == order.id) {
+        console.log(o);
         this.os.put_order(o).subscribe((or) => {});
       } else {
         if (!o.payed) {
@@ -418,5 +419,12 @@ export class TablesComponent implements OnInit {
       this.ts.put_table(this.table).subscribe((t) => {});
     }
     this.router.navigateByUrl('/dashboard');
+  }
+
+  public delete_order(id) {
+    console.log(id);
+    this.os.delete_order(id).subscribe((o) => {
+      this.get_orders();
+    });
   }
 }

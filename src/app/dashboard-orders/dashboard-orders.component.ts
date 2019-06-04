@@ -51,7 +51,7 @@ export class DashboardOrdersComponent implements OnInit {
           if (order.food_status === 0) {
             this.foodOrders.push(order);
           }
-          if (order.drink_status === 0) {
+          if (order.drink_status === 0 && order.drinks.length > 0) {
             this.drinkOrders.push(order);
           }
         }

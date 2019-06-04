@@ -27,13 +27,15 @@ export class NewOrderAlertComponent implements OnInit {
   }
 
   public get_orders_ready() {
+    this.foodOrdersReady = [];
+    this.drinkOrdersReady = [];
     this.os.get_orders().subscribe((orders) => {
       for (const o of orders) {
         if (o.waiter === this.username) {
           if (o.food_status === 2) {
             this.foodOrdersReady.push(o);
           }
-          if (o.drink_status) {
+          if (o.drink_status === 2) {
             this.drinkOrdersReady.push(o);
           }
         }
@@ -49,6 +51,7 @@ export class NewOrderAlertComponent implements OnInit {
         this.foodOrdersReady.splice(i, 1);
         this.os.order_delivered(order, 'food').subscribe((or) => {
           this.get_orders_ready();
+          console.log(this.foodOrdersReady);
         });
       }
     }
@@ -56,7 +59,7 @@ export class NewOrderAlertComponent implements OnInit {
   }
 
   public drink_order_delivered(order) {
-    for (const o of this.foodOrdersReady) {
+    for (const o of this.drinkOrdersReady) {
       if (order._id === o._id) {
         const i = this.drinkOrdersReady.indexOf(o);
         this.drinkOrdersReady.splice(i, 1);

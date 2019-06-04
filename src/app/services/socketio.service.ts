@@ -48,9 +48,9 @@ export class SocketioService {
 
   onOrderFoodStarted(): Observable<any> {
     return new Observable((observer) => {
-      this.socket.on('orderFoodStarted', (ost) => {
-        console.log('Socket.io order started: ' + JSON.stringify(ost));
-        observer.next(ost);
+      this.socket.on('orderFoodStarted', (ofs) => {
+        console.log('Socket.io order started: ' + JSON.stringify(ofs));
+        observer.next(ofs);
       });
 
       this.socket.on('error', (err) => {
