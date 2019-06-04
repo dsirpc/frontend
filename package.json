@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod --aot --base-href ./",
+    "build": "ng build --prod --aot --base-href https://dsirpc.github.io/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
