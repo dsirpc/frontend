@@ -32,6 +32,7 @@ export class OrderComponent implements OnInit {
     this.orderId = this.route.snapshot.paramMap.get('id');
     this.get_order();
     this.get_dishes();
+    this.disableCheck(this.order);
   }
 
   get_order() {
@@ -91,6 +92,14 @@ export class OrderComponent implements OnInit {
     }
   }
 
+  startOrder(order) {
+    this.ableCheck(order);
+    this.os.put_order(order).subscribe((o) => {});
+    (document.getElementById('btnStart') as HTMLButtonElement).disabled = true;
+    (document.getElementById('btnEnd') as HTMLButtonElement).disabled = false;
+  }
+
+  // spunta i cibi preparati e controlla se l'ordine è estinto
   foodReady(order, i) {
     this.os.put_order(order).subscribe((o) => {
       (document.getElementsByName('ckFood')[i] as HTMLInputElement).disabled = true;
@@ -98,17 +107,36 @@ export class OrderComponent implements OnInit {
     });
   }
 
+  // CUOCHI scopri se l'ordine è stato completato
   checkOrderCompleted(order) {
     this.count++;
     if ( this.count === this.order.food.length) {
       this.os.put_order(order).subscribe((o) => {
-        this.router.navigateByUrl('/dashboard');
+      this.router.navigateByUrl('/dashboard');
       });
     }
   }
 
-  startOrder(order) {
+  // BARMAN
+  endOrder(order){
     this.os.put_order(order).subscribe((o) => {});
-    (document.getElementById('btnStart') as HTMLButtonElement).disabled = true;
+    this.router.navigateByUrl('/dashboard');
   }
+
+  disableCheck(order) {
+    // CUOCHI
+    for (let i = 0; i < order.food.length - 1; i++ ) {
+      (document.getElementsByName('ckFood')[i] as HTMLInputElement).disabled = true;
+    }
+    // BARMAN
+    (document.getElementById('btnEnd') as HTMLButtonElement).disabled = true;
+  }
+
+  ableCheck(order) {
+    // CUOCHI
+    for (let i = 0; i < order.food.length - 1; i++ ) {
+      (document.getElementsByName('ckFood')[i] as HTMLInputElement).disabled = false;
+    }
+  }
+
 }
