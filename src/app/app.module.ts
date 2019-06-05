@@ -14,6 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { NewOrderAlertComponent } from './new-order-alert/new-order-alert.component';
 import { OrderComponent } from './order/order.component';
+import { NewUserComponent } from './new-user/new-user.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { OrderComponent } from './order/order.component';
     LoginComponent,
     NewOrderAlertComponent,
     OrderComponent,
+    NewUserComponent,
   ],
   imports: [
     BrowserModule,

@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular
 import { tap, catchError } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
+// import { User } from '../User';
 const jwtdecode = require('jwt-decode');
 
 // import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
@@ -72,6 +73,7 @@ export class UserService {
   register(user): Observable<any> {
     const options = {
       headers: new HttpHeaders({
+        Authorization: 'Bearer ' + this.get_token(),
         'cache-control': 'no-cache',
         'Content-Type': 'application/json',
       })
@@ -83,6 +85,22 @@ export class UserService {
       })
     );
 
+  }
+
+  get_users(): Observable<any> {
+    const options = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer ' + this.get_token(),
+        'cache-control': 'no-cache',
+        'Content-Type': 'application/json',
+      })
+    };
+
+    return this.http.get(this.url + '/user', options).pipe(
+      tap((data) => {
+        console.log(JSON.stringify(data));
+      })
+    );
   }
 
   get_token() {
