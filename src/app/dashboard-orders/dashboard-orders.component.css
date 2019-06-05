@@ -1,3 +1,10 @@
 li {
-    cursor: pointer
+    cursor: pointer;
+}
+.lead{
+    text-align: center;
+    color: #0074d9;
+}
+.alert-heading{
+    text-align: center;
 }
