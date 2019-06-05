@@ -9,19 +9,13 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
 
-  role: string = 'waiter';
+  role: string;
 
-  constructor(private us: UserService, private router: Router) { }
-
-  onClickRole() {
-    this.role = this.role === 'chef' ? 'common' : 'chef';
-  }
-
-  public get getRole(): string {
-    return this.role;
-  }
+  constructor(private us: UserService, private router: Router) {}
 
   ngOnInit() {
+    this.role = this.us.get_role();
+    console.log(this.role);
   }
 
   public go_to(url) {

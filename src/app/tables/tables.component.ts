@@ -35,15 +35,15 @@ export class TablesComponent implements OnInit {
   role: string;
 
   constructor(private route: ActivatedRoute,
-    private ts: TableService,
-    private router: Router,
-    private us: UserService,
-    private os: OrderService,
-    private ds: DishService,
-    private sio: SocketioService) {
-    if (this.us.get_token() === '') {
-      this.router.navigateByUrl('/login');
-    }
+              private ts: TableService,
+              private router: Router,
+              private us: UserService,
+              private os: OrderService,
+              private ds: DishService,
+              private sio: SocketioService) {
+                if (this.us.get_token() === '') {
+                  this.router.navigateByUrl('/login');
+                }
   }
 
   ngOnInit() {
@@ -419,7 +419,7 @@ export class TablesComponent implements OnInit {
       }
     }
     if (allPayed) {
-      this.ts.put_table(this.table).subscribe((t) => { });
+      this.ts.put_table(this.table).subscribe((t) => {});
     }
     this.router.navigateByUrl('/dashboard');
   }

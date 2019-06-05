@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { Router, NavigationStart } from '@angular/router';
+
+export let location: string;
 
 @Component({
   selector: 'app-root',
@@ -7,4 +11,14 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'frontend';
+  subscription: Subscription;
+
+  constructor(private router: Router) {
+    this.subscription = router.events.subscribe((event) => {
+        if (event instanceof NavigationStart) {
+          location = event.url;
+          console.log(location + ' app.component');
+        }
+    });
+  }
 }

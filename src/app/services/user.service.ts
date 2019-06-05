@@ -3,7 +3,8 @@ import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular
 import { tap, catchError } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
-// import { User } from '../User';
+import { User } from '../User';
+import { location } from '../app.component';
 const jwtdecode = require('jwt-decode');
 
 // import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
@@ -31,7 +32,6 @@ export class UserService {
 
     return this.http.get(this.url + '/login', options).pipe(
       tap((data) => {
-        console.log(JSON.stringify(data));
         this.token = data.token;
         if (remember) {
           localStorage.setItem('token', this.token);
@@ -54,10 +54,10 @@ export class UserService {
       })
     };
 
-    console.log('Renewing token');
+    console.log(location + ' user.service');
+
     return this.http.get(this.url + '/renew', options).pipe(
       tap((data) => {
-        console.log(JSON.stringify(data));
         this.token = data.token;
         localStorage.setItem('token', this.token);
       }));
@@ -87,7 +87,7 @@ export class UserService {
 
   }
 
-  get_users(): Observable<any> {
+  get_users(): Observable<User[]> {
     const options = {
       headers: new HttpHeaders({
         Authorization: 'Bearer ' + this.get_token(),
@@ -96,7 +96,7 @@ export class UserService {
       })
     };
 
-    return this.http.get(this.url + '/user', options).pipe(
+    return this.http.get<User[]>(this.url + '/user', options).pipe(
       tap((data) => {
         console.log(JSON.stringify(data));
       })

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
+import { User } from '../User';
 
 @Component({
   selector: 'app-new-user',
@@ -10,7 +11,7 @@ import { Router } from '@angular/router';
 export class NewUserComponent implements OnInit {
 
   roles = ['Cassiere', 'Cuoco', 'Barman', 'Cameriere'];
-  users = [];
+  users: User[] = [];
   user = {username: '', password: '', role: ''};
 
   constructor(private us: UserService, private router: Router) { }
@@ -54,13 +55,15 @@ export class NewUserComponent implements OnInit {
       return;
     }
 
-    const role = (document.getElementById('user') as HTMLSelectElement).value;
+    const role = (document.getElementById('role') as HTMLSelectElement).value;
     if (role === 'Ruolo') {
       window.alert('Ruolo mancante!');
       return;
     }
 
+    console.log(this.users);
     for (const user of this.users) {
+      console.log(user.username);
       if (user.username === username) {
         window.alert('Username già esistente');
         return;

@@ -12,7 +12,7 @@
   <div class="tab-content" id="nav-tabContent">
     Username<input id="user" type="text" placeholder="Username" value="" (change)="user_changed($event.target.value)">
     <br>
-    Password<input id="pwd" type="text" placeholder="Password" value="" (change)="password_changed($event.target.value)">
+    Password<input id="pwd" type="password" placeholder="Password" value="" (change)="password_changed($event.target.value)">
     <br>
     Ruolo<select id="role">
       <option selected>Ruolo</option>
@@ -20,6 +20,6 @@
     </select>
     <br>
     <br>
-    <button class="btn btn-outline-secondary" type="button" (click)="create_user()"></button>
+    <button class="btn btn-outline-secondary" type="button" (click)="create_user()">Crea utente</button>
   </div>
 </div>
