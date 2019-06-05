@@ -58,20 +58,21 @@ export class TablesComponent implements OnInit {
       this.sio.connect();
       this.sio.onOrderSent().subscribe((o) => {
         this.get_orders();
-        this.router.navigateByUrl('tables/' + this.tableNumber);
       });
       this.sio.onOrderFoodStarted().subscribe((o) => {
         this.get_orders();
-        this.router.navigateByUrl('tables/' + this.tableNumber);
       });
       this.sio.onDishCompleted().subscribe((o) => {
         this.get_orders();
-        this.router.navigateByUrl('tables/' + this.tableNumber);
       });
       this.sio.onOrderFoodCompleted().subscribe((o) => {
         this.get_orders();
-        (document.getElementById('payBtn') as HTMLButtonElement).disabled = false;
-        this.router.navigateByUrl('tables/' + this.tableNumber);
+      });
+      this.sio.onOrderDrinkDelivered().subscribe((o) => {
+        this.get_orders();
+      });
+      this.sio.onOrderFoodDelivered().subscribe((o) => {
+        this.get_orders();
       });
     }
   }
@@ -348,9 +349,6 @@ export class TablesComponent implements OnInit {
         for (let j = 0; j < qt; j++) {
           food.push((foodEl[i] as HTMLSelectElement).value);
         }
-      } else {
-        window.alert('Mancano le quantità o i piatti');
-        return;
       }
     }
 

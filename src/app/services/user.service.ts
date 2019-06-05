@@ -20,7 +20,6 @@ export class UserService {
   // public url = 'http://localhost:8080';
 
   login(username: string, password: string, remember: boolean): Observable<any> {
-
     console.log('Login: ' + username + ' ' + password);
     const options = {
       headers: new HttpHeaders({
@@ -36,11 +35,11 @@ export class UserService {
         if (remember) {
           localStorage.setItem('token', this.token);
         }
-      }));
+      })
+    );
   }
 
   renew(): Observable<any> {
-
     const tk = localStorage.getItem('token');
     if (!tk || tk.length < 1) {
       return throwError({ error: { errormessage: 'No token found in local storage' } });
@@ -51,7 +50,8 @@ export class UserService {
         Authorization: 'Bearer ' + tk,
         'cache-control': 'no-cache',
         'Content-Type': 'application/json',
-      })
+      }),
+      params: new HttpParams( {fromObject: {l: location}} )
     };
 
     console.log(location + ' user.service');
@@ -60,7 +60,8 @@ export class UserService {
       tap((data) => {
         this.token = data.token;
         localStorage.setItem('token', this.token);
-      }));
+      })
+    );
   }
 
   logout() {

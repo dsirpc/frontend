@@ -55,25 +55,23 @@
                     </tbody>
                   </table>
                   <!-- price -->
-                  <div *ngIf="role === 'CASHER'">
-                    <button type="button" class="btn btn-info">
-                      Totale <span class="badge badge-light">{{get_bill(order.id)}}&euro;</span>
-                    </button>
-                    &nbsp;
-                    <!--buttons -->
-                    <button id="payBtn" type="button" class="btn btn-primary" (click)="pay(order)" disabled="true">Paga</button>
-                    &nbsp;
-                    <span>Piatti completati: {{order.n_food_completed}}/{{order.n_total_food}}</span>
-                    &nbsp;
-                    <button *ngIf="order.food_status === 0" type="button" class="btn btn-danger">Ordine non ancora iniziato</button>
-                    &nbsp;
-                    <button *ngIf="order.food_status === 1" type="button" class="btn btn-warning">Ordine in preparazione</button>
-                    &nbsp;
-                    <button *ngIf="order.food_status === 2" type="button" class="btn btn-success">Ordine completato</button>
-                    &nbsp;
-                    <button *ngIf="order.food_status === 3" type="button" class="btn btn-success">Ordine consegnato</button>
-                    <!--<button type="button" class="btn btn-danger" (click)="delete_order(order.id)">Cancella ordine</button>-->
-                  </div>
+                  <button type="button" class="btn btn-info">
+                    Totale <span class="badge badge-light">{{get_bill(order.id)}}&euro;</span>
+                  </button>
+                  &nbsp;
+                  <!--buttons -->
+                  <button id="payBtn" type="button" class="btn btn-primary" (click)="pay(order)" [disabled]="order.food_status !== 3 && order.food.length > 0">Paga</button>
+                  &nbsp;
+                  <span *ngIf="order.food.length > 0">Piatti completati: {{order.n_food_completed}}/{{order.n_total_food}}</span>
+                  &nbsp;
+                  <button *ngIf="order.food_status === 0 && order.food.length > 0" type="button" class="btn btn-danger">Ordine non ancora iniziato</button>
+                  &nbsp;
+                  <button *ngIf="order.food_status === 1" type="button" class="btn btn-warning">Ordine in preparazione</button>
+                  &nbsp;
+                  <button *ngIf="order.food_status === 2" type="button" class="btn btn-success">Ordine completato</button>
+                  &nbsp;
+                  <button *ngIf="order.food_status === 3" type="button" class="btn btn-success">Ordine consegnato</button>
+                  <!--<button type="button" class="btn btn-danger" (click)="delete_order(order.id)">Cancella ordine</button>-->
                 </div>
               </div>
               &nbsp;

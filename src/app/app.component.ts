@@ -17,7 +17,6 @@ export class AppComponent {
     this.subscription = router.events.subscribe((event) => {
         if (event instanceof NavigationStart) {
           location = event.url;
-          console.log(location + ' app.component');
         }
     });
   }

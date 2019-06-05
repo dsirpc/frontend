@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
   login(username: string, password: string, remember: boolean) {
     this.us.login(username, password, remember).subscribe((d) => {
       this.errmessage = undefined;
-      this.router.navigate(['/dashboard']);
+      this.router.navigateByUrl('/dashboard');
     }, (err) => {
       console.log('Login error: ' + JSON.stringify(err.error.errormessage));
       this.errmessage = err.error.errormessage;

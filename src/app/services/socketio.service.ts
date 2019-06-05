@@ -145,6 +145,44 @@ export class SocketioService {
     });
   }
 
+  onOrderFoodDelivered(): Observable<any> {
+    return new Observable((observer) => {
+      this.socket.on('orderFoodDelivered', (ofd) => {
+        console.log('Socket.io order delivered: ' + JSON.stringify(ofd));
+        observer.next(ofd);
+      });
+
+      this.socket.on('error', (err) => {
+        console.log('Socket.io error: ' + err );
+        observer.error( err );
+      });
+
+      // When the consumer unsubscribes, clean up data ready for next subscription.
+      return { unsubscribe() {
+        this.socket.disconnect();
+      }};
+    });
+  }
+
+  onOrderDrinkDelivered(): Observable<any> {
+    return new Observable((observer) => {
+      this.socket.on('orderDrinkDelivered', (odd) => {
+        console.log('Socket.io order delivered: ' + JSON.stringify(odd));
+        observer.next(odd);
+      });
+
+      this.socket.on('error', (err) => {
+        console.log('Socket.io error: ' + err );
+        observer.error( err );
+      });
+
+      // When the consumer unsubscribes, clean up data ready for next subscription.
+      return { unsubscribe() {
+        this.socket.disconnect();
+      }};
+    });
+  }
+
   onTableFree(): Observable<any> {
     return new Observable((observer) => {
       this.socket.on('tableFree', (tf) => {

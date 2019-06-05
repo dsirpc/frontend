@@ -30,7 +30,7 @@
         <ul class="list-group">
           <li *ngFor="let order of suspendedDrinkOrders" (click)="loadOrderPage(order._id)" class="list-group-item d-flex justify-content-between align-items-center">
             <span>Tavolo {{order.table_number}}</span>
-            <span>{{order.drink.length}} Bibite</span>
+            <span>{{order.drinks.length}} Bibite</span>
           </li>
         </ul>
       </div>

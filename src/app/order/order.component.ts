@@ -32,18 +32,23 @@ export class OrderComponent implements OnInit {
     this.orderId = this.route.snapshot.paramMap.get('id');
     this.get_order();
     this.get_dishes();
-    this.disableCheck(this.order);
+    // this.disableCheck(this.order);
   }
 
-  get_order() {
+  public get_order() {
     this.os.get_orders().subscribe(
       (orders) => {
         for (const order of orders) {
-          if (order._id === this.orderId) {
+          if (order._id == this.orderId) {
             this.order = order;
             if (this.role === 'CHEF') {
               this.sortOrderFood(order);
             }
+            /*if (this.order.drink_status === 1) {
+              (document.getElementById('btnStartBarman') as HTMLButtonElement).disabled = true;
+              (document.getElementById('btnEnd') as HTMLButtonElement).disabled = false;
+            }*/
+            return;
           }
         }
       },
@@ -58,7 +63,7 @@ export class OrderComponent implements OnInit {
     );
   }
 
-  get_dishes() {
+  public get_dishes() {
     this.ds.get_dishes().subscribe(
       (dishes) => { this.dishes = dishes; },
       (err) => {
@@ -95,13 +100,13 @@ export class OrderComponent implements OnInit {
   public startOrder(order) {
     this.os.put_order(order).subscribe((o) => {
       if (this.role === 'CHEF') {
-        this.order.food_status = 1;
+        this.get_order();
         this.ableCheck(order);
         (document.getElementById('btnStartChef') as HTMLButtonElement).disabled = true;
       }
 
       if (this.role === 'BARMAN') {
-        this.order.drink_status = 1;
+        this.get_order();
         (document.getElementById('btnStartBarman') as HTMLButtonElement).disabled = true;
         (document.getElementById('btnEnd') as HTMLButtonElement).disabled = false;
       }
@@ -110,6 +115,7 @@ export class OrderComponent implements OnInit {
 
   public foodReady(order, i) {
     this.os.put_order(order).subscribe((o) => {
+      this.get_order();
       (document.getElementsByName('ckFood')[i] as HTMLInputElement).disabled = true;
       this.checkOrderCompleted(order);
     });

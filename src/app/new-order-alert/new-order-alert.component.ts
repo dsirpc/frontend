@@ -24,6 +24,9 @@ export class NewOrderAlertComponent implements OnInit {
     this.sio.onOrderFoodCompleted().subscribe((o) => {
       this.get_orders_ready();
     });
+    this.sio.onOrderDrinkCompleted().subscribe((o) => {
+      this.get_orders_ready();
+    });
   }
 
   public get_orders_ready() {

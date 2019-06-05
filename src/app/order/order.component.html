@@ -22,16 +22,16 @@
                 <span><b>Tempo di preparazione</b></span>
                 <span><b>Pronto</b></span>
             </li>
-            <li *ngFor="let f of order.food; let i = index" class="list-group-item d-flex justify-content-between align-items-center">
+            <li *ngFor="let f of order.food ; let i = index" class="list-group-item d-flex justify-content-between align-items-center">
               <span>{{f}}</span>
               <span>{{getEstimatedTime(f)}}'</span>
-              <input name="ckFood" type="checkbox" (change)="foodReady(order, i)" disabled>
+              <input name="ckFood" type="checkbox" (change)="foodReady(order, i)" [disabled]="order.food_status !== 1">
             </li>
           </ul>
           <br>
           <br>
           <div>
-             <button id="btnStartChef" (click)="startOrder(order)" class="btn btn-lg btn-primary" type="submit">Prendi in Consegna</button>
+             <button id="btnStartChef" (click)="startOrder(order)" class="btn btn-lg btn-primary" type="submit" [disabled]="order.food_status !== 0">Prendi in Consegna</button>
           </div>
         </div>
         <!-- only for barman -->
@@ -41,19 +41,19 @@
               <span><b>Bibita</b></span>
               <span><b>Pronto</b></span>
             </li>
-            <li *ngFor="let d of order.drinks; let i = index" class="list-group-item d-flex justify-content-between align-items-center">
+            <li *ngFor="let d of order.drinks ; let i = index" class="list-group-item d-flex justify-content-between align-items-center">
             <span>{{d}}</span>
             </li>
           </ul>
           <br>
           <br>
           <div>
-            <button id="btnStartBarman" (click)="startOrder(order)" class="btn btn-lg btn-primary" type="submit">Prendi in Consegna</button>
+            <button id="btnStartBarman" (click)="startOrder(order)" class="btn btn-lg btn-primary" type="submit" [disabled]="order.drink_status === 1">Prendi in Consegna</button>
           </div>
           <br>
           <br>
           <div>
-            <button id="btnEnd" (click)="endOrder(order)" class="btn btn-lg btn-primary" type="submit" disabled>Ordine Completato</button>
+            <button id="btnEnd" (click)="endOrder(order)" class="btn btn-lg btn-primary" type="submit" [disabled]="order.drink_status !== 1">Ordine Completato</button>
           </div>
         </div>
       </div>
