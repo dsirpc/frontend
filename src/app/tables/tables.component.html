@@ -6,15 +6,15 @@
     <nav>
       <!-- nav-tabs options -->
       <div class="nav nav-tabs" id="nav-tab" role="tablist">
-        <a *ngIf="role === 'CASHER'" class="nav-item nav-link active" id="order-details-tab" data-toggle="tab" href="#order-details" role="tab"
-          aria-controls="order-details" aria-selected="true">Ordine</a>
-        <a *ngIf="role === 'WAITER'" class="nav-item nav-link active" id="new-order-tab" data-toggle="tab" href="#new-order" role="tab"
-          aria-controls="new-order" aria-selected="false">Nuovo Ordine</a>
+        <a *ngIf="role === 'CASHER'" class="nav-item nav-link active" id="order-details-tab" data-toggle="tab"
+          href="#order-details" role="tab" aria-controls="order-details" aria-selected="true">Ordine</a>
+        <a *ngIf="role === 'WAITER'" class="nav-item nav-link active" id="new-order-tab" data-toggle="tab"
+          href="#new-order" role="tab" aria-controls="new-order" aria-selected="false">Nuovo Ordine</a>
       </div>
     </nav>
     <!-- tabs content -->
     <div class="tab-content" id="nav-tabContent">
-      <!-- order details -->
+      <!-- CASHER order details -->
       <div *ngIf="role === 'CASHER'">
         <div class="tab-pane fade show active" id="order-details" role="tabpanel" aria-labelledby="order-details-tab">
           &nbsp;
@@ -28,8 +28,27 @@
                   Ordine: <b>{{order.id}}</b>
                 </div>
                 <div class="card-body">
-                  <!-- <h5 class="card-title">Special title treatment</h5> -->
-
+                  <h5 class="card-title">Info:</h5>
+                  <p>Status <i class="fas fa-star-half-alt"></i> &nbsp;
+                    <span *ngIf="order.food_status === 0 && order.food.length > 0"
+                      class="badge badge-pill badge-danger">
+                      Ordine non ancora iniziato
+                    </span>
+                    <span *ngIf="order.food_status === 1" class="badge badge-pill badge-warning">
+                      Ordine in preparazione
+                    </span>
+                    <span *ngIf="order.food_status === 2" class="badge badge-pill badge-success">
+                      Ordine non ancora iniziato
+                    </span>
+                    <span *ngIf="order.food_status === 3" class="badge badge-pill badge-success">
+                      Ordine consegnato
+                    </span>
+                  </p>
+                  <p>Piatti completati <i class="fas fa-spinner"></i> &nbsp;
+                    <span class="badge badge-pill badge-info" *ngIf="order.food.length > 0">
+                      {{order.n_food_completed}}/{{order.n_total_food}}</span>
+                  </p>
+                  <h5 class="card-title">Dettagli:</h5>
                   <!--- order table with info -->
                   <table class="table table-sm table-bordered">
                     <thead class="thead-light">
@@ -55,22 +74,16 @@
                     </tbody>
                   </table>
                   <!-- price -->
-                  <button type="button" class="btn btn-info">
-                    Totale <span class="badge badge-light">{{get_bill(order.id)}}&euro;</span>
+                  <button type="button" class="btn btn-outline-info">
+                    Totale <span class="badge">{{get_bill(order.id)}}&euro;</span>
                   </button>
                   &nbsp;
                   <!--buttons -->
-                  <button id="payBtn" type="button" class="btn btn-primary" (click)="pay(order)" [disabled]="order.food_status !== 3 && order.food.length > 0">Paga</button>
+                  <button id="payBtn" type="button" class="btn btn-outline-primary" (click)="pay(order)"
+                    [disabled]="order.food_status !== 3 && order.food.length > 0">
+                    Paga <i class="fas fa-credit-card"></i>
+                  </button>
                   &nbsp;
-                  <span *ngIf="order.food.length > 0">Piatti completati: {{order.n_food_completed}}/{{order.n_total_food}}</span>
-                  &nbsp;
-                  <button *ngIf="order.food_status === 0 && order.food.length > 0" type="button" class="btn btn-danger">Ordine non ancora iniziato</button>
-                  &nbsp;
-                  <button *ngIf="order.food_status === 1" type="button" class="btn btn-warning">Ordine in preparazione</button>
-                  &nbsp;
-                  <button *ngIf="order.food_status === 2" type="button" class="btn btn-success">Ordine completato</button>
-                  &nbsp;
-                  <button *ngIf="order.food_status === 3" type="button" class="btn btn-success">Ordine consegnato</button>
                   <!--<button type="button" class="btn btn-danger" (click)="delete_order(order.id)">Cancella ordine</button>-->
                 </div>
               </div>
@@ -79,7 +92,7 @@
           </div>
         </div>
       </div>
-      <!-- new order -->
+      <!-- WAITER new order -->
       <div *ngIf="role === 'WAITER'">
         <div class="tab-pane fade show active" id="new-order" role="tabpanel" aria-labelledby="new-order-tab">
           <br>
@@ -141,7 +154,8 @@
             </div>
             <li class="list-group-item d-flex justify-content-between align-items-center">
               <button class="btn btn-outline-secondary" type="button" (click)="add_drink_row()"> Aggiungi riga</button>
-              <button class="btn btn-outline-secondary" type="button" (click)="delete_drink_row()"> Elimina riga</button>
+              <button class="btn btn-outline-secondary" type="button" (click)="delete_drink_row()"> Elimina
+                riga</button>
             </li>
           </ul>
           <br>

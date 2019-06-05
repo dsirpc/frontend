@@ -1,12 +1,17 @@
 <app-navbar></app-navbar>
 
-<div class="mt-2 px-2">
+<div class="mt-2 px-1">
   <div class="container">
 
-    <h1>{{pageTitle}}</h1>
+    <h1>{{pageTitle}}
+      <span *ngIf="role === 'CHEF'">👨‍🍳👩‍🍳</span>
+      <span *ngIf="role === 'CASHER'">💳</span>
+      <span *ngIf="role === 'WAITER'">🍴</span>
+      <span *ngIf="role === 'BARMAN'">🍷🍺</span>
+    </h1>
 
     <!-- tables view only for waiters -->
-    
+
 
     <!-- tables view only for cashier -->
     <div class="container" *ngIf="role === 'CASHER'">

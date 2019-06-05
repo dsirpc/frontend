@@ -14,8 +14,8 @@
         <a class="nav-link" (click)="go_to('/stats')">Statistiche</a>
       </li>
       <li *ngIf="role === 'CASHER'" class="nav-item">
-          <a class="nav-link" (click)="go_to('/newUser')">Nuovo utente</a>
-        </li>
+        <a class="nav-link" (click)="go_to('/newUser')">Nuovo utente</a>
+      </li>
       <!-- <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">
@@ -28,9 +28,12 @@
           <a class="dropdown-item" href="#">Something else here</a>
         </div>
       </li> -->
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link" (click)="logout()">Logout</a>
-      </li>
+      </li> -->
     </ul>
+    <button class="btn btn-sm btn-outline-info" type="button" (click)="logout()">
+      Logout <i class="fas fa-sign-out-alt"></i>
+    </button>
   </div>
 </nav>
