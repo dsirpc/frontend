@@ -61,7 +61,7 @@
                     </button>
                     &nbsp;
                     <!--buttons -->
-                    <button id="payBtn" type="button" class="btn btn-primary" (click)="pay(order)" disabled>Paga</button>
+                    <button id="payBtn" type="button" class="btn btn-primary" (click)="pay(order)" disabled="true">Paga</button>
                     &nbsp;
                     <span>Piatti completati: {{order.n_food_completed}}/{{order.n_total_food}}</span>
                     &nbsp;
@@ -71,6 +71,7 @@
                     &nbsp;
                     <button *ngIf="order.food_status === 2" type="button" class="btn btn-success">Ordine completato</button>
                     &nbsp;
+                    <button *ngIf="order.food_status === 3" type="button" class="btn btn-success">Ordine consegnato</button>
                     <!--<button type="button" class="btn btn-danger" (click)="delete_order(order.id)">Cancella ordine</button>-->
                   </div>
                 </div>

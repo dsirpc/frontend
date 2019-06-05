@@ -49,17 +49,23 @@ export class DashboardOrdersComponent implements OnInit {
     this.os.get_orders().subscribe(
       (orders) => {
         for (const order of orders) {
-          if (order.food_status === 0) {
-            this.foodOrders.push(order);
+          if (this.role === 'CHEF') {
+            if (order.food_status === 0) {
+              this.foodOrders.push(order);
+            } else {
+              if (order.food_status === 1 && order.chef === this.us.get_username()) {
+                this.suspendedFoodOrders.push(order);
+              }
+            }
           }
-          if (order.drink_status === 0 && order.drinks.length > 0) {
-            this.drinkOrders.push(order);
-          }
-          if (order.food_status === 1 && order.chef === this.us.get_username()) {
-            this.suspendedFoodOrders.push(order);
-          }
-          if (order.drink_status === 1 && order.barman === this.us.get_username()) {
-            this.suspendedDrinkOrders.push(order);
+          if (this.role === 'BARMAN') {
+            if (order.drink_status === 0 && order.drinks.length > 0) {
+              this.drinkOrders.push(order);
+            } else {
+              if (order.drink_status === 1 && order.barman === this.us.get_username()) {
+                this.suspendedDrinkOrders.push(order);
+              }
+            }
           }
         }
       },
