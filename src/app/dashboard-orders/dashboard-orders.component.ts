@@ -48,6 +48,10 @@ export class DashboardOrdersComponent implements OnInit {
   public get_orders() {
     this.os.get_orders().subscribe(
       (orders) => {
+        this.foodOrders = [];
+        this.drinkOrders = [];
+        this.suspendedDrinkOrders = [];
+        this.suspendedFoodOrders = [];
         for (const order of orders) {
           if (this.role === 'CHEF') {
             if (order.food_status === 0) {
