@@ -36,15 +36,15 @@ export class TablesComponent implements OnInit {
   pay = false;
 
   constructor(private route: ActivatedRoute,
-              private ts: TableService,
-              private router: Router,
-              private us: UserService,
-              private os: OrderService,
-              private ds: DishService,
-              private sio: SocketioService) {
-                if (this.us.get_token() === '') {
-                  this.router.navigateByUrl('/login');
-                }
+    private ts: TableService,
+    private router: Router,
+    private us: UserService,
+    private os: OrderService,
+    private ds: DishService,
+    private sio: SocketioService) {
+    if (this.us.get_token() === '') {
+      this.router.navigateByUrl('/login');
+    }
   }
 
   ngOnInit() {
@@ -287,11 +287,11 @@ export class TablesComponent implements OnInit {
   public set_food(row, dish) {
     (document.getElementById('selection-food-' + row) as HTMLSelectElement).value = dish;
     if (dish === 'Piatto') {
-      (document.getElementById('price-food-' + row) as HTMLSpanElement).textContent = '' + 0;
+      (document.getElementById('price-food-' + row) as HTMLInputElement).value = '' + 0;
     } else {
       for (const d of this.food) {
         if (d.name === dish) {
-          (document.getElementById('price-food-' + row) as HTMLSpanElement).textContent = '' + d.price;
+          (document.getElementById('price-food-' + row) as HTMLInputElement).value = '' + d.price;
         }
       }
     }
@@ -334,11 +334,11 @@ export class TablesComponent implements OnInit {
   public set_drink(row, drink) {
     (document.getElementById('selection-drink-' + row) as HTMLSelectElement).value = drink;
     if (drink === 'Bibita') {
-      (document.getElementById('price-drink-' + row) as HTMLSpanElement).textContent = '' + 0;
+      (document.getElementById('price-drink-' + row) as HTMLInputElement).value = '' + 0;
     } else {
       for (let i = 0; i < this.food.length; i++) {
         if (this.drinks[i].name === drink) {
-          (document.getElementById('price-drink-' + row) as HTMLSpanElement).textContent = '' + this.drinks[i].price;
+          (document.getElementById('price-drink-' + row) as HTMLInputElement).value = '' + this.drinks[i].price;
         }
       }
     }
