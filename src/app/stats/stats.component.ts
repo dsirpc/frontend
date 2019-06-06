@@ -27,9 +27,10 @@ export class StatsComponent implements OnInit {
   dishesChefs = [];
   dishesWaiters = [];
   dishesBarmans = [];
-  criterioChef: number;
-  criterioWaiter: number;
-  criterioBarman: number;
+  criterioChef: number = 0;
+  criterioWaiter: number = 0;
+  criterioBarman: number = 0;
+  criterioRole: number = 0;
 
   constructor(private ts: TableService, private os: OrderService, private us: UserService, private sio: SocketioService, private router: Router) {
     if (this.us.get_token() === '') {
@@ -65,10 +66,10 @@ export class StatsComponent implements OnInit {
     this.sio.onOrderDrinkCompleted().subscribe((o) => {
       this.get_orders();
     });
-    this.criterioChef = parseInt((document.getElementById('CriterioChef') as HTMLSelectElement).value, 10);
-    this.criterioWaiter = parseInt((document.getElementById('CriterioWaiter') as HTMLSelectElement).value, 10);
-    this.criterioBarman = parseInt((document.getElementById('CriterioBarman') as HTMLSelectElement).value, 10);
-    console.log(this.criterioBarman);
+    this.criterioChef = 0;
+    this.criterioWaiter = 0;
+    this.criterioBarman = 0;
+    this.criterioRole = 0;
   }
 
   public get_occupied_tables() {
@@ -79,28 +80,28 @@ export class StatsComponent implements OnInit {
         }
       }
     },
-    (err) => {
-      this.us.renew().subscribe(() => {
-        this.get_occupied_tables();
-      },
-        (err2) => {
-          this.us.logout();
-        });
-    });
+      (err) => {
+        this.us.renew().subscribe(() => {
+          this.get_occupied_tables();
+        },
+          (err2) => {
+            this.us.logout();
+          });
+      });
   }
 
   public get_number_tables() {
     this.ts.get_tables().subscribe((tables) => {
       this.numberTables = tables.length;
     },
-    (err) => {
-      this.us.renew().subscribe(() => {
-        this.get_number_tables();
-      },
-        (err2) => {
-          this.us.logout();
-        });
-    });
+      (err) => {
+        this.us.renew().subscribe(() => {
+          this.get_number_tables();
+        },
+          (err2) => {
+            this.us.logout();
+          });
+      });
   }
 
   public get_orders() {
@@ -109,26 +110,26 @@ export class StatsComponent implements OnInit {
         if (order.food_status === 0) {
           this.ordersSent++;
         } else {
-            if (order.food_status === 1) {
-              this.ordersInProgess++;
-            } else {
-                if (order.food_status === 2) {
-                  this.ordersCompleted++;
-                }
+          if (order.food_status === 1) {
+            this.ordersInProgess++;
+          } else {
+            if (order.food_status === 2) {
+              this.ordersCompleted++;
             }
+          }
         }
       }
       this.orders = orders;
       this.get_users();
     },
-    (err) => {
-      this.us.renew().subscribe(() => {
-        this.get_orders();
-      },
-        (err2) => {
-          this.us.logout();
-        });
-    });
+      (err) => {
+        this.us.renew().subscribe(() => {
+          this.get_orders();
+        },
+          (err2) => {
+            this.us.logout();
+          });
+      });
   }
 
   public get_users() {
@@ -142,29 +143,29 @@ export class StatsComponent implements OnInit {
       for (const user of users) {
         switch (user.role) {
           case 'CHEF':
-            this.ordersChefs.push({username: user.username, orders: 0, role: user.role});
-            this.dishesChefs.push({username: user.username, dishes: 0, role: user.role});
+            this.ordersChefs.push({ username: user.username, orders: 0, role: user.role });
+            this.dishesChefs.push({ username: user.username, dishes: 0, role: user.role });
             break;
           case 'WAITER':
-            this.ordersWaiters.push({username: user.username, orders: 0, role: user.role});
-            this.dishesWaiters.push({username: user.username, dishes: 0, role: user.role});
+            this.ordersWaiters.push({ username: user.username, orders: 0, role: user.role });
+            this.dishesWaiters.push({ username: user.username, dishes: 0, role: user.role });
             break;
           case 'BARMAN':
-            this.ordersBarmans.push({username: user.username, orders: 0, role: user.role});
-            this.dishesBarmans.push({username: user.username, dishes: 0, role: user.role});
+            this.ordersBarmans.push({ username: user.username, orders: 0, role: user.role });
+            this.dishesBarmans.push({ username: user.username, dishes: 0, role: user.role });
             break;
         }
       }
       this.get_stats(users);
     },
-    (err) => {
-      this.us.renew().subscribe(() => {
-        this.get_users();
-      },
-        (err2) => {
-          this.us.logout();
-        });
-    });
+      (err) => {
+        this.us.renew().subscribe(() => {
+          this.get_users();
+        },
+          (err2) => {
+            this.us.logout();
+          });
+      });
   }
 
   public get_stats(users) {
@@ -299,6 +300,10 @@ export class StatsComponent implements OnInit {
 
   public change_criterio_barman() {
     this.criterioBarman = parseInt((document.getElementById('CriterioBarman') as HTMLSelectElement).value, 10);
+  }
+
+  public change_criterio_role() {
+    this.criterioRole = parseInt((document.getElementById('CriterioRole') as HTMLSelectElement).value, 10);
   }
 
 }

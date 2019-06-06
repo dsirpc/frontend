@@ -52,108 +52,141 @@
       <hr>
       &nbsp;
       <h3>Statistiche sui dipendenti</h3>
-      <!-- employees -->
-      <select id="CriterioChef" (change)="change_criterio_chef()">
-        <option selected value="1">Numero ordini</option>
-        <option value="2">Numero piatti</option>
-      </select>
-      <table class="table table-sm table-bordered">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Dipendente</th>
-            <th scope="col">Ruolo</th>
-            <th scope="col" *ngIf="criterioChef === 1">Ordini eseguiti</th>
-            <th scope="col" *ngIf="criterioChef === 2">Piatti eseguiti</th>
-          </tr>
-        </thead>
-        <tbody>
-          <div *ngIf="criterioChef === 1">
-            <tr *ngFor="let chef of ordersChefs; let i = index">
-              <th scope="row">{{i + 1}}</th>
-              <td>{{chef.username}}</td>
-              <td>{{chef.role}}</td>
-              <td>{{chef.orders}}</td>
-            </tr>
-          </div>
-          <div *ngIf="criterioChef === 2">
-            <tr *ngFor="let chef of dishesChefs; let i = index">
-              <th scope="row">{{i + 1}}</th>
-              <td>{{chef.username}}</td>
-              <td>{{chef.role}}</td>
-              <td>{{chef.dishes}}</td>
-            </tr>
-          </div>
-        </tbody>
-      </table>
 
-      <select id="CriterioWaiter" (change)="change_criterio_waiter()">
-          <option selected value="1">Numero ordini</option>
-          <option value="2">Numero piatti</option>
-        </select>
-        <table class="table table-sm table-bordered">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label><b>Ruolo</b></label>
+          <select id="CriterioRole" (change)="change_criterio_role()" class="form-control">
+            <option selected value="0">Seleziona</option>
+            <option value="1">Chef</option>
+            <option value="2">Cameriere</option>
+            <option value="3">Barman</option>
+          </select>
+        </div>
+        <div class="form-group col-md-6">
+          <label><b>Criterio</b></label>
+          <!-- init -->
+          <ng-container *ngIf="criterioRole === 0">
+            <fieldset disabled>
+              <select class="form-control">
+                <option selected value="0">Seleziona</option>
+              </select>
+            </fieldset>
+          </ng-container>
+          <!-- menu chef-->
+          <ng-container *ngIf="criterioRole === 1">
+            <select id="CriterioChef" (change)="change_criterio_chef()" class="form-control">
+              <option selected value="0">Seleziona</option>
+              <option value="1">Numero ordini</option>
+              <option value="2">Numero piatti</option>
+            </select>
+          </ng-container>
+          <!-- menu waiter-->
+          <ng-container *ngIf="criterioRole === 2">
+            <select id="CriterioWaiter" (change)="change_criterio_waiter()" class="form-control">
+              <option selected value="0">Seleziona</option>
+              <option value="1">Numero ordini</option>
+              <option value="2">Numero piatti</option>
+            </select>
+          </ng-container>
+          <!-- menu barman-->
+          <ng-container *ngIf="criterioRole === 3">
+            <select id="CriterioBarman" (change)="change_criterio_barman()" class="form-control">
+              <option selected value="0">Seleziona</option>
+              <option value="1">Numero ordini</option>
+              <option value="2">Numero piatti</option>
+            </select>
+          </ng-container>
+        </div>
+      </div>
+
+      <!-- chef -->
+      <div *ngIf="criterioRole === 1 && criterioChef !== 0">
+        <table class="table table-sm table-striped">
           <thead>
             <tr>
               <th scope="col">#</th>
               <th scope="col">Dipendente</th>
-              <th scope="col">Ruolo</th>
+              <th scope="col" *ngIf="criterioChef === 1">Ordini eseguiti</th>
+              <th scope="col" *ngIf="criterioChef === 2">Piatti eseguiti</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngIf="criterioChef === 1">
+              <tr *ngFor="let chef of ordersChefs; let i = index">
+                <th scope="row">{{i + 1}}</th>
+                <td>{{chef.username}}</td>
+                <td>{{chef.orders}}</td>
+              </tr>
+            </ng-container>
+            <ng-container *ngIf="criterioChef === 2">
+              <tr *ngFor="let chef of dishesChefs; let i = index">
+                <th scope="row">{{i + 1}}</th>
+                <td>{{chef.username}}</td>
+                <td>{{chef.dishes}}</td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+      <!-- waiter -->
+      <div *ngIf="criterioRole === 2 && criterioWaiter !== 0">
+        <table class="table table-sm table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Dipendente</th>
               <th scope="col" *ngIf="criterioWaiter === 1">Ordini eseguiti</th>
               <th scope="col" *ngIf="criterioWaiter === 2">Piatti eseguiti</th>
             </tr>
           </thead>
           <tbody>
-            <div *ngIf="criterioWaiter === 1">
+            <ng-container *ngIf="criterioWaiter === 1">
               <tr *ngFor="let waiter of ordersWaiters; let i = index">
                 <th scope="row">{{i + 1}}</th>
                 <td>{{waiter.username}}</td>
-                <td>{{waiter.role}}</td>
                 <td>{{waiter.orders}}</td>
               </tr>
-            </div>
-            <div *ngIf="criterioWaiter === 2">
+            </ng-container>
+            <ng-container *ngIf="criterioWaiter === 2">
               <tr *ngFor="let waiter of dishesWaiters; let i = index">
                 <th scope="row">{{i + 1}}</th>
                 <td>{{waiter.username}}</td>
-                <td>{{waiter.role}}</td>
                 <td>{{waiter.dishes}}</td>
               </tr>
-            </div>
+            </ng-container>
           </tbody>
         </table>
-
-        <select id="CriterioBarman" (change)="change_criterio_barman()">
-            <option selected value="1">Numero ordini</option>
-            <option value="2">Numero piatti</option>
-          </select>
-          <table class="table table-sm table-bordered">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Dipendente</th>
-                <th scope="col">Ruolo</th>
-                <th scope="col" *ngIf="criterioBarman === 1">Ordini eseguiti</th>
-                <th scope="col" *ngIf="criterioBarman === 2">Piatti eseguiti</th>
+      </div>
+      <!-- barman -->
+      <div *ngIf="criterioRole === 3 && criterioBarman !== 0">
+        <table class="table table-sm table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Dipendente</th>
+              <th scope="col" *ngIf="criterioBarman === 1">Ordini eseguiti</th>
+              <th scope="col" *ngIf="criterioBarman === 2">Piatti eseguiti</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngIf="criterioBarman === 1">
+              <tr *ngFor="let barman of ordersBarmans; let i = index">
+                <th scope="row">{{i + 1}}</th>
+                <td>{{barman.username}}</td>
+                <td>{{barman.orders}}</td>
               </tr>
-            </thead>
-            <tbody>
-              <div *ngIf="criterioBarman === 1">
-                <tr *ngFor="let barman of ordersBarmans; let i = index">
-                  <th scope="row">{{i + 1}}</th>
-                  <td>{{barman.username}}</td>
-                  <td>{{barman.role}}</td>
-                  <td>{{barman.orders}}</td>
-                </tr>
-              </div>
-              <div *ngIf="criterioBarman === 2">
-                <tr *ngFor="let barman of dishesBarmans; let i = index">
-                  <th scope="row">{{i + 1}}</th>
-                  <td>{{barman.username}}</td>
-                  <td>{{barman.role}}</td>
-                  <td>{{barman.dishes}}</td>
-                </tr>
-              </div>
-            </tbody>
-          </table>
+            </ng-container>
+            <ng-container *ngIf="criterioBarman === 2">
+              <tr *ngFor="let barman of dishesBarmans; let i = index">
+                <th scope="row">{{i + 1}}</th>
+                <td>{{barman.username}}</td>
+                <td>{{barman.dishes}}</td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
       <!-- end employees -->
     </div>
 
