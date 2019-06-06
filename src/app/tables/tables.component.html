@@ -96,72 +96,123 @@
       <div *ngIf="role === 'WAITER'">
         <div class="tab-pane fade show active" id="new-order" role="tabpanel" aria-labelledby="new-order-tab">
           <br>
-          <ul id="ul" class="list-group">
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              <span><b>Piatto</b></span>
-              <span><b>Prezzo</b></span>
-              <span><b>Quantità</b></span>
-            </li>
-            <div *ngFor="let row of foodRows">
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                <select [attr.id]="'selection-food-'+row" name="food" (change)="set_food(row, $event.target.value)">
-                  <option selected>Piatto</option>
-                  <option *ngFor="let f of food" [value]="f.name">{{f.name}}</option>
-                </select>
-                <span [attr.id]="'price-food-'+row" textContet="0">0</span>
-                <span>
-                  <input type="text" [attr.id]="'quantity-food-'+row" name="quantity-food" value="0"
-                    (change)="change_food_qt(row, $event.target.value)">
-                  &nbsp;
-                  <button class="btn btn-outline-secondary" type="button" id="increase_food"
-                    (click)="increase_food_qt(row)">+</button>
-                  &nbsp;
-                  <button class="btn btn-outline-secondary" type="button" id="decrease_food"
-                    (click)="decrease_food_qt(row)">-</button>
-                </span>
-              </li>
+          <!-- food -->
+          <div class="card">
+            <h5 class="card-header">Piatti</h5>
+            <div class="card-body">
+              <!-- <h5 class="card-title">Special title treatment</h5> -->
+              <ng-container *ngFor="let row of foodRows">
+                <hr>
+                <div class="form-row">
+                  <!-- plate -->
+                  <div class="form-group col-md-4">
+                    <label><b>Piatto</b></label>
+                    <select [attr.id]="'selection-food-'+row" name="food" (change)="set_food(row, $event.target.value)"
+                      class="form-control">
+                      <option selected value="Piatto">Piatto...</option>
+                      <option *ngFor="let f of food" [value]="f.name">{{f.name}}</option>
+                    </select>
+                  </div>
+                  <!-- price -->
+                  <div class="form-group col-md-4">
+                    <label><b>Prezzo</b></label>
+                    <div class="input-group mb-4">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">&euro;</span>
+                      </div>
+                      <input type="text" class="form-control" [attr.id]="'price-food-'+row" [value]="0" readonly>
+                    </div>
+                  </div>
+                  <!-- quantity -->
+                  <div class="form-group col-md-4">
+                    <label><b>Quantit&agrave;</b></label>
+                    <div class="input-group">
+                      <input class="form-control" [attr.id]="'quantity-food-'+row" name="quantity-food" [value]="0"
+                        (change)="change_food_qt(row, $event.target.value)" readonly>
+                      <div class="input-group-append" id="button-addon4">
+                        <button class="btn btn-outline-secondary" type="button" id="increase_food"
+                          (click)="increase_food_qt(row)">
+                          <i class="fas fa-plus"></i>
+                        </button>
+                        <button class="btn btn-outline-secondary" type="button" id="decrease_food"
+                          (click)="decrease_food_qt(row)">
+                          <i class="fas fa-minus"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </ng-container>
+              <!-- cta-->
+              <button type="button" class="btn btn-primary" (click)="add_food_row()">Aggiungi riga</button>
+              &nbsp;
+              <button type="button" class="btn btn-secondary" (click)="delete_food_row()">Elimina riga</button>
             </div>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              <button class="btn btn-outline-secondary" type="button" (click)="add_food_row()"> Aggiungi riga</button>
-              <button class="btn btn-outline-secondary" type="button" (click)="delete_food_row()"> Elimina riga</button>
-            </li>
-          </ul>
-          <br>
-          <ul id="ul" class="list-group">
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              <span><b>Bibita</b></span>
-              <span><b>Prezzo</b></span>
-              <span><b>Quantità</b></span>
-            </li>
-            <div *ngFor="let row of drinksRows">
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                <select [attr.id]="'selection-drink-'+row" name="drink" (change)="set_drink(row, $event.target.value)">
-                  <option selected>Bibita</option>
-                  <option *ngFor="let drink of drinks" [value]="drink.name">{{drink.name}}</option>
-                </select>
-                <span [attr.id]="'price-drink-'+row" textContet="0">0</span>
-                <span>
-                  <input type="text" [attr.id]="'quantity-drink-'+row" name="quantity-drink" value="0"
-                    (change)="change_drink_qt(row, $event.target.value)">
-                  &nbsp;
-                  <button name="qt" class="btn btn-outline-secondary" type="button" id="increase_drink"
-                    (click)="increase_drink_qt(row)">+</button>
-                  &nbsp;
-                  <button name="qt" class="btn btn-outline-secondary" type="button" id="decrease_drink"
-                    (click)="decrease_drink_qt(row)">-</button>
-                </span>
-              </li>
+          </div>
+
+          &nbsp;
+
+          <!-- drinks -->
+          <div class="card">
+            <h5 class="card-header">Bibite</h5>
+            <div class="card-body">
+              <!-- <h5 class="card-title">Special title treatment</h5> -->
+              <ng-container *ngFor="let row of drinksRows">
+                <hr>
+                <div class="form-row">
+                  <!-- plate -->
+                  <div class="form-group col-md-4">
+                    <label><b>Bibita</b></label>
+                    <select [attr.id]="'selection-drink-'+row" name="drink"
+                      (change)="set_drink(row, $event.target.value)" class="form-control">
+                      <option selected value="Bibita">Bibita...</option>
+                      <option *ngFor="let d of drinks" [value]="d.name">{{d.name}}</option>
+                    </select>
+                  </div>
+                  <!-- price -->
+                  <div class="form-group col-md-4">
+                    <label><b>Prezzo</b></label>
+                    <div class="input-group mb-4">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">&euro;</span>
+                      </div>
+                      <input type="text" class="form-control" [attr.id]="'price-drink-'+row" [value]="0" readonly>
+                    </div>
+                  </div>
+                  <!-- quantity -->
+                  <div class="form-group col-md-4">
+                    <label><b>Quantit&agrave;</b></label>
+                    <div class="input-group">
+                      <input class="form-control" [attr.id]="'quantity-drink-'+row" name="quantity-drink" [value]="0"
+                        (change)="change_drink_qt(row, $event.target.value)" readonly>
+                      <div class="input-group-append" id="button-addon4">
+                        <button class="btn btn-outline-secondary" type="button" id="increase_drink"
+                          (click)="increase_drink_qt(row)">
+                          <i class="fas fa-plus"></i>
+                        </button>
+                        <button class="btn btn-outline-secondary" type="button" id="decrease_drink"
+                          (click)="decrease_drink_qt(row)">
+                          <i class="fas fa-minus"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </ng-container>
+              <!-- cta-->
+              <button type="button" class="btn btn-primary" (click)="add_drink_row()">Aggiungi riga</button>
+              &nbsp;
+              <button type="button" class="btn btn-secondary" (click)="delete_drink_row()">Elimina riga</button>
             </div>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              <button class="btn btn-outline-secondary" type="button" (click)="add_drink_row()"> Aggiungi riga</button>
-              <button class="btn btn-outline-secondary" type="button" (click)="delete_drink_row()"> Elimina
-                riga</button>
-            </li>
-          </ul>
-          <br>
-          <br>
-          <br>
-          <button class="btn btn-outline-success" type="button" (click)="send_order()">Invia ordine</button>
+          </div>
+
+          <!-- submit order -->
+          &nbsp;
+          <button class="btn btn-success btn-lg btn-block" type="button" (click)="send_order()">
+            Invia ordine <i class="fas fa-check"></i>
+          </button>
         </div>
       </div>
     </div>
