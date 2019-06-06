@@ -342,15 +342,20 @@ export class TablesComponent implements OnInit {
     const food = [];
 
     for (let i = 0; i < foodEl.length; i++) {
+      const qt = parseInt((foodQtEl[i] as HTMLInputElement).value, 10);
       if ((foodEl[i] as HTMLSelectElement).value !== 'Piatto') {
-        const qt = parseInt((foodQtEl[i] as HTMLInputElement).value, 10);
         if (qt === 0) {
-          window.alert('Mancano le quantità o i piatti');
+          window.alert('Specificare le quantità dei piatti!');
           return;
         }
         for (let j = 0; j < qt; j++) {
           food.push((foodEl[i] as HTMLSelectElement).value);
           this.ots.food_ready.push(false);
+        }
+      } else {
+        if (qt > 0) {
+          window.alert('Specificare i piatti!');
+          return;
         }
       }
     }
@@ -360,16 +365,26 @@ export class TablesComponent implements OnInit {
     const drink = [];
 
     for (let i = 0; i < drinkEl.length; i++) {
+      const qt = parseInt((drinkQtEl[i] as HTMLInputElement).value, 10);
       if ((drinkEl[i] as HTMLSelectElement).value !== 'Bibita') {
-        const qt = parseInt((drinkQtEl[i] as HTMLInputElement).value, 10);
         if (qt === 0) {
-          window.alert('Specificare quantità o nomi bibite');
+          window.alert('Specificare le quantità delle bevande!');
           return;
         }
         for (let j = 0; j < qt; j++) {
           drink.push((drinkEl[i] as HTMLSelectElement).value);
         }
+      } else {
+        if (qt > 0) {
+          window.alert('Specificare le bevande!');
+          return;
+        }
       }
+    }
+
+    if (food.length === 0 && drink.length === 0) {
+      window.alert('Inserire dei piatti o delle bevande!');
+      return;
     }
 
     this.ots.food = food;
