@@ -2,7 +2,7 @@
 
 <div class="mt-5 px-5">
   <div class="container">
-    <h1>Tavolo <span class="badge badge-secondary">{{tableNumber}}</span></h1>
+    <h1>Tavolo <span class="badge badge-info">{{tableNumber}}</span></h1>
     <nav>
       <!-- nav-tabs options -->
       <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -130,11 +130,11 @@
                       <input class="form-control" [attr.id]="'quantity-food-'+row" name="quantity-food" [value]="0"
                         (change)="change_food_qt(row, $event.target.value)" readonly>
                       <div class="input-group-append" id="button-addon4">
-                        <button class="btn btn-outline-secondary" type="button" id="increase_food"
+                        <button class="btn btn-outline-info" type="button" id="increase_food"
                           (click)="increase_food_qt(row)">
                           <i class="fas fa-plus"></i>
                         </button>
-                        <button class="btn btn-outline-secondary" type="button" id="decrease_food"
+                        <button class="btn btn-outline-info" type="button" id="decrease_food"
                           (click)="decrease_food_qt(row)">
                           <i class="fas fa-minus"></i>
                         </button>
@@ -145,11 +145,11 @@
                 </div>
               </ng-container>
               <!-- cta-->
-              <button type="button" class="btn btn-primary" (click)="add_food_row()">
+              <button type="button" class="btn btn-primary btn-sm" (click)="add_food_row()">
                 Aggiungi riga <i class="fas fa-plus-circle"></i>
               </button>
               &nbsp;
-              <button type="button" class="btn btn-secondary" (click)="delete_food_row()">
+              <button type="button" class="btn btn-secondary btn-sm" (click)="delete_food_row()">
                 Elimina riga <i class="fas fa-ban"></i>
               </button>
             </div>
@@ -191,11 +191,11 @@
                       <input class="form-control" [attr.id]="'quantity-drink-'+row" name="quantity-drink" [value]="0"
                         (change)="change_drink_qt(row, $event.target.value)" readonly>
                       <div class="input-group-append" id="button-addon4">
-                        <button class="btn btn-outline-secondary" type="button" id="increase_drink"
+                        <button class="btn btn-outline-info" type="button" id="increase_drink"
                           (click)="increase_drink_qt(row)">
                           <i class="fas fa-plus"></i>
                         </button>
-                        <button class="btn btn-outline-secondary" type="button" id="decrease_drink"
+                        <button class="btn btn-outline-info" type="button" id="decrease_drink"
                           (click)="decrease_drink_qt(row)">
                           <i class="fas fa-minus"></i>
                         </button>
@@ -206,11 +206,12 @@
                 </div>
               </ng-container>
               <!-- cta-->
-              <button type="button" class="btn btn-primary" (click)="add_drink_row()">
+              <!-- cta-->
+              <button type="button" class="btn btn-primary btn-sm" (click)="add_drink_row()">
                 Aggiungi riga <i class="fas fa-plus-circle"></i>
               </button>
               &nbsp;
-              <button type="button" class="btn btn-secondary" (click)="delete_drink_row()">
+              <button type="button" class="btn btn-secondary btn-sm" (click)="delete_drink_row()">
                 Elimina riga <i class="fas fa-ban"></i>
               </button>
             </div>
