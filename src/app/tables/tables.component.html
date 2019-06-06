@@ -145,9 +145,13 @@
                 </div>
               </ng-container>
               <!-- cta-->
-              <button type="button" class="btn btn-primary" (click)="add_food_row()">Aggiungi riga</button>
+              <button type="button" class="btn btn-primary" (click)="add_food_row()">
+                Aggiungi riga <i class="fas fa-plus-circle"></i>
+              </button>
               &nbsp;
-              <button type="button" class="btn btn-secondary" (click)="delete_food_row()">Elimina riga</button>
+              <button type="button" class="btn btn-secondary" (click)="delete_food_row()">
+                Elimina riga <i class="fas fa-ban"></i>
+              </button>
             </div>
           </div>
 
@@ -202,9 +206,13 @@
                 </div>
               </ng-container>
               <!-- cta-->
-              <button type="button" class="btn btn-primary" (click)="add_drink_row()">Aggiungi riga</button>
+              <button type="button" class="btn btn-primary" (click)="add_drink_row()">
+                Aggiungi riga <i class="fas fa-plus-circle"></i>
+              </button>
               &nbsp;
-              <button type="button" class="btn btn-secondary" (click)="delete_drink_row()">Elimina riga</button>
+              <button type="button" class="btn btn-secondary" (click)="delete_drink_row()">
+                Elimina riga <i class="fas fa-ban"></i>
+              </button>
             </div>
           </div>
 
@@ -213,6 +221,7 @@
           <button class="btn btn-success btn-lg btn-block" type="button" (click)="send_order()">
             Invia ordine <i class="fas fa-check"></i>
           </button>
+          &nbsp;
         </div>
       </div>
     </div>
