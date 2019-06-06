@@ -39,7 +39,7 @@
         <p class="mb-0">Questa pagina si aggiorner&agrave; da sola appena verranno inviati nuovi ordini</p>
       </div>
       <!-- list all orders -->
-      <div *ngIf="foodOrders.length !== 0">
+      <div *ngIf="foodOrders.length > 0">
         <p class="lead">
           Nuovi ordini
         </p>
@@ -104,7 +104,7 @@
         <p class="mb-0">Questa pagina si aggiorner&agrave; da sola appena verranno inviati nuovi ordini</p>
       </div>
       <!-- list all orders -->
-      <div *ngIf="drinkOrders.length !== 0">
+      <div *ngIf="drinkOrders.length > 0">
         <p class="lead">
           Nuovi ordini
         </p>

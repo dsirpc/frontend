@@ -38,7 +38,7 @@
                       Ordine in preparazione
                     </span>
                     <span *ngIf="order.food_status === 2" class="badge badge-pill badge-success">
-                      Ordine non ancora iniziato
+                      Ordine completato
                     </span>
                     <span *ngIf="order.food_status === 3" class="badge badge-pill badge-success">
                       Ordine consegnato
@@ -73,22 +73,17 @@
                       </tr>
                     </tbody>
                   </table>
-                  <!-- price -->
-                  <button type="button" class="btn btn-outline-info">
-                    Totale <span class="badge">{{get_bill(order.id)}}&euro;</span>
-                  </button>
-                  &nbsp;
-                  <!--buttons -->
-                  <button id="payBtn" type="button" class="btn btn-outline-primary" (click)="pay(order)"
-                    [disabled]="order.food_status !== 3 && order.food.length > 0">
-                    Paga <i class="fas fa-credit-card"></i>
-                  </button>
-                  &nbsp;
-                  <!--<button type="button" class="btn btn-danger" (click)="delete_order(order.id)">Cancella ordine</button>-->
                 </div>
               </div>
               &nbsp;
             </div>
+            <button type="button" class="btn btn-outline-info">
+              Totale comlessivo<span class="badge">{{get_total_bill()}}&euro;</span>
+            </button>
+            <button id="payMultipleBtn" type="button" class="btn btn-outline-primary" (click)="pay_all_orders()"
+              [disabled]="!pay">
+              Paga <i class="fas fa-credit-card"></i>
+            </button>
           </div>
         </div>
       </div>

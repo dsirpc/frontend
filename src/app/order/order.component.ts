@@ -18,7 +18,6 @@ export class OrderComponent implements OnInit {
   dishes: Dish[] = [];
   drinks: Dish[] = [];
   orderId: string;
-  count = 0;
   role = ''; // change between waiter/chef/cashier/barman
 
   constructor(private os: OrderService, private us: UserService, private ds: DishService, private router: Router, private route: ActivatedRoute) {
@@ -42,8 +41,8 @@ export class OrderComponent implements OnInit {
             this.order = order;
             if (this.role === 'CHEF') {
               this.sortOrderFood(order);
+              this.checkOrderCompleted(order);
             }
-            this.checkOrderCompleted(order);
             return;
           }
         }
@@ -116,18 +115,18 @@ export class OrderComponent implements OnInit {
     this.os.dish_completed(order, i).subscribe((o) => {
       this.get_order();
       (document.getElementsByName('ckFood')[i] as HTMLInputElement).disabled = true;
-
     });
   }
 
   public checkOrderCompleted(order) {
+    let count = 0;
     for (const dish of order.food_ready) {
       if (dish) {
-        this.count++;
+        count++;
       }
     }
-
-    if (this.count === this.order.food.length) {
+    console.log(count);
+    if (count === this.order.food.length) {
       this.os.put_order(order).subscribe((o) => {
         this.order.food_status = 2;
         this.router.navigateByUrl('/dashboard');

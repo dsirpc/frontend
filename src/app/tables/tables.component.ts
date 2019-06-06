@@ -33,6 +33,7 @@ export class TablesComponent implements OnInit {
   drinksRows = [0];
   ots: Order;
   role: string;
+  pay = false;
 
   constructor(private route: ActivatedRoute,
               private ts: TableService,
@@ -118,10 +119,17 @@ export class TablesComponent implements OnInit {
     this.os.get_orders().subscribe(
       (orders) => {
         this.orders = [];
+        let count = 0;
         for (const o of orders) {
           if (o.table_number === this.tableNumber && !o.payed) {
             this.orders.push(o);
+            if (o.food_status === 3 && o.drink_status === 3) {
+              count++;
+            }
           }
+        }
+        if (count === this.orders.length) {
+          this.pay = true;
         }
         this.delete_dish_duplicate();
       },
@@ -408,38 +416,33 @@ export class TablesComponent implements OnInit {
     });
   }
 
-  public get_bill(order) {
+  public get_single_bill(order) {
     let total = 0;
 
-    for (const o of this.orders) {
-      if (o._id == order) {
-        for (const dish of o.food) {
-          total += this.getDishPrice(dish);
-        }
-        for (const drink of o.drinks) {
-          total += this.getDrinkPrice(drink);
-        }
-        return total;
-      }
+    for (const dish of order.food) {
+      total += this.getDishPrice(dish);
     }
+    for (const drink of order.drinks) {
+      total += this.getDrinkPrice(drink);
+    }
+    return total;
   }
 
-  public pay(order) {
-    let allPayed = true;
-    for (const o of this.orders) {
-      if (o._id == order.id) {
-        console.log(o);
-        this.os.put_order(o).subscribe((or) => { });
-      } else {
-        if (!o.payed) {
-          allPayed = false;
-        }
-      }
+  public get_total_bill() {
+    let total = 0;
+    for (const order of this.orders) {
+      total += this.get_single_bill(order);
     }
-    if (allPayed) {
-      this.ts.put_table(this.table).subscribe((t) => {});
+    return total;
+  }
+
+  public pay_all_orders() {
+    for (const order of this.orders) {
+      this.os.put_order(order).subscribe((o) => {});
     }
-    this.router.navigateByUrl('/dashboard');
+    this.ts.put_table(this.table).subscribe((t) => {
+      this.router.navigateByUrl('/dashboard');
+    });
   }
 
   public delete_order(id) {
