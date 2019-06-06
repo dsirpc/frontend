@@ -32,7 +32,6 @@ export class OrderComponent implements OnInit {
     this.orderId = this.route.snapshot.paramMap.get('id');
     this.get_order();
     this.get_dishes();
-    // this.disableCheck(this.order);
   }
 
   public get_order() {
@@ -44,10 +43,7 @@ export class OrderComponent implements OnInit {
             if (this.role === 'CHEF') {
               this.sortOrderFood(order);
             }
-            /*if (this.order.drink_status === 1) {
-              (document.getElementById('btnStartBarman') as HTMLButtonElement).disabled = true;
-              (document.getElementById('btnEnd') as HTMLButtonElement).disabled = false;
-            }*/
+            this.checkOrderCompleted(order);
             return;
           }
         }
@@ -79,11 +75,14 @@ export class OrderComponent implements OnInit {
 
   public sortOrderFood(order) {
     for (let i = 0; i < order.food.length - 1; i++) {
-      for (let j = 0; j < order.food.length; j++) {
+      for (let j = i + 1; j < order.food.length; j++) {
         if (this.getEstimatedTime(order.food[i]) < this.getEstimatedTime(order.food[j])) {
           const temp = order.food[j];
           order.food[j] = order.food[i];
           order.food[i] = temp;
+          const tmp = order.food_ready[j];
+          order.food_ready[j] = order.food_ready[i];
+          order.food_ready[i] = tmp;
         }
       }
     }
@@ -114,15 +113,20 @@ export class OrderComponent implements OnInit {
   }
 
   public foodReady(order, i) {
-    this.os.put_order(order).subscribe((o) => {
+    this.os.dish_completed(order, i).subscribe((o) => {
       this.get_order();
       (document.getElementsByName('ckFood')[i] as HTMLInputElement).disabled = true;
-      this.checkOrderCompleted(order);
+
     });
   }
 
   public checkOrderCompleted(order) {
-    this.count++;
+    for (const dish of order.food_ready) {
+      if (dish) {
+        this.count++;
+      }
+    }
+
     if (this.count === this.order.food.length) {
       this.os.put_order(order).subscribe((o) => {
         this.order.food_status = 2;

@@ -3,7 +3,7 @@ export interface Order {
     table_number: number;
     food: string[];
     drinks: string[];
-    food_ready: number;
+    food_ready: boolean[];
     chef: string;
     waiter: string;
     barman: string;

@@ -55,7 +55,7 @@
                   <td>{{getEstimatedTime(f)}}'</td>
                   <td>
                     <input name="ckFood" type="checkbox" (change)="foodReady(order, i)"
-                      [disabled]="order.food_status !== 1">
+                      [disabled]="order.food_status !== 1 || order.food_ready[i]" [checked]="order.food_ready[i]">
                   </td>
                 </tr>
               </ng-container>

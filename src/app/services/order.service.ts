@@ -62,6 +62,12 @@ export class OrderService {
     );
   }
 
+  dish_completed(o: Order, i: number): Observable<Order> {
+    return this.http.put<Order>(this.us.url + '/order', o, this.create_options({index: i})).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   delete_order(id: string): Observable<Order> {
     return this.http.delete<Order>(this.us.url + '/order/:order_id', this.create_options({order_id: id})).pipe(
       catchError(this.handleError)

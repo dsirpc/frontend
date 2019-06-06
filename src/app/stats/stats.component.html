@@ -53,36 +53,107 @@
       &nbsp;
       <h3>Statistiche sui dipendenti</h3>
       <!-- employees -->
+      <select id="CriterioChef" (change)="change_criterio_chef()">
+        <option selected value="1">Numero ordini</option>
+        <option value="2">Numero piatti</option>
+      </select>
       <table class="table table-sm table-bordered">
         <thead>
           <tr>
             <th scope="col">#</th>
             <th scope="col">Dipendente</th>
             <th scope="col">Ruolo</th>
-            <th scope="col">Piatti/bevande servite</th>
+            <th scope="col" *ngIf="criterioChef === 1">Ordini eseguiti</th>
+            <th scope="col" *ngIf="criterioChef === 2">Piatti eseguiti</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-          </tr>
+          <div *ngIf="criterioChef === 1">
+            <tr *ngFor="let chef of ordersChefs; let i = index">
+              <th scope="row">{{i + 1}}</th>
+              <td>{{chef.username}}</td>
+              <td>{{chef.role}}</td>
+              <td>{{chef.orders}}</td>
+            </tr>
+          </div>
+          <div *ngIf="criterioChef === 2">
+            <tr *ngFor="let chef of dishesChefs; let i = index">
+              <th scope="row">{{i + 1}}</th>
+              <td>{{chef.username}}</td>
+              <td>{{chef.role}}</td>
+              <td>{{chef.dishes}}</td>
+            </tr>
+          </div>
         </tbody>
       </table>
+
+      <select id="CriterioWaiter" (change)="change_criterio_waiter()">
+          <option selected value="1">Numero ordini</option>
+          <option value="2">Numero piatti</option>
+        </select>
+        <table class="table table-sm table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Dipendente</th>
+              <th scope="col">Ruolo</th>
+              <th scope="col" *ngIf="criterioWaiter === 1">Ordini eseguiti</th>
+              <th scope="col" *ngIf="criterioWaiter === 2">Piatti eseguiti</th>
+            </tr>
+          </thead>
+          <tbody>
+            <div *ngIf="criterioWaiter === 1">
+              <tr *ngFor="let waiter of ordersWaiters; let i = index">
+                <th scope="row">{{i + 1}}</th>
+                <td>{{waiter.username}}</td>
+                <td>{{waiter.role}}</td>
+                <td>{{waiter.orders}}</td>
+              </tr>
+            </div>
+            <div *ngIf="criterioWaiter === 2">
+              <tr *ngFor="let waiter of dishesWaiters; let i = index">
+                <th scope="row">{{i + 1}}</th>
+                <td>{{waiter.username}}</td>
+                <td>{{waiter.role}}</td>
+                <td>{{waiter.dishes}}</td>
+              </tr>
+            </div>
+          </tbody>
+        </table>
+
+        <select id="CriterioBarman" (change)="change_criterio_barman()">
+            <option selected value="1">Numero ordini</option>
+            <option value="2">Numero piatti</option>
+          </select>
+          <table class="table table-sm table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Dipendente</th>
+                <th scope="col">Ruolo</th>
+                <th scope="col" *ngIf="criterioBarman === 1">Ordini eseguiti</th>
+                <th scope="col" *ngIf="criterioBarman === 2">Piatti eseguiti</th>
+              </tr>
+            </thead>
+            <tbody>
+              <div *ngIf="criterioBarman === 1">
+                <tr *ngFor="let barman of ordersBarmans; let i = index">
+                  <th scope="row">{{i + 1}}</th>
+                  <td>{{barman.username}}</td>
+                  <td>{{barman.role}}</td>
+                  <td>{{barman.orders}}</td>
+                </tr>
+              </div>
+              <div *ngIf="criterioBarman === 2">
+                <tr *ngFor="let barman of dishesBarmans; let i = index">
+                  <th scope="row">{{i + 1}}</th>
+                  <td>{{barman.username}}</td>
+                  <td>{{barman.role}}</td>
+                  <td>{{barman.dishes}}</td>
+                </tr>
+              </div>
+            </tbody>
+          </table>
       <!-- end employees -->
     </div>
 

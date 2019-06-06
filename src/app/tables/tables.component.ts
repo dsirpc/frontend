@@ -83,7 +83,7 @@ export class TablesComponent implements OnInit {
       table_number: this.tableNumber,
       food: [],
       drinks: [],
-      food_ready: 0,
+      food_ready: [],
       chef: '',
       waiter: '',
       barman: '',
@@ -179,9 +179,11 @@ export class TablesComponent implements OnInit {
   public delete_dish_duplicate() {
     this.uniqueDishOrders = [];
     for (const o of this.orders) {
-      const order = { id: o._id, food: [], food_qt: [], drinks: [], drink_qt: [], food_status: o.food_status, n_food_completed: o.food_ready, n_total_food: 0 };
+      const order = { id: o._id, food: [], food_qt: [], drinks: [], drink_qt: [], food_status: o.food_status, n_food_completed: 0, n_total_food: o.food.length };
       for (const d of o.food) {
-        order.n_total_food += 1;
+        if (o.food_ready[o.food.indexOf(d)]) {
+          order.n_food_completed++;
+        }
         const fqt = 1;
         if (!order.food.includes(d)) {
           order.food.push(d);
@@ -348,6 +350,7 @@ export class TablesComponent implements OnInit {
         }
         for (let j = 0; j < qt; j++) {
           food.push((foodEl[i] as HTMLSelectElement).value);
+          this.ots.food_ready.push(false);
         }
       }
     }

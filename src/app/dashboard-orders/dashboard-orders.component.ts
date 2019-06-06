@@ -54,7 +54,7 @@ export class DashboardOrdersComponent implements OnInit {
         this.suspendedFoodOrders = [];
         for (const order of orders) {
           if (this.role === 'CHEF') {
-            if (order.food_status === 0) {
+            if (order.food_status === 0 && order.food.length > 0) {
               this.foodOrders.push(order);
             } else {
               if (order.food_status === 1 && order.chef === this.us.get_username()) {
