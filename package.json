@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "concurrently \"ng serve\" \"npm run electron\"",
+    "electron": "electron ./src/electron.dev",
     "build": "ng build --prod --aot --base-href ./",
     "test": "ng test",
     "lint": "ng lint",
@@ -41,6 +42,7 @@
     "@types/node": "^8.9.5",
     "@types/socket.io-client": "^1.4.32",
     "codelyzer": "~4.5.0",
+    "concurrently": "^4.1.0",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.0.0",
