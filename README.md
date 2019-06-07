@@ -8,3 +8,7 @@ RPC è un progetto realizzato per il corso di [_Tecnologie e Applicazioni Web_](
 * Ettore Chinellato ([@EttoreChinellato](https://github.com/EttoreChinellato))
 * Michele Pessotto ([@MichelePessotto](MichelePessotto))
 * Pietro Rampazzo ([@peterampazzo](https://github.com/peterampazzo))
+
+# Electron
+
+Per lanciare l'applicazione desktop è necessario eseguire npm install per installare le dipendenze e successivamente lanciare npm start 
