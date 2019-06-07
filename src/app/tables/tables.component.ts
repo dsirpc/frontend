@@ -36,15 +36,15 @@ export class TablesComponent implements OnInit {
   pay = false;
 
   constructor(private route: ActivatedRoute,
-    private ts: TableService,
-    private router: Router,
-    private us: UserService,
-    private os: OrderService,
-    private ds: DishService,
-    private sio: SocketioService) {
-    if (this.us.get_token() === '') {
-      this.router.navigateByUrl('/login');
-    }
+              private ts: TableService,
+              private router: Router,
+              private us: UserService,
+              private os: OrderService,
+              private ds: DishService,
+              private sio: SocketioService) {
+                if (this.us.get_token() === '') {
+                  this.router.navigateByUrl('/login');
+                }
   }
 
   ngOnInit() {
@@ -120,10 +120,18 @@ export class TablesComponent implements OnInit {
       (orders) => {
         this.orders = [];
         let count = 0;
+        let f = false;
+        let d = false;
         for (const o of orders) {
           if (o.table_number === this.tableNumber && !o.payed) {
             this.orders.push(o);
-            if (o.food_status === 3 && o.drink_status === 3) {
+            if ((o.food.length > 0 && o.food_status === 3) || o.food.length === 0) {
+              f = true;
+            }
+            if ((o.drinks.length > 0 && o.drink_status === 3) || o.drinks.length === 0) {
+              d = true;
+            }
+            if (f && d) {
               count++;
             }
           }
@@ -446,7 +454,6 @@ export class TablesComponent implements OnInit {
   }
 
   public delete_order(id) {
-    console.log(id);
     this.os.delete_order(id).subscribe((o) => {
       this.get_orders();
     });
