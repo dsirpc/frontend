@@ -8,5 +8,11 @@ if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+// Device bootstrap
+document.addEventListener('deviceready', () => {
+  platformBrowserDynamic().bootstrapModule(AppModule).catch(err => console.log(err));
+}, false);
+
+// Browser bootstrap
+// platformBrowserDynamic().bootstrapModule(AppModule)
+//  .catch(err => console.log(err));
