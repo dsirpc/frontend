@@ -126,14 +126,8 @@ export class TablesComponent implements OnInit {
         for (const o of orders) {
           if (o.table_number === this.tableNumber && !o.payed) {
             this.orders.push(o);
-            f = (o.food.length > 0 && o.food_status === 3) || o.food.length === 0;
-            d = (o.drinks.length > 0 && o.drink_status === 3) || o.drinks.length === 0;
-            console.log(o.food.length);
-            console.log(o.food_status);
-            console.log(o.drinks.length);
-            console.log(o.drink_status);
-            console.log(d);
-            console.log(f);
+            f = (o.food.length > 0 && o.food_status === 3) || (o.food.length === 0 && o.food_status === 0);
+            d = (o.drinks.length > 0 && o.drink_status === 3) || (o.drinks.length === 0 && o.drink_status === 0);
             if (f && d) {
               count++;
             }
