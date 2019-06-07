@@ -70,6 +70,7 @@ export class TablesComponent implements OnInit {
         this.get_orders();
       });
       this.sio.onOrderDrinkDelivered().subscribe((o) => {
+        console.log(1);
         this.get_orders();
       });
       this.sio.onOrderFoodDelivered().subscribe((o) => {
