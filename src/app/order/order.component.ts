@@ -125,7 +125,6 @@ export class OrderComponent implements OnInit {
         count++;
       }
     }
-    console.log(count);
     if (count === this.order.food.length) {
       this.os.put_order(order).subscribe((o) => {
         this.order.food_status = 2;
@@ -135,8 +134,9 @@ export class OrderComponent implements OnInit {
   }
 
   public endOrder(order) {
-    this.os.put_order(order).subscribe((o) => { });
-    this.router.navigateByUrl('/dashboard');
+    this.os.put_order(order).subscribe((o) => {
+      this.router.navigateByUrl('/dashboard');
+    });
   }
 
   public disableCheck(order) {
