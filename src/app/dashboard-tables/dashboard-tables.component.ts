@@ -16,9 +16,7 @@ export class DashboardTablesComponent implements OnInit {
 
   tables: Table[];
 
-  constructor(private ts: TableService, private sio: SocketioService, private us: UserService, private router: Router) {
-    console.log('DashboardTablesComponent');
-  }
+  constructor(private ts: TableService, private sio: SocketioService, private us: UserService, private router: Router) {}
 
   ngOnInit() {
     this.get_tables();

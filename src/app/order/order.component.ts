@@ -40,7 +40,6 @@ export class OrderComponent implements OnInit {
           if (order._id == this.orderId) {
             this.order = order;
             if (this.role === 'CHEF') {
-              this.sortOrderFood(order);
               this.checkOrderCompleted(order);
             }
             return;
@@ -72,19 +71,10 @@ export class OrderComponent implements OnInit {
     );
   }
 
-  public sortOrderFood(order) {
-    for (let i = 0; i < order.food.length - 1; i++) {
-      for (let j = i + 1; j < order.food.length; j++) {
-        if (this.getEstimatedTime(order.food[i]) < this.getEstimatedTime(order.food[j])) {
-          const temp = order.food[j];
-          order.food[j] = order.food[i];
-          order.food[i] = temp;
-          const tmp = order.food_ready[j];
-          order.food_ready[j] = order.food_ready[i];
-          order.food_ready[i] = tmp;
-        }
-      }
-    }
+  public startOrder(order) {
+    this.os.put_order(order).subscribe((o) => {
+      this.get_order();
+    });
   }
 
   public getEstimatedTime(food) {
@@ -95,26 +85,9 @@ export class OrderComponent implements OnInit {
     }
   }
 
-  public startOrder(order) {
-    this.os.put_order(order).subscribe((o) => {
-      if (this.role === 'CHEF') {
-        this.get_order();
-        this.ableCheck(order);
-        (document.getElementById('btnStartChef') as HTMLButtonElement).disabled = true;
-      }
-
-      if (this.role === 'BARMAN') {
-        this.get_order();
-        (document.getElementById('btnStartBarman') as HTMLButtonElement).disabled = true;
-        (document.getElementById('btnEnd') as HTMLButtonElement).disabled = false;
-      }
-    });
-  }
-
   public foodReady(order, i) {
     this.os.dish_completed(order, i).subscribe((o) => {
       this.get_order();
-      (document.getElementsByName('ckFood')[i] as HTMLInputElement).disabled = true;
     });
   }
 
@@ -126,10 +99,7 @@ export class OrderComponent implements OnInit {
       }
     }
     if (count === this.order.food.length) {
-      this.os.put_order(order).subscribe((o) => {
-        this.order.food_status = 2;
-        this.router.navigateByUrl('/dashboard');
-      });
+      this.router.navigateByUrl('/dashboard');
     }
   }
 
@@ -137,20 +107,6 @@ export class OrderComponent implements OnInit {
     this.os.put_order(order).subscribe((o) => {
       this.router.navigateByUrl('/dashboard');
     });
-  }
-
-  public disableCheck(order) {
-    if (this.role === 'CHEF') {
-      for (let i = 0; i < order.food.length; i++) {
-        (document.getElementsByName('ckFood')[i] as HTMLInputElement).disabled = true;
-      }
-    }
-  }
-
-  public ableCheck(order) {
-    for (let i = 0; i < order.food.length; i++) {
-      (document.getElementsByName('ckFood')[i] as HTMLInputElement).disabled = false;
-    }
   }
 
 }
