@@ -63,7 +63,6 @@ export class NewUserComponent implements OnInit {
 
     console.log(this.users);
     for (const user of this.users) {
-      console.log(user.username);
       if (user.username === username) {
         window.alert('Username già esistente');
         return;
@@ -92,7 +91,13 @@ export class NewUserComponent implements OnInit {
 
     this.us.register(this.user).subscribe((user) => {
       this.get_users();
-      this.router.navigateByUrl('/dashboard');
+      this.router.navigateByUrl('/users');
+    });
+  }
+
+  public delete_user(username) {
+    this.us.delete_user(username).subscribe(() => {
+      this.get_users();
     });
   }
 }

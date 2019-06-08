@@ -85,7 +85,22 @@ export class UserService {
         console.log(JSON.stringify(data));
       })
     );
+  }
 
+  delete_user(username): Observable<any> {
+    const options = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer ' + this.get_token(),
+        'cache-control': 'no-cache',
+        'Content-Type': 'application/json',
+      })
+    };
+
+    return this.http.delete(this.url + '/user/:' + username, options).pipe(
+      tap((data) => {
+        console.log(JSON.stringify(data));
+      })
+    );
   }
 
   get_users(): Observable<User[]> {

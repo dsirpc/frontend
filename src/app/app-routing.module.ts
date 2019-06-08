@@ -14,7 +14,7 @@ const routes: Routes = [
   { path: 'tables/:id', component: TablesComponent },
   { path: 'stats', component: StatsComponent },
   { path: 'order/:id', component: OrderComponent },
-  { path: 'newUser', component: NewUserComponent }
+  { path: 'users', component: NewUserComponent }
 ];
 
 @NgModule({
