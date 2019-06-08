@@ -6,6 +6,8 @@ import { SocketioService } from '../services/socketio.service';
 import { Router } from '@angular/router';
 import { User } from '../User';
 import { Order } from '../Order';
+import { Dish } from '../Dish';
+import { DishService } from '../services/dish.service';
 
 @Component({
   selector: 'app-stats',
@@ -21,6 +23,7 @@ export class StatsComponent implements OnInit {
   ordersInProgess = 0;
   ordersCompleted = 0;
   orders: Order[] = [];
+  dishes: Dish[] = [];
   ordersChefs = [];
   ordersWaiters = [];
   ordersBarmans = [];
@@ -32,7 +35,7 @@ export class StatsComponent implements OnInit {
   criterioBarman: number = 0;
   criterioRole: number = 0;
 
-  constructor(private ts: TableService, private os: OrderService, private us: UserService, private sio: SocketioService, private router: Router) {
+  constructor(private ts: TableService, private os: OrderService, private us: UserService, private sio: SocketioService, private router: Router, private ds: DishService) {
     if (this.us.get_token() === '') {
       this.router.navigateByUrl('/login');
     }
@@ -42,6 +45,7 @@ export class StatsComponent implements OnInit {
     this.get_number_tables();
     this.get_occupied_tables();
     this.get_orders();
+    this.get_dishes();
     this.sio.connect();
     this.sio.onTableFree().subscribe((t) => {
       this.numberOccupiedTables--;
@@ -130,6 +134,20 @@ export class StatsComponent implements OnInit {
             this.us.logout();
           });
       });
+  }
+
+  public get_dishes() {
+    this.ds.get_dishes().subscribe((dishes) => {
+      this.dishes = dishes;
+    },
+    (err) => {
+      this.us.renew().subscribe(() => {
+        this.get_dishes();
+      },
+        (err2) => {
+          this.us.logout();
+        });
+    });
   }
 
   public get_users() {
@@ -304,6 +322,32 @@ export class StatsComponent implements OnInit {
 
   public change_criterio_role() {
     this.criterioRole = parseInt((document.getElementById('CriterioRole') as HTMLSelectElement).value, 10);
+  }
+
+  public getDishPrice(food) {
+    for (const d of this.dishes) {
+      if (d.name === food) {
+        return d.price;
+      }
+    }
+  }
+
+  public get_order_bill(order) {
+    let total = 0;
+    for (const dish of order.food) {
+      total += this.getDishPrice(dish);
+    }
+    return total;
+  }
+
+  public get_daily_collection() {
+    let total = 0;
+    for (const order of this.orders) {
+      if (order.payed) {
+        total += this.get_order_bill(order);
+      }
+    }
+    return total;
   }
 
 }

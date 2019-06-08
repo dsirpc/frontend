@@ -1,16 +1,5 @@
-<app-navbar></app-navbar>
-
-<div class="container">
-  <h1>Nuovo utente</h1>
-  <nav>
-    <!-- nav-tabs options -->
-    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-      <a class="nav-item nav-link active" id="order-details-tab" data-toggle="tab" role="tab"
-        aria-controls="order-details" aria-selected="true">Crea utente</a>
-    </div>
-  </nav>
-  <div class="tab-content" id="nav-tabContent">
-    <!-- tab content -->
+<div class="row justify-content-center">
+  <div class="col-8">
     &nbsp;
     <div class="form-group">
       <label>Username</label>
@@ -25,10 +14,10 @@
     <div class="form-group">
       <label>Ruolo</label>
       <select class="form-control" id="role">
+        <option selected>Ruolo</option>
         <option *ngFor="let role of roles">{{role}}</option>
       </select>
     </div>
     <button (click)="create_user()" type="submit" class="btn btn-primary">Crea utente</button>
-
   </div>
 </div>

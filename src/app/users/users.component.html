@@ -1,0 +1,26 @@
+<app-navbar></app-navbar>
+
+<div class="mt-2 px-1">
+  <div class="container">
+
+    <h1>{{pageTitle}}</h1>
+
+    <nav>
+      <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-new-tab" data-toggle="tab" href="#nav-new" role="tab">Nuovo
+          utente</a>
+        <a class="nav-item nav-link" id="nav-list-tab" data-toggle="tab" href="#nav-list" role="tab">Lista utenti</a>
+      </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+      <div class="tab-pane fade show active" id="nav-new" role="tabpanel">
+        <app-users-new></app-users-new>
+      </div>
+      <div class="tab-pane fade" id="nav-list" role="tabpanel">
+        <app-users-list></app-users-list>
+      </div>
+    </div>
+
+    <!-- closing page-->
+  </div>
+</div>

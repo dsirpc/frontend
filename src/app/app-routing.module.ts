@@ -5,7 +5,7 @@ import { TablesComponent } from './tables/tables.component';
 import { StatsComponent } from './stats/stats.component';
 import { LoginComponent } from './login/login.component';
 import { OrderComponent } from './order/order.component';
-import { NewUserComponent } from './new-user/new-user.component';
+import { UsersComponent } from './users/users.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -14,11 +14,11 @@ const routes: Routes = [
   { path: 'tables/:id', component: TablesComponent },
   { path: 'stats', component: StatsComponent },
   { path: 'order/:id', component: OrderComponent },
-  { path: 'newUser', component: NewUserComponent }
+  { path: 'users', component: UsersComponent }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'})],
+  imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

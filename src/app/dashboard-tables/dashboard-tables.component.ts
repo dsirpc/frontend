@@ -35,6 +35,7 @@ export class DashboardTablesComponent implements OnInit {
     this.ts.get_tables().subscribe(
       (tables) => {
         this.tables = tables;
+        this.sort_tables();
       },
       (err) => {
         this.us.renew().subscribe(() => {
@@ -49,6 +50,18 @@ export class DashboardTablesComponent implements OnInit {
 
   public loadTablePage(numberId: string) {
     this.router.navigateByUrl('tables/' + numberId);
+  }
+
+  public sort_tables() {
+    for (let i = 0; i < this.tables.length - 1; i++) {
+      for (let j = i + 1; j < this.tables.length; j++) {
+        if (this.tables[i].number_id > this.tables[j].number_id) {
+          const tmp = this.tables[i];
+          this.tables[i] = this.tables[j];
+          this.tables[j] = tmp;
+        }
+      }
+    }
   }
 
 }
