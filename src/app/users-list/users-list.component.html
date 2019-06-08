@@ -1,0 +1,25 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Username</th>
+          <th scope="col">Ruolo</th>
+          <th scope="col">Elimina</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- iterate for each table -->
+        <ng-container *ngFor="let user of users">
+          <tr>
+            <td>{{user.username}}</td>
+            <td>{{user.role}}</td>
+            <td><button (click)="delete_user(user.username)" type="button" class="btn-outline-danger"><i
+                  class="fas fa-trash-alt"></i>
+              </button></td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+</div>
