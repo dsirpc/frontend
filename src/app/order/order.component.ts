@@ -42,7 +42,6 @@ export class OrderComponent implements OnInit {
             if (this.role === 'CHEF') {
               this.checkOrderCompleted(order);
             }
-            console.log(this.order);
             return;
           }
         }
@@ -97,7 +96,6 @@ export class OrderComponent implements OnInit {
   }
 
   public foodReady(order, i) {
-    console.log(i);
     this.os.dish_completed(order, i).subscribe((o) => {
       this.get_order();
       (document.getElementsByName('ckFood')[i] as HTMLInputElement).disabled = true;
@@ -112,10 +110,7 @@ export class OrderComponent implements OnInit {
       }
     }
     if (count === this.order.food.length) {
-      this.os.put_order(order).subscribe((o) => {
-        this.order.food_status = 2;
-        this.router.navigateByUrl('/dashboard');
-      });
+      this.router.navigateByUrl('/dashboard');
     }
   }
 

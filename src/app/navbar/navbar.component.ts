@@ -15,7 +15,6 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     this.role = this.us.get_role();
-    console.log(this.role);
   }
 
   public go_to(url) {

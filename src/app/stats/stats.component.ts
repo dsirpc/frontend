@@ -188,7 +188,6 @@ export class StatsComponent implements OnInit {
 
   public get_stats(users) {
     for (const order of this.orders) {
-      console.log(order);
       let i = 0;
       let found = false;
 
@@ -223,7 +222,7 @@ export class StatsComponent implements OnInit {
         i++;
       }
     }
-    console.log(this.ordersWaiters);
+
     const chefsOrders = [];
     const waitersOrders = [];
     const barmansOrders = [];
