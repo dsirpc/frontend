@@ -9,6 +9,9 @@ RPC è un progetto realizzato per il corso di [_Tecnologie e Applicazioni Web_](
 * Michele Pessotto ([@MichelePessotto](MichelePessotto))
 * Pietro Rampazzo ([@peterampazzo](https://github.com/peterampazzo))
 
-# Electron
+### Backend
+Per il completo funzionamento della SPA Angular è necessario eseguire concorrentemente il [`backend`](https://github.com/dsirpc/backend). Se viene utilizzata una copia in locale del backend bisogna modificare la variabile `url` all'interno di `user.service.ts`.
+
+### Desktop App (powered by Electron)
 
 Per lanciare l'applicazione desktop è necessario eseguire npm install per installare le dipendenze e successivamente lanciare npm start 
