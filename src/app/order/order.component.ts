@@ -73,17 +73,7 @@ export class OrderComponent implements OnInit {
 
   public startOrder(order) {
     this.os.put_order(order).subscribe((o) => {
-      if (this.role === 'CHEF') {
-        this.get_order();
-        this.ableCheck(order);
-        (document.getElementById('btnStartChef') as HTMLButtonElement).disabled = true;
-      }
-
-      if (this.role === 'BARMAN') {
-        this.get_order();
-        (document.getElementById('btnStartBarman') as HTMLButtonElement).disabled = true;
-        (document.getElementById('btnEnd') as HTMLButtonElement).disabled = false;
-      }
+      this.get_order();
     });
   }
 
@@ -98,7 +88,6 @@ export class OrderComponent implements OnInit {
   public foodReady(order, i) {
     this.os.dish_completed(order, i).subscribe((o) => {
       this.get_order();
-      (document.getElementsByName('ckFood')[i] as HTMLInputElement).disabled = true;
     });
   }
 
@@ -118,20 +107,6 @@ export class OrderComponent implements OnInit {
     this.os.put_order(order).subscribe((o) => {
       this.router.navigateByUrl('/dashboard');
     });
-  }
-
-  public disableCheck(order) {
-    if (this.role === 'CHEF') {
-      for (let i = 0; i < order.food.length; i++) {
-        (document.getElementsByName('ckFood')[i] as HTMLInputElement).disabled = true;
-      }
-    }
-  }
-
-  public ableCheck(order) {
-    for (let i = 0; i < order.food.length; i++) {
-      (document.getElementsByName('ckFood')[i] as HTMLInputElement).disabled = false;
-    }
   }
 
 }
