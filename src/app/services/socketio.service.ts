@@ -10,10 +10,6 @@ import { JsonPipe } from '@angular/common';
 export class SocketioService {
 
   private socket;
-  // private casherSocket;
-  // private waiterSocket;
-  // private chefSocket;
-  // private barmanSocket;
   constructor(private us: UserService) { }
 
   connect(): void {

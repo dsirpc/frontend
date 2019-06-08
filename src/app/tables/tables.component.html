@@ -29,6 +29,7 @@
                 </div>
                 <div class="card-body">
                   <h5 class="card-title">Info:</h5>
+                  <span>Cameriere: {{order.waiter}}</span>
                   <p>Status <i class="fas fa-star-half-alt"></i> &nbsp;
                     <span *ngIf="order.food_status === 0 && order.food.length > 0"
                       class="badge badge-pill badge-danger">

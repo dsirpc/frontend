@@ -5,6 +5,7 @@
       <li *ngFor="let table of tables" (click)="loadTablePage(table.number_id)"
         class="list-group-item d-flex justify-content-between align-items-center">
         <span>Tavolo {{table.number_id}}</span>
+        <span>Posti {{table.seats}}</span>
         <span *ngIf="table.status" class="badge badge-success badge-pill">Libero</span>
         <span *ngIf="!table.status" class="badge badge-danger badge-pill">Occupato</span>
       </li>
