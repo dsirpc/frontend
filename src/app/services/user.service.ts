@@ -50,8 +50,7 @@ export class UserService {
         Authorization: 'Bearer ' + tk,
         'cache-control': 'no-cache',
         'Content-Type': 'application/json',
-      }),
-      params: new HttpParams( {fromObject: {l: location}} )
+      })
     };
 
     console.log(location + ' user.service');
@@ -85,7 +84,23 @@ export class UserService {
         console.log(JSON.stringify(data));
       })
     );
+  }
 
+  delete_user(user): Observable<any> {
+    const options = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer ' + this.get_token(),
+        'cache-control': 'no-cache',
+        'Content-Type': 'application/json',
+      }),
+      params: new HttpParams( {fromObject: {username: user}} )
+    };
+
+    return this.http.delete(this.url + '/user', options).pipe(
+      tap((data) => {
+        console.log(JSON.stringify(data));
+      })
+    );
   }
 
   get_users(): Observable<User[]> {

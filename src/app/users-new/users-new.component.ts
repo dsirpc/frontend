@@ -4,15 +4,15 @@ import { Router } from '@angular/router';
 import { User } from '../User';
 
 @Component({
-  selector: 'app-new-user',
-  templateUrl: './new-user.component.html',
-  styleUrls: ['./new-user.component.css']
+  selector: 'app-users-new',
+  templateUrl: './users-new.component.html',
+  styleUrls: ['./users-new.component.css']
 })
-export class NewUserComponent implements OnInit {
+export class UsersNewComponent implements OnInit {
 
   roles = ['Cassiere', 'Cuoco', 'Barman', 'Cameriere'];
   users: User[] = [];
-  user = {username: '', password: '', role: ''};
+  user = { username: '', password: '', role: '' };
 
   constructor(private us: UserService, private router: Router) { }
 
@@ -24,14 +24,14 @@ export class NewUserComponent implements OnInit {
     this.us.get_users().subscribe((users) => {
       this.users = users;
     },
-    (err) => {
-      this.us.renew().subscribe(() => {
-        this.get_users();
-      },
-      (err2) => {
-        this.us.logout();
+      (err) => {
+        this.us.renew().subscribe(() => {
+          this.get_users();
+        },
+          (err2) => {
+            this.us.logout();
+          });
       });
-    });
   }
 
   public user_changed(user) {
@@ -63,7 +63,6 @@ export class NewUserComponent implements OnInit {
 
     console.log(this.users);
     for (const user of this.users) {
-      console.log(user.username);
       if (user.username === username) {
         window.alert('Username già esistente');
         return;
@@ -95,4 +94,5 @@ export class NewUserComponent implements OnInit {
       this.router.navigateByUrl('/dashboard');
     });
   }
+
 }

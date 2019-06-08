@@ -191,7 +191,7 @@ export class TablesComponent implements OnInit {
   public delete_dish_duplicate() {
     this.uniqueDishOrders = [];
     for (const o of this.orders) {
-      const order = { id: o._id, food: [], food_qt: [], drinks: [], drink_qt: [], food_status: o.food_status, n_food_completed: 0, n_total_food: o.food.length };
+      const order = { id: o._id, food: [], food_qt: [], drinks: [], drink_qt: [], food_status: o.food_status, n_food_completed: 0, n_total_food: o.food.length, waiter: o.waiter };
       for (const d of o.food) {
         if (o.food_ready[o.food.indexOf(d)]) {
           order.n_food_completed++;
