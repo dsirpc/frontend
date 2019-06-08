@@ -188,7 +188,6 @@ export class StatsComponent implements OnInit {
 
   public get_stats(users) {
     for (const order of this.orders) {
-      console.log(order);
       let i = 0;
       let found = false;
 
@@ -223,7 +222,7 @@ export class StatsComponent implements OnInit {
         i++;
       }
     }
-    console.log(this.ordersWaiters);
+
     const chefsOrders = [];
     const waitersOrders = [];
     const barmansOrders = [];
@@ -342,8 +341,12 @@ export class StatsComponent implements OnInit {
 
   public get_daily_collection() {
     let total = 0;
+    const date = new Date();
+    date.setHours(0, 0, 0, 0);
+    const time = date.getTime();
     for (const order of this.orders) {
-      if (order.payed) {
+      const d = new Date(order.timestamp);
+      if (order.payed && d.getTime() >= time) {
         total += this.get_order_bill(order);
       }
     }
