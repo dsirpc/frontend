@@ -91,7 +91,7 @@ export class UsersNewComponent implements OnInit {
 
     this.us.register(this.user).subscribe((user) => {
       this.get_users();
-      this.router.navigateByUrl('/users');
+      this.router.navigateByUrl('/dashboard');
     });
   }
 
