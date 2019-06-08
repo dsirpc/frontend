@@ -28,6 +28,7 @@ export class TablesComponent implements OnInit {
   orders: Order[] = [];
   food: Dish[] = [];
   drinks: Dish[] = [];
+  dishes: Dish[] = [];
   uniqueDishOrders = [];
   foodRows = [0];
   drinksRows = [0];
@@ -52,7 +53,6 @@ export class TablesComponent implements OnInit {
     this.get_table();
     this.get_orders();
     this.get_dishes();
-    this.get_drinks();
     this.set_empty();
     this.role = this.us.get_role();
     if (this.role === 'CASHER') {
@@ -150,36 +150,21 @@ export class TablesComponent implements OnInit {
 
   public get_dishes() {
     this.ds.get_dishes().subscribe(
-      (food) => {
-        for (const d of food) {
+      (dishes) => {
+        this.dishes = dishes;
+        for (const d of dishes) {
           if (d.type === 'food') {
             this.food.push(d);
+          } else {
+            if (d.type === 'drink') {
+              this.drinks.push(d);
+            }
           }
         }
       },
       (err) => {
         this.us.renew().subscribe(() => {
           this.get_dishes();
-        },
-          (err2) => {
-            this.us.logout();
-          });
-      }
-    );
-  }
-
-  public get_drinks() {
-    this.ds.get_dishes().subscribe(
-      (drinks) => {
-        for (const d of drinks) {
-          if (d.type === 'drink') {
-            this.drinks.push(d);
-          }
-        }
-      },
-      (err) => {
-        this.us.renew().subscribe(() => {
-          this.get_drinks();
         },
           (err2) => {
             this.us.logout();
@@ -348,6 +333,26 @@ export class TablesComponent implements OnInit {
     }
   }
 
+  public getEstimatedTime(food) {
+    for (const dish of this.dishes) {
+      if (dish.name === food) {
+        return dish.estimated_time;
+      }
+    }
+  }
+
+  public sortOrderFood(order) {
+    for (let i = 0; i < order.food.length - 1; i++) {
+      for (let j = i + 1; j < order.food.length; j++) {
+        if (this.getEstimatedTime(order.food[i]) < this.getEstimatedTime(order.food[j])) {
+          const temp = order.food[j];
+          order.food[j] = order.food[i];
+          order.food[i] = temp;
+        }
+      }
+    }
+  }
+
   public send_order() {
     const foodEl = document.getElementsByName('food');
     const foodQtEl = document.getElementsByName('quantity-food');
@@ -402,6 +407,7 @@ export class TablesComponent implements OnInit {
     this.ots.food = food;
     this.ots.drinks = drink;
     this.ots.timestamp = new Date();
+    this.sortOrderFood(this.ots);
 
     this.os.post_order(this.ots).subscribe((o) => {
       this.set_empty();

@@ -40,9 +40,9 @@ export class OrderComponent implements OnInit {
           if (order._id == this.orderId) {
             this.order = order;
             if (this.role === 'CHEF') {
-              this.sortOrderFood(order);
               this.checkOrderCompleted(order);
             }
+            console.log(this.order);
             return;
           }
         }
@@ -72,29 +72,6 @@ export class OrderComponent implements OnInit {
     );
   }
 
-  public sortOrderFood(order) {
-    for (let i = 0; i < order.food.length - 1; i++) {
-      for (let j = i + 1; j < order.food.length; j++) {
-        if (this.getEstimatedTime(order.food[i]) < this.getEstimatedTime(order.food[j])) {
-          const temp = order.food[j];
-          order.food[j] = order.food[i];
-          order.food[i] = temp;
-          const tmp = order.food_ready[j];
-          order.food_ready[j] = order.food_ready[i];
-          order.food_ready[i] = tmp;
-        }
-      }
-    }
-  }
-
-  public getEstimatedTime(food) {
-    for (const dish of this.dishes) {
-      if (dish.name === food) {
-        return dish.estimated_time;
-      }
-    }
-  }
-
   public startOrder(order) {
     this.os.put_order(order).subscribe((o) => {
       if (this.role === 'CHEF') {
@@ -111,7 +88,16 @@ export class OrderComponent implements OnInit {
     });
   }
 
+  public getEstimatedTime(food) {
+    for (const dish of this.dishes) {
+      if (dish.name === food) {
+        return dish.estimated_time;
+      }
+    }
+  }
+
   public foodReady(order, i) {
+    console.log(i);
     this.os.dish_completed(order, i).subscribe((o) => {
       this.get_order();
       (document.getElementsByName('ckFood')[i] as HTMLInputElement).disabled = true;
