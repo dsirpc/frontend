@@ -19,10 +19,10 @@ Per la app ibrida sono state applicate delle modifiche al codice di Angular e si
 
 Il sorgente della Desktop App è contenuto, invece, nel branch `electron`. 
 
-### Backend
+### Web App
 
 Per il completo funzionamento della SPA Angular è necessario eseguire concorrentemente il [`backend`](https://github.com/dsirpc/backend). Se viene utilizzata una copia in locale del backend bisogna modificare la variabile `url` all'interno di `user.service.ts`.
 
 ### Desktop App (powered by Electron)
 
-Per lanciare l'applicazione desktop è necessario spostarsi sul branch `electron`, eseguire `npm install` per installare le dipendenze e successivamente lanciare `npm start`.
+Per lanciare l'applicazione desktop è necessario spostarsi sul branch `electron`, eseguire `npm install` per installare le dipendenze. Si suggerisce di installare Electron a livello globale (`npm i -g electron`) e poi lanciare `npm run start`.
