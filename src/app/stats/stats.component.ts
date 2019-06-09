@@ -244,7 +244,7 @@ export class StatsComponent implements OnInit {
     }
 
     for (let i = 0; i < chefsOrders.length - 1; i++) {
-      for (let j = 0; j < chefsOrders.length; j++) {
+      for (let j = i + 1; j < chefsOrders.length; j++) {
         if (chefsOrders[i] < chefsOrders[j]) {
           const temp = chefsOrders[i];
           chefsOrders[i] = chefsOrders[j];
@@ -265,7 +265,7 @@ export class StatsComponent implements OnInit {
     }
 
     for (let i = 0; i < waitersOrders.length - 1; i++) {
-      for (let j = 0; j < waitersOrders.length; j++) {
+      for (let j = i + 1; j < waitersOrders.length; j++) {
         if (waitersOrders[i] < waitersOrders[j]) {
           const temp = waitersOrders[i];
           waitersOrders[i] = waitersOrders[j];
@@ -286,7 +286,7 @@ export class StatsComponent implements OnInit {
     }
 
     for (let i = 0; i < barmansOrders.length - 1; i++) {
-      for (let j = 0; j < barmansOrders.length; j++) {
+      for (let j = i + 1; j < barmansOrders.length; j++) {
         if (barmansOrders[i] < barmansOrders[j]) {
           const temp = barmansOrders[i];
           barmansOrders[i] = barmansOrders[j];
